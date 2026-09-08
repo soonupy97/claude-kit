@@ -14,7 +14,7 @@
     --yellow-bg:#FBF3DB; --yellow-fg:#956400;
     --blue-bg:#E1F3FE; --blue-fg:#1F6C9F;
     --gray-bg:#EEEDE8; --gray-fg:#3B3B36;
-    --must-bg:#F3F8F2; --core-bg:#F4F9FD;
+    --must-bg:#E9F3E7; --core-bg:#EAF3FB;
     --serif:"Newsreader","Instrument Serif","Playfair Display","Noto Serif KR","Apple SD Gothic Neo",Georgia,serif;
     --sans:"SF Pro Display","Geist Sans","Helvetica Neue","Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
     --mono:"Geist Mono","SF Mono","JetBrains Mono",Consolas,monospace;
@@ -32,8 +32,8 @@
   /* ---------- 3. 레이아웃 ---------- */
   .ambient{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(900px 500px at 12% -6%,rgba(149,100,0,.05),transparent 60%),radial-gradient(700px 400px at 95% 10%,rgba(31,108,159,.04),transparent 60%)}
   .page{position:relative;z-index:1}
-  .shell{max-width:1240px;margin:0 auto;padding:0 40px}
-  .grid{display:grid;grid-template-columns:200px minmax(0,1fr);gap:80px;align-items:start}
+  .shell{max-width:1280px;margin:0 auto;padding:0 32px}
+  .grid{display:grid;grid-template-columns:200px minmax(0,1fr);gap:24px;align-items:start}
   aside{position:sticky;top:48px;padding-top:8px}
   main{min-width:0}
 
@@ -85,7 +85,11 @@
   .tbl td{padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:middle;text-align:left;line-height:1.5;color:var(--ink-2)}
   .tbl tr:last-child td{border-bottom:0}
   .tbl tr.must td{background:var(--must-bg)}
+  .tbl tr.must td:first-child{box-shadow:inset 3px 0 0 var(--green-fg)}
+  .tbl tr.must td.name{color:var(--green-fg)}
+  .tbl.keys tr.must kbd{border-color:var(--green-fg);color:var(--green-fg);background:#F3F8F2}
   .tbl tr.core td{background:var(--core-bg)}
+  .tbl tr.core td:first-child{box-shadow:inset 3px 0 0 var(--blue-fg)}
   .tbl td code{padding:1px 5px;border-color:var(--line-2);font-size:14px}
   .tbl td.repo{font:12px var(--mono);color:var(--muted);overflow-wrap:anywhere}
 
@@ -112,6 +116,53 @@
   /* 핵심 요약 표 */
   .core .tbl{border-color:var(--line-3)}
   .core .tbl td.name .nm{font-size:16px}
+
+  /* ---------- 8b. 단계 · 터미널 블록 (Windows Terminal + PowerShell 모양) ---------- */
+  .step{margin:0 0 36px}
+  .step-h{display:flex;align-items:baseline;gap:12px;margin:0 0 6px}
+  .step-n{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;border:1px solid var(--line-3);font:500 14px var(--serif);color:var(--ink);flex:none}
+  .step h3{margin:0;font:600 18px/1.4 var(--sans);letter-spacing:-.01em;color:var(--ink)}
+  .step>p{margin:0 0 12px 40px;font-size:14px;color:var(--ink-2)}
+  .term{margin:0 0 0 40px;border:1px solid #2B2B2B;border-radius:8px;overflow:hidden;background:#0C0C0C;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+  .term figcaption{display:flex;align-items:center;gap:2px;padding:6px 8px 0;background:#202020;border-bottom:1px solid #2B2B2B}
+  .term figcaption .tab{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:6px 6px 0 0;font:12px var(--sans);color:#9A9A9A;background:#2B2B2B}
+  .term figcaption .tab.on,.term:not(.split) figcaption .tab{color:#F2F2F2;background:#0C0C0C}
+  .term figcaption .tab i{width:12px;height:12px;border-radius:2px;background:#012456;border:1px solid #5B7FB5;display:inline-block}
+  .term figcaption .win{margin-left:auto;padding:0 6px;font:12px var(--sans);color:#9A9A9A;letter-spacing:.1em}
+  .term pre{margin:0;padding:12px 14px;font:14px/1.7 var(--mono);color:#CCCCCC;white-space:pre-wrap;overflow-wrap:anywhere}
+  .term .l{display:block}
+  .term .ps{color:#F2F2F2}
+  .term .out{color:#9A9A9A}
+  .term .ok{color:#16C60C}
+  .term .box{color:#6B6B6B}
+  .term .in{color:#F2F2F2}
+  .term .tool{color:#E8A66B}
+  .term .sub{color:#7A7A7A}
+  .term .ai{color:#D6D6D6}
+  .term .status{color:#3B78FF;margin-top:6px}
+  .term .status::before{content:"";display:block;border-top:1px dashed #2B2B2B;margin-bottom:6px}
+  .term .foot{color:#E8A66B}
+  .term .c{color:#5F5F5F;font-style:italic}
+  .term .c::before{content:"# "}
+  .term .panes{display:grid;grid-template-columns:1fr 1fr}
+  .term .panes pre+pre{border-left:1px solid #2B2B2B}
+  section#terminal .term{margin-left:0}
+  .tblwrap+.term,.note+.term{margin-top:16px}
+  .term+.grp{margin-top:48px}
+  .term+.note{margin-top:16px}
+  @media (max-width:860px){.step>p,.term{margin-left:0}.term .panes{grid-template-columns:1fr}.term .panes pre+pre{border-left:0;border-top:1px solid #2B2B2B}}
+  @media print{.term{background:#fff;border-color:var(--line);box-shadow:none}.term pre{color:var(--ink)}.term figcaption{background:var(--surface-2)}.term .out,.term .sub,.term .c,.term .box{color:var(--muted)}.term .ai,.term .in,.term .ps{color:var(--ink-2)}}
+
+  /* ---------- 8c. 단축키 표 ---------- */
+  kbd{display:inline-block;min-width:22px;padding:0 6px;border:1px solid var(--line-3);border-bottom-width:2px;border-radius:5px;background:var(--surface);font:12px/20px var(--mono);color:var(--ink);text-align:center;white-space:nowrap}
+  .plus{margin:0 3px;color:var(--faint);font-size:12px}
+  .tbl.keys td:nth-child(2){white-space:nowrap}
+  .tbl.keys td.name{min-width:160px;font-weight:500}
+  .tbl.keys td.name .tag{margin-left:8px;vertical-align:1px}
+  .tbl.keys th:nth-child(1),.tbl.keys td:nth-child(1){width:28%}
+  .tbl.keys th:nth-child(2),.tbl.keys td:nth-child(2){width:36%}
+  .tbl.keys td:nth-child(2){line-height:2}
+  .note kbd{font-size:12px}
 
   /* ---------- 9. 푸터 ---------- */
   footer{padding:32px 0 64px;border-top:1px solid var(--line);background:var(--surface-2)}
@@ -164,15 +215,18 @@
   <nav class="toc" id="toc">
     <h5>목차</h5>
     <a href="#terms"><span class="num">00</span>용어 5개</a>
-    <a href="#core"><span class="num">01</span>핵심 요약</a>
-    <a href="#habits"><span class="num">02</span>권한 모드 · 습관</a>
-    <a href="#plan"><span class="num">03</span>기획</a>
-    <a href="#design"><span class="num">04</span>디자인</a>
-    <a href="#front"><span class="num">05</span>퍼블리싱 · 프론트엔드</a>
-    <a href="#work"><span class="num">06</span>문서 · 업무</a>
-    <a href="#workflow"><span class="num">07</span>작업 방식 · 세팅</a>
-    <a href="#official"><span class="num">08</span>Anthropic 공식</a>
-    <a href="#avoid"><span class="num">09</span>비권장 · 비효율</a>
+    <a href="#setup"><span class="num">01</span>시작하기 A–Z</a>
+    <a href="#terminal"><span class="num">02</span>터미널 쉽게 쓰기</a>
+    <a href="#examples"><span class="num">03</span>활용 예시</a>
+    <a href="#core"><span class="num">04</span>핵심 요약</a>
+    <a href="#habits"><span class="num">05</span>권한 모드 · 습관</a>
+    <a href="#plan"><span class="num">06</span>기획</a>
+    <a href="#design"><span class="num">07</span>디자인</a>
+    <a href="#front"><span class="num">08</span>퍼블리싱 · 프론트엔드</a>
+    <a href="#work"><span class="num">09</span>문서 · 업무</a>
+    <a href="#workflow"><span class="num">10</span>작업 방식 · 세팅</a>
+    <a href="#official"><span class="num">11</span>Anthropic 공식</a>
+    <a href="#avoid"><span class="num">12</span>비권장 · 비효율</a>
   </nav>
 </aside>
 
@@ -191,8 +245,222 @@
     </tbody></table></div>
 </section>
 
+<section id="setup">
+  <div class="sec-head rv"><div class="idx">01</div><h2>시작하기 A–Z</h2>
+    <p>세 단계면 끝납니다. 검은 창은 Windows Terminal(PowerShell) 화면입니다. <code>PS C:\…&gt;</code> 줄은 프롬프트에서 치는 명령, <code>&gt;</code> 줄은 Claude 안에서 치는 말, <code>⏺</code>는 Claude의 답이나 도구 실행입니다. 유료 플랜(Pro · Max · Team) 계정이 필요합니다.</p></div>
+  <div class="step rv"><div class="step-h"><span class="step-n">A</span><h3>설치와 확인</h3></div><p>터미널에 한 줄 붙여넣고 버전이 찍히면 끝. 이후 업데이트는 자동입니다. 문제가 있으면 <code>claude doctor</code>.</p><figure class="term rv"><figcaption><span class="tab"><i></i>Windows PowerShell — 설치와 확인</span><span class="win">—&nbsp;&nbsp;☐&nbsp;&nbsp;✕</span></figcaption><pre><span class="l ps">PS C:\Users\soonu&gt; irm https://claude.ai/install.ps1 | iex</span>
+<span class="l out">Installing Claude Code...</span>
+<span class="l ok">✔ Installed to C:\Users\soonu\.local\bin\claude.exe</span>
+<span class="l ps">PS C:\Users\soonu&gt; claude --version</span>
+<span class="l out">2.1.263 (Claude Code)</span></pre></figure></div>
+  <div class="step rv"><div class="step-h"><span class="step-n">B</span><h3>로그인 · 첫 실행 · 프로젝트 설정</h3></div><p>작업 폴더에서 <code>claude</code>를 실행하면 처음 한 번 브라우저 로그인이 열립니다. <code>/init</code>은 Claude가 매번 읽는 메모(CLAUDE.md)를 만듭니다.</p><figure class="term rv"><figcaption><span class="tab"><i></i>Windows PowerShell — 로그인 · 첫 실행 · /init</span><span class="win">—&nbsp;&nbsp;☐&nbsp;&nbsp;✕</span></figcaption><pre><span class="l ps">PS C:\Users\soonu&gt; cd C:\work\my-project</span>
+<span class="l ps">PS C:\work\my-project&gt; claude</span>
+<span class="l box">╭────────────────────────────────────────────╮</span>
+<span class="l box">│ ✻ Welcome to Claude Code!                  │</span>
+<span class="l box">│   /help for help · cwd: C:\work\my-project │</span>
+<span class="l box">╰────────────────────────────────────────────╯</span>
+<span class="l out">Opening browser to log in...   (처음 한 번만)</span>
+<span class="l in">&gt; 이 프로젝트가 뭐 하는 건지 설명해줘</span>
+<span class="l tool">⏺ Read(package.json)</span>
+<span class="l sub">  ⎿  Read 42 lines</span>
+<span class="l ai">⏺ React로 만든 관리자 화면입니다. 주요 폴더는 src/pages, src/components ...</span>
+<span class="l in">&gt; /init</span>
+<span class="l tool">⏺ Write(CLAUDE.md)</span>
+<span class="l sub">  ⎿  Wrote 38 lines</span>
+<span class="l ai">⏺ CLAUDE.md를 만들었어요. 빌드 명령 · 폴더 구조 · 코딩 규칙을 적어 두었습니다.</span>
+<span class="l status">Opus · ctx 12k/1M 1% · my-project</span>
+<span class="l foot">▸▸ accept edits on (shift+tab to cycle) · ? for shortcuts</span></pre></figure></div>
+  <div class="step rv"><div class="step-h"><span class="step-n">C</span><h3>플러그인 · MCP · 스킬 붙이기</h3></div><p>플러그인은 <code>/plugin install 이름@claude-plugins-official</code>, MCP는 셸에서 <code>claude mcp add</code>, 스킬은 <code>npx skills add</code>. MCP는 3~6개 이내로.</p><figure class="term rv"><figcaption><span class="tab"><i></i>Windows PowerShell — 플러그인 · MCP · 스킬</span><span class="win">—&nbsp;&nbsp;☐&nbsp;&nbsp;✕</span></figcaption><pre><span class="l in">&gt; /plugin install skill-creator@claude-plugins-official</span>
+<span class="l ok">✔ Installed skill-creator</span>
+<span class="l in">&gt; /plugin install mattpocock-skills@claude-plugins-official</span>
+<span class="l ok">✔ Installed mattpocock-skills   (/grill-me, /to-spec, /to-tickets)</span>
+<span class="l c">MCP와 npx 스킬은 Claude를 나와서(Ctrl+D) 프롬프트에서</span>
+<span class="l ps">PS C:\work\my-project&gt; claude mcp add context7 -- npx -y @upstash/context7-mcp</span>
+<span class="l out">Added stdio MCP server context7 to local config</span>
+<span class="l ps">PS C:\work\my-project&gt; npx skills add vercel-labs/agent-browser</span>
+<span class="l ok">✔ Installed skill agent-browser</span></pre></figure></div>
+  <div class="step rv"><div class="step-h"><span class="step-n">D</span><h3>에디터에서 쓰기</h3></div><p>VS Code · Cursor는 확장 보기(<code>Ctrl+Shift+X</code>)에서 "Claude Code" 설치, JetBrains는 플러그인 마켓에서 같은 이름. 터미널이 낯설면 데스크톱 앱(claude.com/download).</p></div>
+
+  <div class="grp rv">자주 쓰는 명령 한눈에</div>
+  <div class="tblwrap rv"><table class="tbl">
+    <thead><tr><th>명령</th><th>무엇</th></tr></thead>
+    <tbody>
+      <tr><td class="name"><code>claude "작업"</code> · <code>claude -p "질문"</code></td><td>첫 지시와 함께 시작 · 한 번 답하고 종료</td></tr>
+      <tr><td class="name"><code>claude -c</code> · <code>claude -r</code></td><td>직전 대화 이어가기 · 이전 대화 고르기</td></tr>
+      <tr><td class="name"><code>/help</code> · <code>/model</code> · <code>/exit</code></td><td>명령 목록 · 모델 변경 · 종료</td></tr>
+      <tr><td class="name"><code>/plugin</code> · <code>/mcp</code> · <code>/permissions</code></td><td>플러그인 탐색 · MCP 상태 · 권한 설정</td></tr>
+    </tbody></table></div>
+</section>
+
+<section id="terminal">
+  <div class="sec-head rv"><div class="idx">02</div><h2>터미널 쉽게 쓰기</h2>
+    <p>Claude Code는 터미널 안에서 돌아가므로 터미널 자체를 편하게 쓰면 절반은 끝입니다. Windows 기준이고, 맥은 아래에 따로 적었습니다. <span class="tag g">필수</span>는 Claude 안에서 작업할 때 꼭 쓰는 키입니다.</p></div>
+
+  <div class="grp rv">A. Windows Terminal <span class="hint">Windows 11 기본 터미널. 없으면 Microsoft Store에서 설치</span></div>
+  <div class="tblwrap rv"><table class="tbl keys">
+    <thead><tr><th>하는 일</th><th>키</th><th>메모</th></tr></thead>
+    <tbody>
+      <tr><td class="name">새 탭</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>T</kbd></td><td>프로젝트마다 탭 하나</td></tr>
+      <tr><td class="name">탭 전환</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Tab</kbd></td><td></td></tr>
+      <tr><td class="name">탭 닫기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>W</kbd></td><td>나눈 창에서는 포커스된 창만 닫힘</td></tr>
+      <tr><td class="name">화면 나누기</td><td><kbd>Alt</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>D</kbd></td><td>지금 창을 복제해 넓은 쪽으로 나눔. 오른쪽에 질문용 <code>claude</code> 띄우기 좋음</td></tr>
+      <tr><td class="name">나눈 창 이동</td><td><kbd>Alt</kbd><span class="plus">+</span><kbd>←→↑↓</kbd></td><td></td></tr>
+      <tr><td class="name">나눈 창 크기 조절</td><td><kbd>Alt</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>←→↑↓</kbd></td><td></td></tr>
+      <tr><td class="name">검색</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>F</kbd></td><td></td></tr>
+      <tr><td class="name">화면 맨 위로</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>Home</kbd></td><td>지난 출력 처음까지</td></tr>
+      <tr><td class="name">화면 맨 아래로</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>End</kbd></td><td>입력줄로 복귀</td></tr>
+      <tr><td class="name">한 화면 위로</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>PgUp</kbd></td><td></td></tr>
+      <tr><td class="name">한 화면 아래로</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>PgDn</kbd></td><td></td></tr>
+      <tr><td class="name">글자 키우기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>=</kbd></td><td></td></tr>
+      <tr><td class="name">글자 줄이기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>-</kbd></td><td></td></tr>
+      <tr><td class="name">복사</td><td>드래그 후 <kbd>Ctrl</kbd><span class="plus">+</span><kbd>C</kbd></td><td></td></tr>
+      <tr><td class="name">붙여넣기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>V</kbd></td><td></td></tr>
+      <tr><td class="name">명령 팔레트</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>P</kbd></td><td>모든 동작 검색</td></tr>
+      <tr><td class="name">퀵 창</td><td><kbd>Win</kbd><span class="plus">+</span><kbd>`</kbd></td><td>화면 위에서 내려오는 터미널</td></tr>
+      <tr><td class="name">키 바꾸기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>,</kbd></td><td>설정 → 동작에서 변경. 예: 창 분할을 <code>Ctrl+Shift++</code>로 하려면 settings.json에 <code>{"command":{"action":"splitPane","split":"vertical"},"keys":"ctrl+shift+plus"}</code></td></tr>
+    </tbody></table></div>
+  <div class="note rv"><b>추천 배치.</b> 화면을 나눠(<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd>) 왼쪽에서 작업하는 <code>claude</code>, 오른쪽에 질문 · 문서 확인용 <code>claude</code>를 하나 더 띄우면 흐름이 끊기지 않습니다. 프로젝트가 여러 개면 탭으로 나눕니다.</div>
+<figure class="term split rv"><figcaption><span class="tab on"><i></i>Windows PowerShell</span><span class="tab"><i></i>Windows PowerShell</span><span class="win">—&nbsp;&nbsp;☐&nbsp;&nbsp;✕</span></figcaption><div class="panes"><pre><span class="l ps">PS C:\work\my-project&gt; claude</span>
+<span class="l in">&gt; 가입 화면에 카카오 로그인 추가해줘</span>
+<span class="l tool">⏺ Update(src/LoginForm.tsx)</span>
+<span class="l tool">⏺ Update(src/auth.ts)</span>
+<span class="l tool">⏺ Write(src/kakao.ts)</span>
+<span class="l sub">  ⎿  작성 중...</span>
+<span class="l status">Opus · ctx 58k/1M 6% · my-project</span>
+<span class="l foot">▸▸ accept edits on (shift+tab to cycle) · ? for shortcuts</span></pre><pre><span class="l ps">PS C:\work\design-system&gt; claude</span>
+<span class="l in">&gt; Figma MCP는 어떻게 연결해?</span>
+<span class="l ai">⏺ /plugin install figma@claude-plugins-official 한 줄이면 됩니다.</span>
+<span class="l in">&gt; 고마워, 다음엔 접근성 검토 방법도</span>
+<span class="l status">Opus · ctx 3k/1M 0% · design-system</span>
+<span class="l foot">▸▸ accept edits on (shift+tab to cycle) · ? for shortcuts</span></pre></div></figure>
+
+  <div class="grp rv">B. PowerShell 프롬프트에서<span class="hint">이 PC에서 확인한 기본값</span></div>
+  <div class="tblwrap rv"><table class="tbl keys">
+    <thead><tr><th>하는 일</th><th>키</th><th>메모</th></tr></thead>
+    <tbody>
+      <tr><td class="name">자동 완성</td><td><kbd>Tab</kbd></td><td>파일 · 폴더 · 명령 이름을 채워 줌. 여러 번 누르면 순환</td></tr>
+      <tr><td class="name">완성 목록 보기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Space</kbd></td><td>후보를 메뉴로 보고 고르기</td></tr>
+      <tr><td class="name">이전 명령</td><td><kbd>↑</kbd></td><td></td></tr>
+      <tr><td class="name">이전 명령 검색</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>R</kbd></td><td>일부만 쳐도 찾아 줌</td></tr>
+      <tr><td class="name">앞글자 맞는 이전 명령</td><td><kbd>F8</kbd></td><td><code>cd</code>까지 치고 누르면 cd로 시작한 명령만</td></tr>
+      <tr><td class="name">입력 줄 지우기</td><td><kbd>Esc</kbd></td><td></td></tr>
+      <tr><td class="name">줄 처음으로</td><td><kbd>Home</kbd></td><td></td></tr>
+      <tr><td class="name">줄 끝으로</td><td><kbd>End</kbd></td><td></td></tr>
+      <tr><td class="name">단어 왼쪽으로</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>←</kbd></td><td></td></tr>
+      <tr><td class="name">단어 오른쪽으로</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>→</kbd></td><td></td></tr>
+      <tr><td class="name">단어 하나 지우기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Backspace</kbd></td><td></td></tr>
+      <tr><td class="name">실행 중단</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>C</kbd></td><td>입력 중일 땐 복사가 아니라 중단</td></tr>
+      <tr><td class="name">화면 지우기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>L</kbd></td><td><code>cls</code>와 같음</td></tr>
+      <tr><td class="name">되돌리기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Z</kbd></td><td>입력 편집 취소</td></tr>
+      <tr><td class="name">여러 줄 명령</td><td><kbd>Shift</kbd><span class="plus">+</span><kbd>Enter</kbd></td><td>PowerShell 프롬프트에서는 됨 (Claude 안에서는 Ctrl+J)</td></tr>
+      <tr><td class="name">경로 넣기</td><td>탐색기에서 폴더를 창으로 드래그</td><td>경로가 그대로 붙음</td></tr>
+    </tbody></table></div>
+  <div class="grp rv">자주 쓰는 명령 다섯 개</div>
+  <div class="tblwrap rv"><table class="tbl">
+    <thead><tr><th>명령</th><th>무엇</th></tr></thead>
+    <tbody>
+      <tr><td class="name"><code>cd 폴더</code> · <code>cd ..</code></td><td>폴더로 이동 · 상위로</td></tr>
+      <tr><td class="name"><code>ls</code> · <code>pwd</code></td><td>목록 보기 · 현재 위치</td></tr>
+      <tr><td class="name"><code>code .</code> · <code>explorer .</code></td><td>현재 폴더를 VS Code · 탐색기로 열기</td></tr>
+      <tr><td class="name"><code>cls</code></td><td>화면 지우기</td></tr>
+      <tr><td class="name"><code>claude</code></td><td>여기서 Claude Code 시작</td></tr>
+    </tbody></table></div>
+
+  <div class="grp rv">C. VS Code 안에서</div>
+  <div class="tblwrap rv"><table class="tbl keys">
+    <thead><tr><th>하는 일</th><th>키</th><th>메모</th></tr></thead>
+    <tbody>
+      <tr><td class="name">터미널 열기 · 닫기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>`</kbd></td><td>같은 키로 토글</td></tr>
+      <tr><td class="name">새 터미널</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>`</kbd></td><td></td></tr>
+      <tr><td class="name">터미널 나누기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>5</kbd></td><td>나눈 창 이동은 <code>Alt+←</code> <code>Alt+→</code></td></tr>
+      <tr><td class="name">Claude Code 패널</td><td>Spark 아이콘 클릭</td><td>확장 설치 후 오른쪽 패널</td></tr>
+    </tbody></table></div>
+
+  <div class="grp rv">D. Claude Code 세션 안에서</div>
+  <div class="tblwrap rv"><table class="tbl keys">
+    <thead><tr><th>하는 일</th><th>키</th><th>메모</th></tr></thead>
+    <tbody>
+      <tr><td class="name">단축키 도움말</td><td><kbd>?</kbd></td><td>입력창이 비어 있을 때 누르면 모든 단축키가 화면에 뜸. 이것만 기억해도 됨</td></tr>
+      <tr class="must"><td class="name">답변 멈추기<span class="tag g">필수</span></td><td><kbd>Esc</kbd></td><td></td></tr>
+      <tr class="must"><td class="name">되감기<span class="tag g">필수</span></td><td><kbd>Esc</kbd><span class="plus">+</span><kbd>두</kbd><span class="plus">+</span><kbd>번</kbd></td><td>이전 지점으로 돌아가 다시 시도</td></tr>
+      <tr><td class="name">입력 지우기 · 중단</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>C</kbd></td><td>입력 중이면 지우기, 실행 중이면 중단</td></tr>
+      <tr><td class="name">종료</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>D</kbd></td><td></td></tr>
+      <tr class="must"><td class="name">여러 줄 입력<span class="tag g">필수</span></td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>J</kbd></td><td>한/영 전환 없이 바로 줄바꿈. 안 되는 터미널이면 줄 끝에 역슬래시(\) 치고 Enter</td></tr>
+      <tr><td class="name">이전 입력</td><td><kbd>↑</kbd></td><td></td></tr>
+      <tr class="must"><td class="name">권한 모드 전환<span class="tag g">필수</span></td><td><kbd>Shift</kbd><span class="plus">+</span><kbd>Tab</kbd></td><td>Manual → acceptEdits → Plan 순환</td></tr>
+      <tr class="must"><td class="name">이미지 붙이기<span class="tag g">필수</span></td><td><kbd>Alt</kbd><span class="plus">+</span><kbd>V</kbd></td><td>Windows · WSL 기준. 스크린샷 복사 후 바로. 파일 드래그도 됨</td></tr>
+      <tr><td class="name">대화 맨 위로</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Home</kbd></td><td>전체화면 모드에서. 마우스 휠도 됨</td></tr>
+      <tr><td class="name">대화 맨 아래로</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>End</kbd></td><td>최신 답변으로 복귀</td></tr>
+      <tr><td class="name">반 화면 위로</td><td><kbd>PgUp</kbd></td><td></td></tr>
+      <tr><td class="name">반 화면 아래로</td><td><kbd>PgDn</kbd></td><td></td></tr>
+      <tr><td class="name">모델 전환</td><td><kbd>Alt</kbd><span class="plus">+</span><kbd>P</kbd></td><td></td></tr>
+      <tr class="must"><td class="name">명령 실행<span class="tag g">필수</span></td><td><kbd>/</kbd></td><td>명령 · 스킬 목록</td></tr>
+      <tr><td class="name">셸 명령 그대로 실행</td><td><kbd>!</kbd></td><td>예: <code>!git status</code></td></tr>
+      <tr><td class="name">파일 언급</td><td><kbd>@</kbd></td><td>예: <code>@src/App.tsx</code></td></tr>
+    </tbody></table></div>
+
+<figure class="term rv"><figcaption><span class="tab"><i></i>Windows PowerShell — 세션 안에서 자주 쓰는 동작</span><span class="win">—&nbsp;&nbsp;☐&nbsp;&nbsp;✕</span></figcaption><pre><span class="l c">Shift+Tab 을 누를 때마다 맨 아래 안내줄이 바뀜</span>
+<span class="l foot">▸▸ plan mode on (shift+tab to cycle) · ? for shortcuts</span>
+<span class="l c">Ctrl+J 로 줄을 바꿔 여러 줄 입력</span>
+<span class="l in">&gt; 결제 화면 개편 계획 세워줘</span>
+<span class="l in">  - 카드 · 카카오페이 지원</span>
+<span class="l in">  - 기존 주문 데이터 유지</span>
+<span class="l ai">⏺ 계획만 정리했습니다. 파일은 수정하지 않았어요. 진행할까요?</span>
+<span class="l c">Alt+V 로 스크린샷 붙이기 · Esc 두 번으로 되감기</span>
+<span class="l in">&gt; [Image #1] 이 화면 왜 깨졌어?</span>
+<span class="l ai">⏺ flex-wrap 이 없어 좁은 폭에서 넘칩니다. 고칠까요?</span></pre></figure>
+
+  <div class="grp rv">E. 맥이라면</div>
+  <div class="tblwrap rv"><table class="tbl keys">
+    <thead><tr><th>하는 일</th><th>키</th><th>메모</th></tr></thead>
+    <tbody>
+      <tr><td class="name">iTerm2 세로로 나누기</td><td><kbd>Cmd</kbd><span class="plus">+</span><kbd>D</kbd></td><td>새 탭은 <code>Cmd+T</code></td></tr>
+      <tr><td class="name">iTerm2 가로로 나누기</td><td><kbd>Cmd</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>D</kbd></td><td></td></tr>
+      <tr><td class="name">Alt 단축키 쓰기</td><td>터미널 설정에서 <kbd>Option</kbd> → Meta</td><td><code>Alt+P</code> 같은 키를 쓰려면 필요</td></tr>
+      <tr><td class="name">이미지 붙이기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>V</kbd></td><td>iTerm2는 <code>Cmd+V</code></td></tr>
+    </tbody></table></div>
+
+  <div class="note rv"><b>습관 세 가지.</b> ① 긴 로그나 코드는 그대로 붙여넣기(자동으로 여러 줄 모드). ② 이어서 할 일은 <code>claude -c</code>로 직전 대화 복귀. ③ 스크린샷은 캡처 후 <kbd>Alt</kbd>+<kbd>V</kbd>로 바로 붙여 "이 화면 왜 깨졌어?"처럼 묻기.</div>
+</section>
+
+<section id="examples">
+  <div class="sec-head rv"><div class="idx">03</div><h2>활용 예시</h2>
+    <p>실제 대화 흐름 네 가지. 이렇게 말하면 됩니다.</p></div>
+  <div class="step rv"><div class="step-h"><span class="step-n">1</span><h3>요구사항 확정 → 스펙 → 티켓</h3></div><p><code>/grill-me</code>가 질문으로 범위를 좁히고, <code>/to-spec</code> · <code>/to-tickets</code>가 문서와 티켓으로 만듭니다. 모두 mattpocock-skills.</p><figure class="term rv"><figcaption><span class="tab"><i></i>Windows PowerShell — 요구사항 → 스펙 → 티켓</span><span class="win">—&nbsp;&nbsp;☐&nbsp;&nbsp;✕</span></figcaption><pre><span class="l in">&gt; /grill-me 회원가입 화면을 개편하려고 해</span>
+<span class="l ai">⏺ 확인할게요. 1) 소셜 로그인 포함?  2) 기존 데이터 유지?  3) 완료 기준은?</span>
+<span class="l in">&gt; 1) 카카오만  2) 유지  3) 가입 완료율 측정</span>
+<span class="l ai">⏺ 범위 정리: 카카오 로그인 추가 · 데이터 유지 · 완료율 이벤트 로깅</span>
+<span class="l in">&gt; /to-spec</span>
+<span class="l tool">⏺ Write(docs/spec.md)</span>
+<span class="l sub">  ⎿  Wrote 96 lines</span>
+<span class="l in">&gt; /to-tickets</span>
+<span class="l ai">⏺ 티켓 9개로 나눴습니다. 각 티켓에 수용 기준 포함.</span></pre></figure></div>
+  <div class="step rv"><div class="step-h"><span class="step-n">2</span><h3>디자인 → 코드</h3></div><p>Figma 링크(node-id 포함)를 붙여넣기만 하면 Figma MCP가 읽습니다.</p><figure class="term rv"><figcaption><span class="tab"><i></i>Windows PowerShell — 디자인 → 코드</span><span class="win">—&nbsp;&nbsp;☐&nbsp;&nbsp;✕</span></figcaption><pre><span class="l in">&gt; https://www.figma.com/design/xxxx?node-id=12-345 이 컴포넌트를 우리 토큰으로 코드화해줘</span>
+<span class="l tool">⏺ figma - get_design_context(node 12-345)</span>
+<span class="l sub">  ⎿  Button · 3 variants · 2 states</span>
+<span class="l tool">⏺ Write(src/components/Button.tsx)</span>
+<span class="l tool">⏺ Write(src/components/button.scss)</span>
+<span class="l ai">⏺ 색·간격을 토큰(--color-primary, --space-3)에 매핑했습니다. 스토리북에서 확인해 보세요.</span></pre></figure></div>
+  <div class="step rv"><div class="step-h"><span class="step-n">3</span><h3>화면 검증</h3></div><p>agent-browser가 브라우저를 직접 열어 확인하고, web-design-guidelines가 접근성을 검토합니다.</p><figure class="term rv"><figcaption><span class="tab"><i></i>Windows PowerShell — 화면 검증</span><span class="win">—&nbsp;&nbsp;☐&nbsp;&nbsp;✕</span></figcaption><pre><span class="l in">&gt; localhost:3000 열어서 가입 버튼 눌러보고 스크린샷 찍어줘</span>
+<span class="l tool">⏺ Bash(agent-browser open http://localhost:3000 &amp;&amp; click "가입")</span>
+<span class="l sub">  ⎿  screenshot saved: signup-done.png</span>
+<span class="l ai">⏺ 클릭 후 완료 화면이 뜹니다. [Image] signup-done.png</span>
+<span class="l in">&gt; 접근성 기준으로 검토해줘</span>
+<span class="l ai">⏺ 3가지: 버튼 대비 부족(4.2:1) · 입력창 라벨 누락 · 포커스 표시 없음. 고칠까요?</span></pre></figure></div>
+  <div class="step rv"><div class="step-h"><span class="step-n">4</span><h3>문서 업무와 마무리</h3></div><p>문서 스킬 · humanizer는 설치만 해 두면 자동으로 동작합니다. 커밋은 말로 하면 됩니다.</p><figure class="term rv"><figcaption><span class="tab"><i></i>Windows PowerShell — 문서 업무와 마무리</span><span class="win">—&nbsp;&nbsp;☐&nbsp;&nbsp;✕</span></figcaption><pre><span class="l in">&gt; report.pdf 요약해서 엑셀 표로 만들어줘</span>
+<span class="l tool">⏺ Read(report.pdf)</span>
+<span class="l sub">  ⎿  24 pages</span>
+<span class="l tool">⏺ Write(summary.xlsx)</span>
+<span class="l ai">⏺ 핵심 항목 24개를 summary.xlsx 로 저장했습니다.</span>
+<span class="l in">&gt; 변경한 파일 커밋해줘</span>
+<span class="l tool">⏺ Bash(git add -A &amp;&amp; git commit -m "feat: 카카오 로그인 추가")</span>
+<span class="l sub">  ⎿  3 files changed</span>
+<span class="l ai">⏺ 커밋했습니다.</span></pre></figure></div>
+  <div class="note rv"><b>팁.</b> 큰 작업은 <code>Shift+Tab</code>으로 Plan 모드에 두고 계획을 먼저 받으세요. 길어지면 <code>/context</code>로 확인하고 다른 일을 시작할 때 <code>/clear</code>. 요청은 "로그인 버그 고쳐줘"보다 "잘못된 비밀번호 입력 시 빈 화면이 뜨는 로그인 버그 고쳐줘"처럼 구체적으로.</div>
+</section>
+
 <section id="core" class="core">
-  <div class="sec-head rv"><div class="idx">01</div><h2>핵심 요약<span class="tag g">이것만 알아도 됨</span></h2></div>
+  <div class="sec-head rv"><div class="idx">04</div><h2>핵심 요약<span class="tag g">이것만 알아도 됨</span></h2></div>
   <div class="legend rv"><span><span class="tag g">필수</span> 누구에게나</span><span><span class="tag b">핵심</span> 해당 업무의 기본</span><span><span class="tag k-s">스킬</span><span class="tag k-p">플러그인</span><span class="tag k-m">MCP</span><span class="tag k-t">도구 · 설정</span></span><span><code>/이름</code> 직접 호출 · 자동 = 설치만 하면 됨</span></div>
   <div class="tblwrap rv"><table class="tbl t4">
     <thead><tr><th>항목</th><th>한 줄</th><th>호출 · 사용법</th><th>설치</th></tr></thead>
@@ -210,8 +478,8 @@
 </section>
 
 <section id="habits">
-  <div class="sec-head rv"><div class="idx">02</div><h2>누구나 · 권한 모드와 습관</h2></div>
-  <div class="grp rv">권한 모드 6가지<span class="hint"><code>Shift+Tab</code>으로 전환 · <code>--permission-mode</code> 플래그 · <code>defaultMode</code> 설정</span></div>
+  <div class="sec-head rv"><div class="idx">05</div><h2>누구나 · 권한 모드와 습관</h2></div>
+  <div class="grp rv">권한 모드 6가지<span class="hint"><code>Shift+Tab</code>으로 전환</span></div>
   <div class="tblwrap rv"><table class="tbl">
     <thead><tr><th>모드</th><th>동작</th><th>언제</th></tr></thead>
     <tbody>
@@ -235,7 +503,7 @@
 </section>
 
 <section id="plan">
-  <div class="sec-head rv"><div class="idx">03</div><h2>기획</h2></div>
+  <div class="sec-head rv"><div class="idx">06</div><h2>기획</h2></div>
   <div class="tblwrap rv"><table class="tbl t4">
     <thead><tr><th>항목</th><th>용도</th><th>호출 · 사용법</th><th>설치</th></tr></thead>
     <tbody>
@@ -247,7 +515,7 @@
 </section>
 
 <section id="design">
-  <div class="sec-head rv"><div class="idx">04</div><h2>디자인</h2></div>
+  <div class="sec-head rv"><div class="idx">07</div><h2>디자인</h2></div>
   <div class="tblwrap rv"><table class="tbl t4">
     <thead><tr><th>항목</th><th>용도</th><th>호출 · 사용법</th><th>설치</th></tr></thead>
     <tbody>
@@ -261,7 +529,7 @@
 </section>
 
 <section id="front">
-  <div class="sec-head rv"><div class="idx">05</div><h2>퍼블리싱 · 프론트엔드</h2></div>
+  <div class="sec-head rv"><div class="idx">08</div><h2>퍼블리싱 · 프론트엔드</h2></div>
   <div class="tblwrap rv"><table class="tbl t4">
     <thead><tr><th>항목</th><th>용도</th><th>호출 · 사용법</th><th>설치</th></tr></thead>
     <tbody>
@@ -275,19 +543,19 @@
 </section>
 
 <section id="work">
-  <div class="sec-head rv"><div class="idx">06</div><h2>문서 · 업무</h2></div>
+  <div class="sec-head rv"><div class="idx">09</div><h2>문서 · 업무</h2></div>
   <div class="tblwrap rv"><table class="tbl t4">
     <thead><tr><th>항목</th><th>용도</th><th>호출 · 사용법</th><th>설치</th></tr></thead>
     <tbody>
       <tr class="core"><td class="name"><span class="nm">문서 스킬</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-s">스킬</span></span><span class="sub">docx · pptx · xlsx · pdf</span></td><td>워드 · PPT · 엑셀 · PDF 생성 · 읽기</td><td><span class="call">자동</span><span class="use">"이 내용으로 PPT 만들어줘"</span></td><td>핵심 요약 참고</td></tr>
       <tr><td class="name"><span class="nm"><code>humanizer</code></span><span class="badges"><span class="tag k-s">스킬</span></span></td><td>AI 문체 제거</td><td><span class="call"><code>/humanizer</code></span><span class="use">글을 붙여넣고 실행</span></td><td><code>npx skills add blader/humanizer</code></td></tr>
-      <tr><td class="name"><span class="nm">Notion MCP</span><span class="badges"><span class="tag k-m">MCP</span></span></td><td>Notion 연동</td><td><span class="call">자동</span><span class="use">"Notion 기획 페이지 요약해줘"</span></td><td>03과 동일</td></tr>
+      <tr><td class="name"><span class="nm">Notion MCP</span><span class="badges"><span class="tag k-m">MCP</span></span></td><td>Notion 연동</td><td><span class="call">자동</span><span class="use">"Notion 기획 페이지 요약해줘"</span></td><td>기획 표와 동일</td></tr>
       <tr><td class="name"><span class="nm"><code>marketingskills</code></span><span class="badges"><span class="tag k-s">스킬</span></span></td><td>마케팅 · SEO 스킬 묶음</td><td><span class="call">자동</span><span class="use">"이 페이지 SEO 감사해줘"</span></td><td><code>npx skills add coreyhaines31/marketingskills</code></td></tr>
     </tbody></table></div>
 </section>
 
 <section id="workflow">
-  <div class="sec-head rv"><div class="idx">07</div><h2>작업 방식 · 세팅</h2></div>
+  <div class="sec-head rv"><div class="idx">10</div><h2>작업 방식 · 세팅</h2></div>
   <div class="tblwrap rv"><table class="tbl t4">
     <thead><tr><th>항목</th><th>용도</th><th>호출 · 사용법</th><th>설치 · 저장소</th></tr></thead>
     <tbody>
@@ -303,7 +571,7 @@
 </section>
 
 <section id="official">
-  <div class="sec-head rv"><div class="idx">08</div><h2>Anthropic 공식 스킬 · 플러그인</h2>
+  <div class="sec-head rv"><div class="idx">11</div><h2>Anthropic 공식 스킬 · 플러그인</h2>
     <p>공식 마켓과 공식 스킬 저장소에서 이 문서의 업무에 맞는 것. 앞 장에 있는 항목은 제외.</p></div>
   <div class="tblwrap rv"><table class="tbl t4">
     <thead><tr><th>항목</th><th>용도</th><th>호출 · 사용법</th><th>설치</th></tr></thead>
@@ -321,7 +589,7 @@
 </section>
 
 <section id="avoid">
-  <div class="sec-head rv"><div class="idx">09</div><h2>비권장 · 비효율</h2><p>부정 평가가 우세하거나, 토큰 대비 효과가 낮거나, 내장 기능과 겹치는 것.</p></div>
+  <div class="sec-head rv"><div class="idx">12</div><h2>비권장 · 비효율</h2><p>부정 평가가 우세하거나, 토큰 대비 효과가 낮거나, 내장 기능과 겹치는 것.</p></div>
   <div class="tblwrap rv"><table class="tbl t4">
     <thead><tr><th>항목</th><th>판정</th><th>이유</th><th>대신</th></tr></thead>
     <tbody>
