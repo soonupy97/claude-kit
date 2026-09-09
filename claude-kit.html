@@ -48,6 +48,8 @@
   .lede{max-width:760px;margin:0;font-size:18px;line-height:1.7;color:var(--ink-2)}
 
   /* ---------- 5. 목차 ---------- */
+  .tocbox summary{display:none;list-style:none}
+  .tocbox summary::-webkit-details-marker{display:none}
   .toc h5{margin:0 0 16px;font:12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
   .toc a{display:block;padding:6px 0 6px 14px;border-left:1px solid var(--line);font-size:14px;color:var(--muted);transition:color .2s,border-color .2s}
   .toc a:hover{color:var(--ink)}
@@ -199,23 +201,136 @@
   @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
 
   /* ---------- 11. 반응형 · 인쇄 ---------- */
+  /* 태블릿 이하: 상단 고정 바(현재 섹션 + 목차 버튼) → 드롭다운 패널 */
   @media (max-width:1080px){
-    .grid{grid-template-columns:1fr;gap:0}
-    aside{position:static;margin-bottom:8px;padding:28px 0 0;border-bottom:1px solid var(--line)}
+    html{scroll-padding-top:64px}
+    .grid{display:block}
+    aside{position:sticky;top:0;z-index:5;margin:0 -32px 8px;padding:0;background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line-2)}
+    .tocbox{position:relative}
+    .tocbox summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding:0 32px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
+    .tocbar-cur{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:16px;font-weight:600;color:var(--ink)}
+    .tocbar-cur .num{display:inline-block;min-width:22px;margin-right:8px;font:12px/1 var(--mono);color:var(--faint);vertical-align:1px}
+    .tocbar-btn{flex:none;display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px 0 12px;border:1px solid var(--ink);border-radius:10px;background:var(--ink);box-shadow:none;font-size:14px;font-weight:600;color:#fff;transition:background .15s,color .15s,border-color .15s,transform .1s}
+    .tocbar-btn .ic{display:block;width:16px;height:16px;flex:none}
+    .tocbar-btn .ic-close{display:none}
+    .tocbox[open] .tocbar-btn{background:var(--surface);border-color:var(--line-3);color:var(--ink)}
+    .tocbox[open] .tocbar-btn .ic-menu{display:none}
+    .tocbox[open] .tocbar-btn .ic-close{display:block}
+    .tocbox summary:active .tocbar-btn{transform:scale(.96)}
+    /* 읽기 진행선: 바 아래 2px */
+    aside::after{content:"";position:absolute;left:0;bottom:-1px;height:2px;width:var(--p,0%);background:var(--ink);transition:width .12s linear}
+    /* 패널: 바 아래로 덮어 내려옴. 뒤 배경은 살짝 어둡게 */
+    .tocbox[open]::before{content:"";position:fixed;inset:0;background:rgba(17,17,17,.22);z-index:-1}
+    .toc{position:absolute;left:0;right:0;top:100%;display:grid;grid-template-columns:1fr 1fr;gap:0 16px;max-height:calc(100vh - 52px);overflow-y:auto;padding:4px 32px 16px;background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-radius:0 0 16px 16px;box-shadow:0 16px 40px rgba(0,0,0,.10)}
     .toc h5{display:none}
-    .toc a{display:inline-block;padding:6px 14px 6px 0;border-left:0}
-    .toc a.on{text-decoration:underline;text-underline-offset:4px}
+    .toc a{display:flex;align-items:center;gap:10px;min-height:48px;padding:0 4px;border-left:0;border-bottom:1px solid var(--line);font-size:16px;color:var(--ink-2)}
+    .toc a:last-child,.toc a:nth-last-child(2):nth-child(odd){border-bottom:0}
+    .toc a.on{color:var(--ink);font-weight:600;text-decoration:none}
+    .toc .num{margin:0;min-width:24px;font-size:12px;color:var(--faint)}
+    .toc a.on .num{color:var(--ink)}
+    main section:first-of-type{margin-top:24px}
   }
   @media (max-width:860px){
-    .shell{padding:0 24px}
-    .hero{padding:64px 0 40px}
+    .shell{padding:0 20px}
+    aside{margin:0 -20px 8px}
+    .tocbox summary{padding:0 20px}
+    .toc{padding:4px 20px 16px}
+    .hero{padding:56px 0 36px}
     h1 br{display:none}
+    .lede{font-size:16px}
     .tbl td.name{min-width:160px}
     .tbl.t4 th,.tbl.t4 td{width:auto}
     main section{padding:24px 20px;border-radius:12px}
+    .step>p,.step>.tblwrap,.term{margin-left:0}
+    .term .panes{grid-template-columns:1fr}
+    .term .panes pre+pre{border-left:0;border-top:1px solid #2B2B2B}
   }
+  /* 모바일: 표를 카드로, 한 손 조작 크기 */
+  @media (max-width:760px){
+    .shell{padding:0 16px}
+    aside{margin:0 -16px 4px}
+    .tocbox summary{padding:0 16px;min-height:48px}
+    .tocbar-btn{height:36px;padding:0 12px 0 10px}
+    .toc{grid-template-columns:1fr;padding:4px 16px 12px;max-height:calc(100vh - 48px);border-radius:0 0 12px 12px}
+    .toc a:nth-last-child(2):nth-child(odd){border-bottom:1px solid var(--line)}
+    .toc a{min-height:46px}
+    .hero{padding:40px 0 28px}
+    .eyebrow{gap:12px;margin-bottom:16px}
+    .eyebrow span+span::before{margin-right:12px}
+    h1{margin-bottom:16px}
+    main section{margin:0 0 16px;padding:20px 16px;border-radius:12px}
+    main section:first-of-type{margin-top:16px}
+    main section:last-of-type{margin-bottom:40px}
+    .sec-head{grid-template-columns:32px 1fr;gap:10px;margin-bottom:12px}
+    .sec-head .idx{font-size:24px}
+    .sec-head .sec-desc{font-size:14px}
+    h2{font-size:24px}
+    h2 .tag{display:inline-flex;margin:6px 0 0;vertical-align:top}
+    .grp{margin:24px 0 10px}
+    .legend{gap:8px 14px;font-size:12px}
+    .note{padding:12px 14px}
+    .step{margin-bottom:24px}
+    .step h3{font-size:16px}
+
+    /* 표 → 카드 */
+    .tblwrap{overflow:visible}
+    .tbl,.tbl tbody,.tbl tr,.tbl td{display:block}
+    .tbl thead{display:none}
+    .tbl{border:0;border-radius:0;background:transparent;overflow:visible}
+    .tbl tr{margin:0 0 8px;padding:14px 16px;border:1px solid var(--line-2);border-radius:8px;background:var(--surface)}
+    .tbl tr:last-child{margin-bottom:0}
+    .tbl tr.must,.tbl tr.core{background:var(--hl-bg)}
+    .tbl tr.must td,.tbl tr.core td{background:transparent}
+    .tbl td{padding:0;border:0;width:auto;min-width:0}
+    .tbl td+td{margin-top:8px}
+    .tbl td:empty{display:none}
+    .tbl td[data-label]::before{content:attr(data-label);display:block;margin-bottom:2px;font:12px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+    /* 2열(용도 · 뜻 · 동작 · 무엇)은 라벨 없이 이름 아래 설명으로 */
+    .tbl td:nth-child(2)[data-label]::before{display:none}
+    .tbl td:nth-child(2){margin-top:4px;color:var(--muted)}
+    .tbl td.name{width:auto;min-width:0;font-size:16px}
+    .tbl td.name .nm,.tbl td.name>code,.tbl td.name .nm code{white-space:normal;overflow-wrap:anywhere;font-size:16px}
+    .tbl td.name .cell{row-gap:6px}
+    .tbl td .call{white-space:normal}
+    .tbl td .use{display:block;margin-top:2px}
+    .tbl td .call+.use::before{content:none}
+    .tbl td code{font-size:12px;overflow-wrap:anywhere;white-space:normal;line-height:1.6}
+    .tbl td.repo{font-size:12px}
+    .core .tbl td.name .nm{font-size:16px}
+
+    /* 단축키 표: 이름과 키를 한 줄에 */
+    .tbl.keys tr{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:12px 14px}
+    .tbl.keys td.name{flex:1 1 auto;min-width:0;font-size:14px;font-weight:500}
+    .tbl.keys td:nth-child(2){flex:none;margin:0;white-space:nowrap;line-height:1.8;color:var(--ink)}
+    .tbl.keys td:nth-child(2)[data-label]::before{display:none}
+    .tbl.keys td:nth-child(3){flex-basis:100%;margin:0;font-size:14px;color:var(--muted)}
+    .tbl.keys td:nth-child(3)[data-label]::before{display:none}
+    .tbl.keys td.name .tag{margin-left:6px}
+
+    /* 접기 */
+    .acc summary{min-height:44px;padding:12px 14px;gap:6px 10px}
+    .acc summary .acc-s{display:none}
+    .acc .tbl tr{border-left:0;border-right:0;border-radius:0;margin:0}
+    .acc .tbl tr+tr{border-top:0}
+    .acc .tbl tr:last-child{border-bottom:0}
+    .acc .tblwrap+.tblwrap .tbl{border-top:1px solid var(--line)}
+
+    /* 터미널 */
+    .term{border-radius:8px;box-shadow:none}
+    .term figcaption .win{display:none}
+    .term figcaption .tab{padding:6px 10px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .term pre{padding:10px 12px;font-size:12px;line-height:1.7}
+
+    kbd{min-width:20px;padding:0 5px}
+    footer{padding:24px 0 48px}
+    footer .row{flex-direction:column;gap:4px}
+  }
+  /* 맨 위로 (모바일 · 태블릿) */
+  .totop{position:fixed;right:16px;bottom:16px;z-index:6;width:44px;height:44px;border:1px solid var(--line-3);border-radius:9999px;background:var(--surface);color:var(--ink);font:16px var(--sans);cursor:pointer;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+  .totop.show{opacity:1;transform:none;pointer-events:auto}
+  @media (min-width:1081px){.totop{display:none}}
   @media print{
-    .ambient,aside{display:none}
+    .ambient,aside,.totop{display:none}
     .grid{grid-template-columns:1fr}
     body{background:#fff}
     main section{padding:24px 0 28px;border:0;border-bottom:1px solid var(--line);border-radius:0}
@@ -237,6 +352,8 @@
 
 <div class="shell grid">
 <aside>
+  <details class="tocbox" open>
+  <summary class="tocbar"><span class="tocbar-cur" id="toccur"><span class="num">00</span>용어 5개</span><span class="tocbar-btn" role="button" aria-label="목차 열기"><svg class="ic ic-menu" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><svg class="ic ic-close" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>목차</span></summary>
   <nav class="toc" id="toc">
     <h5>목차</h5>
     <a href="#terms"><span class="num">00</span>용어 5개</a>
@@ -254,6 +371,7 @@
     <a href="#official"><span class="num">12</span>Anthropic 공식</a>
     <a href="#avoid"><span class="num">13</span>비권장 · 비효율</a>
   </nav>
+  </details>
 </aside>
 
 <main>
@@ -264,11 +382,11 @@
   <div class="tblwrap rv"><table class="tbl">
     <thead><tr><th>용어</th><th>뜻</th><th>팁</th></tr></thead>
     <tbody>
-      <tr><td class="name">스킬</td><td>Claude에게 일하는 방법을 적어 둔 지침. 필요할 때 자동으로 읽힘</td><td>가볍고 토큰을 거의 안 씀</td></tr>
-      <tr><td class="name">플러그인</td><td>스킬 · 명령어 · 훅 · MCP를 한 번에 설치하는 패키지</td><td><code>/plugin install 이름@마켓</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">MCP</span><span class="sub">Model Context Protocol</span></div></td><td>Claude를 외부 서비스(Figma · Notion · 브라우저 등)와 연결하는 서버</td><td>켜 두는 것만으로 토큰을 차지. 꼭 필요한 것만</td></tr>
-      <tr><td class="name">Hooks</td><td>특정 시점에 자동 실행되는 스크립트</td><td>규칙을 강제하는 유일한 방법</td></tr>
-      <tr><td class="name">컨텍스트 · 토큰</td><td>Claude가 한 번에 기억하는 양</td><td>도구가 많을수록 줄어들고 비용이 늘어남</td></tr>
+      <tr><td class="name">스킬</td><td data-label="뜻">Claude에게 일하는 방법을 적어 둔 지침. 필요할 때 자동으로 읽힘</td><td data-label="팁">가볍고 토큰을 거의 안 씀</td></tr>
+      <tr><td class="name">플러그인</td><td data-label="뜻">스킬 · 명령어 · 훅 · MCP를 한 번에 설치하는 패키지</td><td data-label="팁"><code>/plugin install 이름@마켓</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">MCP</span><span class="sub">Model Context Protocol</span></div></td><td data-label="뜻">Claude를 외부 서비스(Figma · Notion · 브라우저 등)와 연결하는 서버</td><td data-label="팁">켜 두는 것만으로 토큰을 차지. 꼭 필요한 것만</td></tr>
+      <tr><td class="name">Hooks</td><td data-label="뜻">특정 시점에 자동 실행되는 스크립트</td><td data-label="팁">규칙을 강제하는 유일한 방법</td></tr>
+      <tr><td class="name">컨텍스트 · 토큰</td><td data-label="뜻">Claude가 한 번에 기억하는 양</td><td data-label="팁">도구가 많을수록 줄어들고 비용이 늘어남</td></tr>
     </tbody></table></div>
 </section>
 
@@ -304,10 +422,10 @@
   <div class="tblwrap rv"><table class="tbl">
     <thead><tr><th>명령</th><th>무엇</th></tr></thead>
     <tbody>
-      <tr><td class="name"><code>claude "작업"</code> · <code>claude -p "질문"</code></td><td>첫 지시와 함께 시작 · 한 번 답하고 종료</td></tr>
-      <tr><td class="name"><code>claude -c</code> · <code>claude -r</code></td><td>직전 대화 이어가기 · 이전 대화 고르기</td></tr>
-      <tr><td class="name"><code>/help</code> · <code>/model</code> · <code>/exit</code></td><td>명령 목록 · 모델 변경 · 종료</td></tr>
-      <tr><td class="name"><code>/plugin</code> · <code>/mcp</code> · <code>/permissions</code></td><td>플러그인 탐색 · MCP 상태 · 권한 설정</td></tr>
+      <tr><td class="name"><code>claude "작업"</code> · <code>claude -p "질문"</code></td><td data-label="무엇">첫 지시와 함께 시작 · 한 번 답하고 종료</td></tr>
+      <tr><td class="name"><code>claude -c</code> · <code>claude -r</code></td><td data-label="무엇">직전 대화 이어가기 · 이전 대화 고르기</td></tr>
+      <tr><td class="name"><code>/help</code> · <code>/model</code> · <code>/exit</code></td><td data-label="무엇">명령 목록 · 모델 변경 · 종료</td></tr>
+      <tr><td class="name"><code>/plugin</code> · <code>/mcp</code> · <code>/permissions</code></td><td data-label="무엇">플러그인 탐색 · MCP 상태 · 권한 설정</td></tr>
     </tbody></table></div>
 </section>
 
@@ -320,24 +438,24 @@
 <div class="tblwrap rv"><table class="tbl keys">
     <thead><tr><th>하는 일</th><th>키</th><th>메모</th></tr></thead>
     <tbody>
-      <tr><td class="name">새 탭</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>T</kbd></td><td>프로젝트마다 탭 하나</td></tr>
-      <tr><td class="name">탭 전환</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Tab</kbd></td><td></td></tr>
-      <tr><td class="name">탭 닫기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>W</kbd></td><td>나눈 창에서는 포커스된 창만 닫힘</td></tr>
-      <tr><td class="name">화면 나누기</td><td><kbd>Alt</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>D</kbd></td><td>지금 창을 복제해 넓은 쪽으로 나눔</td></tr>
-      <tr><td class="name">나눈 창 이동</td><td><kbd>Alt</kbd><span class="plus">+</span><kbd>←→↑↓</kbd></td><td></td></tr>
-      <tr><td class="name">나눈 창 크기 조절</td><td><kbd>Alt</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>←→↑↓</kbd></td><td></td></tr>
-      <tr><td class="name">검색</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>F</kbd></td><td></td></tr>
-      <tr><td class="name">화면 맨 위로</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>Home</kbd></td><td>지난 출력 처음까지</td></tr>
-      <tr><td class="name">화면 맨 아래로</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>End</kbd></td><td>입력줄로 복귀</td></tr>
-      <tr><td class="name">한 화면 위로</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>PgUp</kbd></td><td></td></tr>
-      <tr><td class="name">한 화면 아래로</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>PgDn</kbd></td><td></td></tr>
-      <tr><td class="name">글자 키우기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>=</kbd></td><td></td></tr>
-      <tr><td class="name">글자 줄이기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>-</kbd></td><td></td></tr>
-      <tr><td class="name">복사</td><td>드래그 후 <kbd>Ctrl</kbd><span class="plus">+</span><kbd>C</kbd></td><td></td></tr>
-      <tr><td class="name">붙여넣기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>V</kbd></td><td></td></tr>
-      <tr><td class="name">명령 팔레트</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>P</kbd></td><td>모든 동작 검색</td></tr>
-      <tr><td class="name">퀵 창</td><td><kbd>Win</kbd><span class="plus">+</span><kbd>`</kbd></td><td>화면 위에서 내려오는 터미널</td></tr>
-      <tr><td class="name">키 바꾸기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>,</kbd></td><td>설정 → 동작에서 원하는 키로 변경 (예: 화면 나누기를 <code>Ctrl+Shift++</code>로)</td></tr>
+      <tr><td class="name">새 탭</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>T</kbd></td><td data-label="메모">프로젝트마다 탭 하나</td></tr>
+      <tr><td class="name">탭 전환</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Tab</kbd></td><td data-label="메모"></td></tr>
+      <tr><td class="name">탭 닫기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>W</kbd></td><td data-label="메모">나눈 창에서는 포커스된 창만 닫힘</td></tr>
+      <tr><td class="name">화면 나누기</td><td data-label="키"><kbd>Alt</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>D</kbd></td><td data-label="메모">지금 창을 복제해 넓은 쪽으로 나눔</td></tr>
+      <tr><td class="name">나눈 창 이동</td><td data-label="키"><kbd>Alt</kbd><span class="plus">+</span><kbd>←→↑↓</kbd></td><td data-label="메모"></td></tr>
+      <tr><td class="name">나눈 창 크기 조절</td><td data-label="키"><kbd>Alt</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>←→↑↓</kbd></td><td data-label="메모"></td></tr>
+      <tr><td class="name">검색</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>F</kbd></td><td data-label="메모"></td></tr>
+      <tr><td class="name">화면 맨 위로</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>Home</kbd></td><td data-label="메모">지난 출력 처음까지</td></tr>
+      <tr><td class="name">화면 맨 아래로</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>End</kbd></td><td data-label="메모">입력줄로 복귀</td></tr>
+      <tr><td class="name">한 화면 위로</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>PgUp</kbd></td><td data-label="메모"></td></tr>
+      <tr><td class="name">한 화면 아래로</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>PgDn</kbd></td><td data-label="메모"></td></tr>
+      <tr><td class="name">글자 키우기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>=</kbd></td><td data-label="메모"></td></tr>
+      <tr><td class="name">글자 줄이기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>-</kbd></td><td data-label="메모"></td></tr>
+      <tr><td class="name">복사</td><td data-label="키">드래그 후 <kbd>Ctrl</kbd><span class="plus">+</span><kbd>C</kbd></td><td data-label="메모"></td></tr>
+      <tr><td class="name">붙여넣기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>V</kbd></td><td data-label="메모"></td></tr>
+      <tr><td class="name">명령 팔레트</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>P</kbd></td><td data-label="메모">모든 동작 검색</td></tr>
+      <tr><td class="name">퀵 창</td><td data-label="키"><kbd>Win</kbd><span class="plus">+</span><kbd>`</kbd></td><td data-label="메모">화면 위에서 내려오는 터미널</td></tr>
+      <tr><td class="name">키 바꾸기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>,</kbd></td><td data-label="메모">설정 → 동작에서 원하는 키로 변경 (예: 화면 나누기를 <code>Ctrl+Shift++</code>로)</td></tr>
     </tbody></table></div>
 <div class="note rv"><b>추천 배치.</b> 화면을 나눠(<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd>) 왼쪽은 작업, 오른쪽은 질문용 <code>claude</code>. 프로젝트가 여럿이면 탭.</div>
   </details>
@@ -353,29 +471,29 @@
 <div class="tblwrap rv"><table class="tbl keys">
     <thead><tr><th>하는 일</th><th>키</th><th>메모</th></tr></thead>
     <tbody>
-      <tr><td class="name">자동 완성</td><td><kbd>Tab</kbd></td><td>파일 · 폴더 · 명령 이름을 채워 줌. 여러 번 누르면 순환</td></tr>
-      <tr><td class="name">완성 목록 보기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Space</kbd></td><td>후보를 메뉴로 보고 고르기</td></tr>
-      <tr><td class="name">이전 명령 검색</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>R</kbd></td><td>일부만 쳐도 찾아 줌</td></tr>
-      <tr><td class="name">앞글자 맞는 이전 명령</td><td><kbd>F8</kbd></td><td><code>cd</code>까지 치고 누르면 cd로 시작한 명령만</td></tr>
-      <tr><td class="name">입력 줄 지우기</td><td><kbd>Esc</kbd></td><td></td></tr>
-      <tr><td class="name">줄 처음으로</td><td><kbd>Home</kbd></td><td></td></tr>
-      <tr><td class="name">줄 끝으로</td><td><kbd>End</kbd></td><td></td></tr>
-      <tr><td class="name">단어 왼쪽으로</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>←</kbd></td><td></td></tr>
-      <tr><td class="name">단어 오른쪽으로</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>→</kbd></td><td></td></tr>
-      <tr><td class="name">단어 하나 지우기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Backspace</kbd></td><td></td></tr>
-      <tr><td class="name">화면 지우기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>L</kbd></td><td><code>cls</code>와 같음</td></tr>
-      <tr><td class="name">되돌리기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Z</kbd></td><td>입력 편집 취소</td></tr>
-      <tr><td class="name">여러 줄 명령</td><td><kbd>Shift</kbd><span class="plus">+</span><kbd>Enter</kbd></td><td>PowerShell 프롬프트에서는 됨 (Claude 안에서는 Ctrl+J)</td></tr>
-      <tr><td class="name">경로 넣기</td><td>탐색기에서 폴더를 창으로 드래그</td><td>경로가 그대로 붙음</td></tr>
+      <tr><td class="name">자동 완성</td><td data-label="키"><kbd>Tab</kbd></td><td data-label="메모">파일 · 폴더 · 명령 이름을 채워 줌. 여러 번 누르면 순환</td></tr>
+      <tr><td class="name">완성 목록 보기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Space</kbd></td><td data-label="메모">후보를 메뉴로 보고 고르기</td></tr>
+      <tr><td class="name">이전 명령 검색</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>R</kbd></td><td data-label="메모">일부만 쳐도 찾아 줌</td></tr>
+      <tr><td class="name">앞글자 맞는 이전 명령</td><td data-label="키"><kbd>F8</kbd></td><td data-label="메모"><code>cd</code>까지 치고 누르면 cd로 시작한 명령만</td></tr>
+      <tr><td class="name">입력 줄 지우기</td><td data-label="키"><kbd>Esc</kbd></td><td data-label="메모"></td></tr>
+      <tr><td class="name">줄 처음으로</td><td data-label="키"><kbd>Home</kbd></td><td data-label="메모"></td></tr>
+      <tr><td class="name">줄 끝으로</td><td data-label="키"><kbd>End</kbd></td><td data-label="메모"></td></tr>
+      <tr><td class="name">단어 왼쪽으로</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>←</kbd></td><td data-label="메모"></td></tr>
+      <tr><td class="name">단어 오른쪽으로</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>→</kbd></td><td data-label="메모"></td></tr>
+      <tr><td class="name">단어 하나 지우기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Backspace</kbd></td><td data-label="메모"></td></tr>
+      <tr><td class="name">화면 지우기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>L</kbd></td><td data-label="메모"><code>cls</code>와 같음</td></tr>
+      <tr><td class="name">되돌리기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Z</kbd></td><td data-label="메모">입력 편집 취소</td></tr>
+      <tr><td class="name">여러 줄 명령</td><td data-label="키"><kbd>Shift</kbd><span class="plus">+</span><kbd>Enter</kbd></td><td data-label="메모">PowerShell 프롬프트에서는 됨 (Claude 안에서는 Ctrl+J)</td></tr>
+      <tr><td class="name">경로 넣기</td><td data-label="키">탐색기에서 폴더를 창으로 드래그</td><td data-label="메모">경로가 그대로 붙음</td></tr>
     </tbody></table></div>
 <div class="tblwrap rv"><table class="tbl">
     <thead><tr><th>명령</th><th>무엇</th></tr></thead>
     <tbody>
-      <tr><td class="name"><code>cd 폴더</code> · <code>cd ..</code></td><td>폴더로 이동 · 상위로</td></tr>
-      <tr><td class="name"><code>ls</code> · <code>pwd</code></td><td>목록 보기 · 현재 위치</td></tr>
-      <tr><td class="name"><code>code .</code> · <code>explorer .</code></td><td>현재 폴더를 VS Code · 탐색기로 열기</td></tr>
-      <tr><td class="name"><code>cls</code></td><td>화면 지우기</td></tr>
-      <tr><td class="name"><code>claude</code></td><td>여기서 Claude Code 시작</td></tr>
+      <tr><td class="name"><code>cd 폴더</code> · <code>cd ..</code></td><td data-label="무엇">폴더로 이동 · 상위로</td></tr>
+      <tr><td class="name"><code>ls</code> · <code>pwd</code></td><td data-label="무엇">목록 보기 · 현재 위치</td></tr>
+      <tr><td class="name"><code>code .</code> · <code>explorer .</code></td><td data-label="무엇">현재 폴더를 VS Code · 탐색기로 열기</td></tr>
+      <tr><td class="name"><code>cls</code></td><td data-label="무엇">화면 지우기</td></tr>
+      <tr><td class="name"><code>claude</code></td><td data-label="무엇">여기서 Claude Code 시작</td></tr>
     </tbody></table></div>
   </details>
 
@@ -383,10 +501,10 @@
 <div class="tblwrap rv"><table class="tbl keys">
     <thead><tr><th>하는 일</th><th>키</th><th>메모</th></tr></thead>
     <tbody>
-      <tr><td class="name">터미널 열기 · 닫기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>`</kbd></td><td>같은 키로 토글</td></tr>
-      <tr><td class="name">새 터미널</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>`</kbd></td><td></td></tr>
-      <tr><td class="name">터미널 나누기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>5</kbd></td><td>나눈 창 이동은 <code>Alt+←</code> <code>Alt+→</code></td></tr>
-      <tr><td class="name">Claude Code 패널</td><td>Spark 아이콘 클릭</td><td>확장 설치 후 오른쪽 패널</td></tr>
+      <tr><td class="name">터미널 열기 · 닫기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>`</kbd></td><td data-label="메모">같은 키로 토글</td></tr>
+      <tr><td class="name">새 터미널</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>`</kbd></td><td data-label="메모"></td></tr>
+      <tr><td class="name">터미널 나누기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>5</kbd></td><td data-label="메모">나눈 창 이동은 <code>Alt+←</code> <code>Alt+→</code></td></tr>
+      <tr><td class="name">Claude Code 패널</td><td data-label="키">Spark 아이콘 클릭</td><td data-label="메모">확장 설치 후 오른쪽 패널</td></tr>
     </tbody></table></div>
   </details>
 
@@ -394,23 +512,23 @@
 <div class="tblwrap rv"><table class="tbl keys">
     <thead><tr><th>하는 일</th><th>키</th><th>메모</th></tr></thead>
     <tbody>
-      <tr><td class="name">단축키 도움말</td><td><kbd>?</kbd></td><td>빈 입력창에서 누르면 모든 단축키가 뜸</td></tr>
-      <tr class="must"><td class="name">답변 멈추기<span class="tag g">필수</span></td><td><kbd>Esc</kbd></td><td></td></tr>
-      <tr class="must"><td class="name">되감기<span class="tag g">필수</span></td><td><kbd>Esc</kbd><span class="plus">+</span><kbd>두</kbd><span class="plus">+</span><kbd>번</kbd></td><td>이전 지점으로 돌아가 다시 시도</td></tr>
-      <tr><td class="name">입력 지우기 · 중단</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>C</kbd></td><td>입력 중이면 지우기, 실행 중이면 중단. PowerShell 프롬프트에서도 같음</td></tr>
-      <tr><td class="name">종료</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>D</kbd></td><td></td></tr>
-      <tr class="must"><td class="name">여러 줄 입력<span class="tag g">필수</span></td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>J</kbd></td><td>안 되면 줄 끝에 <code>\</code> 치고 Enter</td></tr>
-      <tr><td class="name">이전 입력</td><td><kbd>↑</kbd></td><td>PowerShell 프롬프트에서도 같음</td></tr>
-      <tr class="must"><td class="name">권한 모드 전환<span class="tag g">필수</span></td><td><kbd>Shift</kbd><span class="plus">+</span><kbd>Tab</kbd></td><td>Manual → acceptEdits → Plan → auto 순환</td></tr>
-      <tr class="must"><td class="name">이미지 붙이기<span class="tag g">필수</span></td><td><kbd>Alt</kbd><span class="plus">+</span><kbd>V</kbd></td><td>스크린샷 복사 후 바로. 파일 드래그도 됨</td></tr>
-      <tr><td class="name">대화 맨 위로</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Home</kbd></td><td>전체화면 모드에서. 마우스 휠도 됨</td></tr>
-      <tr><td class="name">대화 맨 아래로</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>End</kbd></td><td>최신 답변으로 복귀</td></tr>
-      <tr><td class="name">반 화면 위로</td><td><kbd>PgUp</kbd></td><td></td></tr>
-      <tr><td class="name">반 화면 아래로</td><td><kbd>PgDn</kbd></td><td></td></tr>
-      <tr><td class="name">모델 전환</td><td><kbd>Alt</kbd><span class="plus">+</span><kbd>P</kbd></td><td></td></tr>
-      <tr class="must"><td class="name">명령 실행<span class="tag g">필수</span></td><td><kbd>/</kbd></td><td>명령 · 스킬 목록</td></tr>
-      <tr><td class="name">셸 명령 그대로 실행</td><td><kbd>!</kbd></td><td>예: <code>!git status</code></td></tr>
-      <tr><td class="name">파일 언급</td><td><kbd>@</kbd></td><td>예: <code>@src/App.tsx</code></td></tr>
+      <tr><td class="name">단축키 도움말</td><td data-label="키"><kbd>?</kbd></td><td data-label="메모">빈 입력창에서 누르면 모든 단축키가 뜸</td></tr>
+      <tr class="must"><td class="name">답변 멈추기<span class="tag g">필수</span></td><td data-label="키"><kbd>Esc</kbd></td><td data-label="메모"></td></tr>
+      <tr class="must"><td class="name">되감기<span class="tag g">필수</span></td><td data-label="키"><kbd>Esc</kbd><span class="plus">+</span><kbd>두</kbd><span class="plus">+</span><kbd>번</kbd></td><td data-label="메모">이전 지점으로 돌아가 다시 시도</td></tr>
+      <tr><td class="name">입력 지우기 · 중단</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>C</kbd></td><td data-label="메모">입력 중이면 지우기, 실행 중이면 중단. PowerShell 프롬프트에서도 같음</td></tr>
+      <tr><td class="name">종료</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>D</kbd></td><td data-label="메모"></td></tr>
+      <tr class="must"><td class="name">여러 줄 입력<span class="tag g">필수</span></td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>J</kbd></td><td data-label="메모">안 되면 줄 끝에 <code>\</code> 치고 Enter</td></tr>
+      <tr><td class="name">이전 입력</td><td data-label="키"><kbd>↑</kbd></td><td data-label="메모">PowerShell 프롬프트에서도 같음</td></tr>
+      <tr class="must"><td class="name">권한 모드 전환<span class="tag g">필수</span></td><td data-label="키"><kbd>Shift</kbd><span class="plus">+</span><kbd>Tab</kbd></td><td data-label="메모">Manual → acceptEdits → Plan → auto 순환</td></tr>
+      <tr class="must"><td class="name">이미지 붙이기<span class="tag g">필수</span></td><td data-label="키"><kbd>Alt</kbd><span class="plus">+</span><kbd>V</kbd></td><td data-label="메모">스크린샷 복사 후 바로. 파일 드래그도 됨</td></tr>
+      <tr><td class="name">대화 맨 위로</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Home</kbd></td><td data-label="메모">전체화면 모드에서. 마우스 휠도 됨</td></tr>
+      <tr><td class="name">대화 맨 아래로</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>End</kbd></td><td data-label="메모">최신 답변으로 복귀</td></tr>
+      <tr><td class="name">반 화면 위로</td><td data-label="키"><kbd>PgUp</kbd></td><td data-label="메모"></td></tr>
+      <tr><td class="name">반 화면 아래로</td><td data-label="키"><kbd>PgDn</kbd></td><td data-label="메모"></td></tr>
+      <tr><td class="name">모델 전환</td><td data-label="키"><kbd>Alt</kbd><span class="plus">+</span><kbd>P</kbd></td><td data-label="메모"></td></tr>
+      <tr class="must"><td class="name">명령 실행<span class="tag g">필수</span></td><td data-label="키"><kbd>/</kbd></td><td data-label="메모">명령 · 스킬 목록</td></tr>
+      <tr><td class="name">셸 명령 그대로 실행</td><td data-label="키"><kbd>!</kbd></td><td data-label="메모">예: <code>!git status</code></td></tr>
+      <tr><td class="name">파일 언급</td><td data-label="키"><kbd>@</kbd></td><td data-label="메모">예: <code>@src/App.tsx</code></td></tr>
     </tbody></table></div>
   </details>
 <figure class="term rv"><figcaption><span class="tab"><i></i>Windows PowerShell — 세션 안에서 자주 쓰는 동작</span><span class="win">—&nbsp;&nbsp;☐&nbsp;&nbsp;✕</span></figcaption><pre><span class="l c">Shift+Tab → 아래 안내줄이 바뀜</span>
@@ -428,9 +546,9 @@
 <div class="tblwrap rv"><table class="tbl keys">
     <thead><tr><th>하는 일</th><th>키</th><th>메모</th></tr></thead>
     <tbody>
-      <tr><td class="name">iTerm2 화면 나누기</td><td><kbd>Cmd</kbd><span class="plus">+</span><kbd>D</kbd></td><td>가로는 <code>Cmd+Shift+D</code>. 새 탭은 <code>Cmd+T</code></td></tr>
-      <tr><td class="name">Alt 단축키 쓰기</td><td>터미널 설정에서 <kbd>Option</kbd> → Meta</td><td><code>Alt+P</code> 같은 키를 쓰려면 필요</td></tr>
-      <tr><td class="name">이미지 붙이기</td><td><kbd>Ctrl</kbd><span class="plus">+</span><kbd>V</kbd></td><td>iTerm2는 <code>Cmd+V</code></td></tr>
+      <tr><td class="name">iTerm2 화면 나누기</td><td data-label="키"><kbd>Cmd</kbd><span class="plus">+</span><kbd>D</kbd></td><td data-label="메모">가로는 <code>Cmd+Shift+D</code>. 새 탭은 <code>Cmd+T</code></td></tr>
+      <tr><td class="name">Alt 단축키 쓰기</td><td data-label="키">터미널 설정에서 <kbd>Option</kbd> → Meta</td><td data-label="메모"><code>Alt+P</code> 같은 키를 쓰려면 필요</td></tr>
+      <tr><td class="name">이미지 붙이기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>V</kbd></td><td data-label="메모">iTerm2는 <code>Cmd+V</code></td></tr>
     </tbody></table></div>
   </details>
 </section>
@@ -473,14 +591,14 @@
   <div class="tblwrap rv"><table class="tbl t4">
     <thead><tr><th>항목</th><th>한 줄</th><th>호출 · 사용법</th><th>설치</th></tr></thead>
     <tbody>
-      <tr class="must"><td class="name"><div class="cell"><span class="nm">Hooks</span><span class="badges"><span class="tag g">필수</span><span class="tag k-t">설정</span></span></div></td><td>위험 명령 차단·종료 검사</td><td><span class="call">설정</span><span class="use"><code>/hookify</code>에 규칙을 말하면 훅 생성</span></td><td><code>/plugin install hookify@claude-plugins-official</code></td></tr>
-      <tr class="must"><td class="name"><div class="cell"><span class="nm">skill-creator</span><span class="badges"><span class="tag g">필수</span><span class="tag k-p">플러그인</span></span></div></td><td>반복 지시를 스킬로</td><td><span class="call"><code>/skill-creator</code></span><span class="use">반복 지시를 설명하면 스킬 파일 생성</span></td><td><code>/plugin install skill-creator@claude-plugins-official</code></td></tr>
-      <tr class="must"><td class="name"><div class="cell"><span class="nm">grill-me</span><span class="badges"><span class="tag g">필수</span><span class="tag k-s">스킬</span></span></div></td><td>시작 전 요구사항 검증</td><td><span class="call"><code>/grill-me</code></span><span class="use">하고 싶은 일을 말하면 질문으로 검증</span></td><td><code>/plugin install mattpocock-skills@claude-plugins-official</code></td></tr>
-      <tr class="core"><td class="name"><div class="cell"><span class="nm">Context7</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-m">MCP</span></span></div></td><td>최신 문서 참조</td><td><span class="call">자동</span><span class="use">라이브러리 질문 시 자동. "use context7"로 강제</span></td><td><code>npx ctx7 setup</code> (API 키 발급 · MCP 등록 자동)</td></tr>
-      <tr class="core"><td class="name"><div class="cell"><span class="nm">agent-browser</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-s">스킬 · CLI</span></span></div></td><td>브라우저로 화면 확인</td><td><span class="call">자동</span><span class="use">"localhost:3000 열어서 확인해줘"</span></td><td><code>npm i -g agent-browser &amp;&amp; agent-browser install</code> 후 <code>npx skills add vercel-labs/agent-browser</code></td></tr>
-      <tr class="core"><td class="name"><div class="cell"><span class="nm">frontend-design</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-p">플러그인</span></span></div></td><td>"AI 티" 나는 화면 방지</td><td><span class="call">자동</span><span class="use">UI 작업이면 자동 적용</span></td><td><code>/plugin install frontend-design@claude-plugins-official</code></td></tr>
-      <tr class="core"><td class="name"><div class="cell"><span class="nm">Figma MCP</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-m">MCP</span></span></div></td><td>Figma → 코드·토큰</td><td><span class="call">자동</span><span class="use">첫 사용 전 <code>/mcp</code>에서 로그인. 링크 붙여넣고 "코드로 만들어줘"</span></td><td><code>/plugin install figma@claude-plugins-official</code></td></tr>
-      <tr class="core"><td class="name"><div class="cell"><span class="nm">문서 스킬</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-s">스킬</span></span></div></td><td>워드 · PPT · 엑셀 · PDF</td><td><span class="call">자동</span><span class="use">"이 내용으로 PPT 만들어줘"</span></td><td><code>/plugin marketplace add anthropics/skills</code> 후 <code>/plugin install document-skills@anthropic-agent-skills</code></td></tr>
+      <tr class="must"><td class="name"><div class="cell"><span class="nm">Hooks</span><span class="badges"><span class="tag g">필수</span><span class="tag k-t">설정</span></span></div></td><td data-label="한 줄">위험 명령 차단·종료 검사</td><td data-label="호출 · 사용법"><span class="call">설정</span><span class="use"><code>/hookify</code>에 규칙을 말하면 훅 생성</span></td><td data-label="설치"><code>/plugin install hookify@claude-plugins-official</code></td></tr>
+      <tr class="must"><td class="name"><div class="cell"><span class="nm">skill-creator</span><span class="badges"><span class="tag g">필수</span><span class="tag k-p">플러그인</span></span></div></td><td data-label="한 줄">반복 지시를 스킬로</td><td data-label="호출 · 사용법"><span class="call"><code>/skill-creator</code></span><span class="use">반복 지시를 설명하면 스킬 파일 생성</span></td><td data-label="설치"><code>/plugin install skill-creator@claude-plugins-official</code></td></tr>
+      <tr class="must"><td class="name"><div class="cell"><span class="nm">grill-me</span><span class="badges"><span class="tag g">필수</span><span class="tag k-s">스킬</span></span></div></td><td data-label="한 줄">시작 전 요구사항 검증</td><td data-label="호출 · 사용법"><span class="call"><code>/grill-me</code></span><span class="use">하고 싶은 일을 말하면 질문으로 검증</span></td><td data-label="설치"><code>/plugin install mattpocock-skills@claude-plugins-official</code></td></tr>
+      <tr class="core"><td class="name"><div class="cell"><span class="nm">Context7</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-m">MCP</span></span></div></td><td data-label="한 줄">최신 문서 참조</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">라이브러리 질문 시 자동. "use context7"로 강제</span></td><td data-label="설치"><code>npx ctx7 setup</code> (API 키 발급 · MCP 등록 자동)</td></tr>
+      <tr class="core"><td class="name"><div class="cell"><span class="nm">agent-browser</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-s">스킬 · CLI</span></span></div></td><td data-label="한 줄">브라우저로 화면 확인</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">"localhost:3000 열어서 확인해줘"</span></td><td data-label="설치"><code>npm i -g agent-browser &amp;&amp; agent-browser install</code> 후 <code>npx skills add vercel-labs/agent-browser</code></td></tr>
+      <tr class="core"><td class="name"><div class="cell"><span class="nm">frontend-design</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-p">플러그인</span></span></div></td><td data-label="한 줄">"AI 티" 나는 화면 방지</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">UI 작업이면 자동 적용</span></td><td data-label="설치"><code>/plugin install frontend-design@claude-plugins-official</code></td></tr>
+      <tr class="core"><td class="name"><div class="cell"><span class="nm">Figma MCP</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-m">MCP</span></span></div></td><td data-label="한 줄">Figma → 코드·토큰</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">첫 사용 전 <code>/mcp</code>에서 로그인. 링크 붙여넣고 "코드로 만들어줘"</span></td><td data-label="설치"><code>/plugin install figma@claude-plugins-official</code></td></tr>
+      <tr class="core"><td class="name"><div class="cell"><span class="nm">문서 스킬</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-s">스킬</span></span></div></td><td data-label="한 줄">워드 · PPT · 엑셀 · PDF</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">"이 내용으로 PPT 만들어줘"</span></td><td data-label="설치"><code>/plugin marketplace add anthropics/skills</code> 후 <code>/plugin install document-skills@anthropic-agent-skills</code></td></tr>
     </tbody></table></div>
   <div class="note rv"><b>원칙.</b> 적게 설치(MCP 3~6, 스킬 8~12). 명령어로 되면 MCP 대신 스킬 · CLI.</div>
   <div class="note rv"><b>준비물.</b> 문서 스킬은 Node.js · Python · LibreOffice · Poppler가 있어야 파일이 만들어집니다. 플러그인 스킬의 정식 호출은 <code>/플러그인:스킬</code>이며 겹치지 않으면 <code>/스킬</code>도 됩니다.</div>
@@ -493,21 +611,21 @@
   <div class="tblwrap rv"><table class="tbl">
     <thead><tr><th>모드</th><th>동작</th><th>언제</th></tr></thead>
     <tbody>
-      <tr><td class="name"><div class="cell"><span class="nm">Manual</span><span class="sub">default</span></div></td><td>도구별 첫 사용 시 확인</td><td>Enterprise · API 키 · <code>-p</code>의 기본. 처음 익힐 때</td></tr>
-      <tr><td class="name">acceptEdits</td><td>파일 편집 자동 승인</td><td>평소 작업. 확인 창 줄이기</td></tr>
-      <tr><td class="name">Plan</td><td>파일 수정 없이 읽기 · 계획</td><td>시작 전 계획 세울 때</td></tr>
-      <tr><td class="name">auto</td><td>안전 검사 후 자동 승인</td><td>Pro · Max · Team의 기본(2.1.228+). 긴 작업</td></tr>
-      <tr><td class="name">dontAsk</td><td>허용 목록 외 자동 거부</td><td><code>--permission-mode dontAsk</code>로만. Shift+Tab엔 없음</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">bypassPermissions</span><span class="sub"><code>claude --dangerously-skip-permissions</code></span></div></td><td>확인 없이 전부 실행</td><td>격리 환경(컨테이너 · VM)에서만. 차단 훅 먼저</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">Manual</span><span class="sub">default</span></div></td><td data-label="동작">도구별 첫 사용 시 확인</td><td data-label="언제">Enterprise · API 키 · <code>-p</code>의 기본. 처음 익힐 때</td></tr>
+      <tr><td class="name">acceptEdits</td><td data-label="동작">파일 편집 자동 승인</td><td data-label="언제">평소 작업. 확인 창 줄이기</td></tr>
+      <tr><td class="name">Plan</td><td data-label="동작">파일 수정 없이 읽기 · 계획</td><td data-label="언제">시작 전 계획 세울 때</td></tr>
+      <tr><td class="name">auto</td><td data-label="동작">안전 검사 후 자동 승인</td><td data-label="언제">Pro · Max · Team의 기본(2.1.228+). 긴 작업</td></tr>
+      <tr><td class="name">dontAsk</td><td data-label="동작">허용 목록 외 자동 거부</td><td data-label="언제"><code>--permission-mode dontAsk</code>로만. Shift+Tab엔 없음</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">bypassPermissions</span><span class="sub"><code>claude --dangerously-skip-permissions</code></span></div></td><td data-label="동작">확인 없이 전부 실행</td><td data-label="언제">격리 환경(컨테이너 · VM)에서만. 차단 훅 먼저</td></tr>
     </tbody></table></div>
   <div class="grp rv">습관 4개</div>
   <div class="tblwrap rv"><table class="tbl">
     <thead><tr><th>항목</th><th>무엇</th></tr></thead>
     <tbody>
-      <tr><td class="name"><code>/context</code></td><td>도구가 쓰는 토큰 확인. MCP 20k 이하 유지</td></tr>
-      <tr><td class="name"><code>/statusline</code></td><td>아래에 모델 · 컨텍스트 · 폴더 표시. 입력하면 자동 설정</td></tr>
-      <tr><td class="name"><code>/clear</code> · <code>/compact</code></td><td>작업 바뀌면 clear, 길어지면 compact</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">CLAUDE.md 짧게</span><span class="sub"><code>/init</code>으로 시작</span></div></td><td>200줄 미만. 강제는 훅으로</td></tr>
+      <tr><td class="name"><code>/context</code></td><td data-label="무엇">도구가 쓰는 토큰 확인. MCP 20k 이하 유지</td></tr>
+      <tr><td class="name"><code>/statusline</code></td><td data-label="무엇">아래에 모델 · 컨텍스트 · 폴더 표시. 입력하면 자동 설정</td></tr>
+      <tr><td class="name"><code>/clear</code> · <code>/compact</code></td><td data-label="무엇">작업 바뀌면 clear, 길어지면 compact</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">CLAUDE.md 짧게</span><span class="sub"><code>/init</code>으로 시작</span></div></td><td data-label="무엇">200줄 미만. 강제는 훅으로</td></tr>
     </tbody></table></div>
 </section>
 
@@ -517,10 +635,10 @@
   <div class="tblwrap rv"><table class="tbl t4">
     <thead><tr><th>항목</th><th>용도</th><th>호출 · 사용법</th><th>설치</th></tr></thead>
     <tbody>
-      <tr class="must"><td class="name"><div class="cell"><span class="nm">grill-me</span><span class="badges"><span class="tag g">필수</span><span class="tag k-s">스킬</span></span></div></td><td>질문으로 요구사항 확정</td><td><span class="call"><code>/grill-me</code></span><span class="use">하고 싶은 일을 말하면 빠진 요구사항을 질문으로 캐냄</span></td><td>핵심 요약 참고</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">to-spec · to-tickets</span><span class="badges"><span class="tag k-s">스킬</span></span><span class="sub">Matt Pocock skills</span></div></td><td>요구사항 → 스펙·티켓</td><td><span class="call"><code>/to-spec</code> · <code>/to-tickets</code></span><span class="use">grill 뒤에 실행. 티켓 게시는 <code>/setup-matt-pocock-skills</code> 먼저</span></td><td>grill-me와 같은 플러그인</td></tr>
-      <tr class="core"><td class="name"><div class="cell"><span class="nm">문서 스킬</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-s">스킬</span></span><span class="sub">pptx · docx</span></div></td><td>기획서 · 제안서 생성</td><td><span class="call">자동</span><span class="use">"이 내용으로 PPT 만들어줘"</span></td><td><code>/plugin marketplace add anthropics/skills</code> 후 <code>/plugin install document-skills@anthropic-agent-skills</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">Notion MCP</span><span class="badges"><span class="tag k-m">MCP</span></span></div></td><td>Notion 읽기·쓰기</td><td><span class="call">자동</span><span class="use">첫 사용 전 <code>/mcp</code>에서 로그인. "Notion 기획 페이지 요약해줘"</span></td><td><code>/plugin install notion@claude-plugins-official</code></td></tr>
+      <tr class="must"><td class="name"><div class="cell"><span class="nm">grill-me</span><span class="badges"><span class="tag g">필수</span><span class="tag k-s">스킬</span></span></div></td><td data-label="용도">질문으로 요구사항 확정</td><td data-label="호출 · 사용법"><span class="call"><code>/grill-me</code></span><span class="use">하고 싶은 일을 말하면 빠진 요구사항을 질문으로 캐냄</span></td><td data-label="설치">핵심 요약 참고</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">to-spec · to-tickets</span><span class="badges"><span class="tag k-s">스킬</span></span><span class="sub">Matt Pocock skills</span></div></td><td data-label="용도">요구사항 → 스펙·티켓</td><td data-label="호출 · 사용법"><span class="call"><code>/to-spec</code> · <code>/to-tickets</code></span><span class="use">grill 뒤에 실행. 티켓 게시는 <code>/setup-matt-pocock-skills</code> 먼저</span></td><td data-label="설치">grill-me와 같은 플러그인</td></tr>
+      <tr class="core"><td class="name"><div class="cell"><span class="nm">문서 스킬</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-s">스킬</span></span><span class="sub">pptx · docx</span></div></td><td data-label="용도">기획서 · 제안서 생성</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">"이 내용으로 PPT 만들어줘"</span></td><td data-label="설치"><code>/plugin marketplace add anthropics/skills</code> 후 <code>/plugin install document-skills@anthropic-agent-skills</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">Notion MCP</span><span class="badges"><span class="tag k-m">MCP</span></span></div></td><td data-label="용도">Notion 읽기·쓰기</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">첫 사용 전 <code>/mcp</code>에서 로그인. "Notion 기획 페이지 요약해줘"</span></td><td data-label="설치"><code>/plugin install notion@claude-plugins-official</code></td></tr>
     </tbody></table></div>
 </section>
 
@@ -530,11 +648,11 @@
   <div class="tblwrap rv"><table class="tbl t4">
     <thead><tr><th>항목</th><th>용도</th><th>호출 · 사용법</th><th>설치</th></tr></thead>
     <tbody>
-      <tr class="core"><td class="name"><div class="cell"><span class="nm">frontend-design</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-p">플러그인</span></span><span class="sub">공식</span></div></td><td>"AI 티" 나는 화면 방지</td><td><span class="call">자동</span><span class="use">UI 작업이면 자동 적용</span></td><td>핵심 요약 참고</td></tr>
-      <tr class="core"><td class="name"><div class="cell"><span class="nm">Figma MCP</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-m">MCP</span></span><span class="sub">공식</span></div></td><td>Figma → 코드·토큰</td><td><span class="call">자동</span><span class="use">첫 사용 전 <code>/mcp</code>에서 로그인. 링크 붙여넣고 "코드로 만들어줘"</span></td><td>핵심 요약 참고</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">design-taste-frontend</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td>디자인 취향 보정</td><td><span class="call">자동</span><span class="use">디자인 작업 시 자동</span></td><td><code>npx skills add Leonxlnx/taste-skill --skill design-taste-frontend</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">animate</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td>애니메이션 설계</td><td><span class="call">자동</span><span class="use">"호버 애니메이션 넣어줘"</span></td><td><code>npx skills add emilkowalski/skills</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">apple-design</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td>Apple식 모션·타이포</td><td><span class="call">자동</span><span class="use">"Apple 느낌 모션으로"</span></td><td>위와 같은 저장소</td></tr>
+      <tr class="core"><td class="name"><div class="cell"><span class="nm">frontend-design</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-p">플러그인</span></span><span class="sub">공식</span></div></td><td data-label="용도">"AI 티" 나는 화면 방지</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">UI 작업이면 자동 적용</span></td><td data-label="설치">핵심 요약 참고</td></tr>
+      <tr class="core"><td class="name"><div class="cell"><span class="nm">Figma MCP</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-m">MCP</span></span><span class="sub">공식</span></div></td><td data-label="용도">Figma → 코드·토큰</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">첫 사용 전 <code>/mcp</code>에서 로그인. 링크 붙여넣고 "코드로 만들어줘"</span></td><td data-label="설치">핵심 요약 참고</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">design-taste-frontend</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td data-label="용도">디자인 취향 보정</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">디자인 작업 시 자동</span></td><td data-label="설치"><code>npx skills add Leonxlnx/taste-skill --skill design-taste-frontend</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">animate</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td data-label="용도">애니메이션 설계</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">"호버 애니메이션 넣어줘"</span></td><td data-label="설치"><code>npx skills add emilkowalski/skills</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">apple-design</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td data-label="용도">Apple식 모션·타이포</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">"Apple 느낌 모션으로"</span></td><td data-label="설치">위와 같은 저장소</td></tr>
     </tbody></table></div>
   <div class="note rv">회사 디자인 시스템이 있으면 그쪽이 우선.</div>
 </section>
@@ -545,12 +663,12 @@
   <div class="tblwrap rv"><table class="tbl t4">
     <thead><tr><th>항목</th><th>용도</th><th>호출 · 사용법</th><th>설치</th></tr></thead>
     <tbody>
-      <tr class="core"><td class="name"><div class="cell"><span class="nm">Context7</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-m">MCP</span></span></div></td><td>최신 문서 참조</td><td><span class="call">자동</span><span class="use">라이브러리 질문 시 자동. "use context7"로 강제</span></td><td>핵심 요약 참고</td></tr>
-      <tr class="core"><td class="name"><div class="cell"><span class="nm">agent-browser</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-s">스킬 · CLI</span></span></div></td><td>브라우저로 화면 직접 확인</td><td><span class="call">자동</span><span class="use">"localhost:3000 열어서 확인해줘"</span></td><td>핵심 요약 참고</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">web-design-guidelines</span><span class="badges"><span class="tag k-s">스킬</span></span><span class="sub">Vercel</span></div></td><td>접근성·UX 감사</td><td><span class="call">자동</span><span class="use">"접근성 기준으로 검토해줘"</span></td><td><code>npx skills add vercel-labs/agent-skills</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">react-best-practices</span><span class="badges"><span class="tag k-s">스킬</span></span><span class="sub">Vercel</span></div></td><td>React 성능 규칙</td><td><span class="call">자동</span><span class="use">React 작성 시 자동</span></td><td>위와 같은 저장소</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">pick-ui-library</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td>UI 라이브러리 추천</td><td><span class="call"><code>/pick-ui-library</code></span><span class="use">요구를 말하면 라이브러리 1개 추천</span></td><td><code>npx skills add emilkowalski/skills</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">typescript-lsp</span><span class="badges"><span class="tag k-p">플러그인</span></span><span class="sub">공식</span></div></td><td>타입 오류 자동 확인</td><td><span class="call">자동</span><span class="use">타입 오류를 스스로 확인</span></td><td><code>npm i -g typescript-language-server typescript</code> 후 <code>/plugin install typescript-lsp@claude-plugins-official</code></td></tr>
+      <tr class="core"><td class="name"><div class="cell"><span class="nm">Context7</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-m">MCP</span></span></div></td><td data-label="용도">최신 문서 참조</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">라이브러리 질문 시 자동. "use context7"로 강제</span></td><td data-label="설치">핵심 요약 참고</td></tr>
+      <tr class="core"><td class="name"><div class="cell"><span class="nm">agent-browser</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-s">스킬 · CLI</span></span></div></td><td data-label="용도">브라우저로 화면 직접 확인</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">"localhost:3000 열어서 확인해줘"</span></td><td data-label="설치">핵심 요약 참고</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">web-design-guidelines</span><span class="badges"><span class="tag k-s">스킬</span></span><span class="sub">Vercel</span></div></td><td data-label="용도">접근성·UX 감사</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">"접근성 기준으로 검토해줘"</span></td><td data-label="설치"><code>npx skills add vercel-labs/agent-skills</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">react-best-practices</span><span class="badges"><span class="tag k-s">스킬</span></span><span class="sub">Vercel</span></div></td><td data-label="용도">React 성능 규칙</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">React 작성 시 자동</span></td><td data-label="설치">위와 같은 저장소</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">pick-ui-library</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td data-label="용도">UI 라이브러리 추천</td><td data-label="호출 · 사용법"><span class="call"><code>/pick-ui-library</code></span><span class="use">요구를 말하면 라이브러리 1개 추천</span></td><td data-label="설치"><code>npx skills add emilkowalski/skills</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">typescript-lsp</span><span class="badges"><span class="tag k-p">플러그인</span></span><span class="sub">공식</span></div></td><td data-label="용도">타입 오류 자동 확인</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">타입 오류를 스스로 확인</span></td><td data-label="설치"><code>npm i -g typescript-language-server typescript</code> 후 <code>/plugin install typescript-lsp@claude-plugins-official</code></td></tr>
     </tbody></table></div>
 </section>
 
@@ -560,10 +678,10 @@
   <div class="tblwrap rv"><table class="tbl t4">
     <thead><tr><th>항목</th><th>용도</th><th>호출 · 사용법</th><th>설치</th></tr></thead>
     <tbody>
-      <tr class="core"><td class="name"><div class="cell"><span class="nm">문서 스킬</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-s">스킬</span></span><span class="sub">docx · pptx · xlsx · pdf</span></div></td><td>워드·PPT·엑셀·PDF</td><td><span class="call">자동</span><span class="use">"이 내용으로 PPT 만들어줘"</span></td><td>핵심 요약 참고</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">humanizer</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td>AI 문체 제거</td><td><span class="call"><code>/humanizer</code></span><span class="use">글을 붙여넣고 실행</span></td><td><code>npx skills add blader/humanizer</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">Notion MCP</span><span class="badges"><span class="tag k-m">MCP</span></span></div></td><td>Notion 연동</td><td><span class="call">자동</span><span class="use">"Notion 기획 페이지 요약해줘"</span></td><td>기획 표와 동일</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">marketingskills</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td>마케팅 · SEO 스킬 묶음</td><td><span class="call">자동</span><span class="use">"이 페이지 SEO 감사해줘"</span></td><td><code>npx skills add coreyhaines31/marketingskills --skill seo-audit</code> (필요한 것만)</td></tr>
+      <tr class="core"><td class="name"><div class="cell"><span class="nm">문서 스킬</span><span class="badges"><span class="tag b">핵심</span><span class="tag k-s">스킬</span></span><span class="sub">docx · pptx · xlsx · pdf</span></div></td><td data-label="용도">워드·PPT·엑셀·PDF</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">"이 내용으로 PPT 만들어줘"</span></td><td data-label="설치">핵심 요약 참고</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">humanizer</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td data-label="용도">AI 문체 제거</td><td data-label="호출 · 사용법"><span class="call"><code>/humanizer</code></span><span class="use">글을 붙여넣고 실행</span></td><td data-label="설치"><code>npx skills add blader/humanizer</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">Notion MCP</span><span class="badges"><span class="tag k-m">MCP</span></span></div></td><td data-label="용도">Notion 연동</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">"Notion 기획 페이지 요약해줘"</span></td><td data-label="설치">기획 표와 동일</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">marketingskills</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td data-label="용도">마케팅 · SEO 스킬 묶음</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">"이 페이지 SEO 감사해줘"</span></td><td data-label="설치"><code>npx skills add coreyhaines31/marketingskills --skill seo-audit</code> (필요한 것만)</td></tr>
     </tbody></table></div>
 </section>
 
@@ -573,14 +691,14 @@
   <div class="tblwrap rv"><table class="tbl t4">
     <thead><tr><th>항목</th><th>용도</th><th>호출 · 사용법</th><th>설치 · 저장소</th></tr></thead>
     <tbody>
-      <tr><td class="name"><div class="cell"><span class="nm">claude-code-setup</span><span class="badges"><span class="tag k-p">플러그인</span></span><span class="sub">공식</span></div></td><td>맞는 훅·스킬·MCP 추천</td><td><span class="call">자동</span><span class="use">프로젝트 폴더에서 "이 프로젝트에 맞는 자동화 추천해줘"</span></td><td><code>/plugin install claude-code-setup@claude-plugins-official</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">claude-md-management</span><span class="badges"><span class="tag k-p">플러그인</span></span><span class="sub">공식</span></div></td><td>세션 학습을 CLAUDE.md에 반영</td><td><span class="call"><code>/revise-claude-md</code></span><span class="use">세션 끝에 실행. 점검은 "CLAUDE.md 감사해줘"</span></td><td><code>/plugin install claude-md-management@claude-plugins-official</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">find-skills</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td>필요한 스킬 검색 · 설치</td><td><span class="call">자동</span><span class="use">"PDF 다루는 스킬 있어?"</span></td><td><code>npx skills add vercel-labs/skills --skill find-skills</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">systematic-debugging</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td>원인부터 찾는 디버깅</td><td><span class="call">자동</span><span class="use">버그 보고 시 자동</span></td><td><code>npx skills add obra/superpowers --skill systematic-debugging</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">Ponytail</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td>코드 최소화</td><td><span class="call">자동</span><span class="use">코드 작성 시 자동. <code>/ponytail off</code>로 해제</span></td><td><code>/plugin marketplace add DietrichGebert/ponytail</code> 후 <code>/plugin install ponytail@ponytail</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">mcp-builder</span><span class="badges"><span class="tag k-s">스킬</span></span><span class="sub">공식</span></div></td><td>MCP 서버 제작 가이드</td><td><span class="call">자동</span><span class="use">"X 서비스용 MCP 서버 만들어줘"</span></td><td>example-skills (12장)</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">claude-code-setup</span><span class="badges"><span class="tag k-p">플러그인</span></span><span class="sub">공식</span></div></td><td data-label="용도">맞는 훅·스킬·MCP 추천</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">프로젝트 폴더에서 "이 프로젝트에 맞는 자동화 추천해줘"</span></td><td data-label="설치 · 저장소"><code>/plugin install claude-code-setup@claude-plugins-official</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">claude-md-management</span><span class="badges"><span class="tag k-p">플러그인</span></span><span class="sub">공식</span></div></td><td data-label="용도">세션 학습을 CLAUDE.md에 반영</td><td data-label="호출 · 사용법"><span class="call"><code>/revise-claude-md</code></span><span class="use">세션 끝에 실행. 점검은 "CLAUDE.md 감사해줘"</span></td><td data-label="설치 · 저장소"><code>/plugin install claude-md-management@claude-plugins-official</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">find-skills</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td data-label="용도">필요한 스킬 검색 · 설치</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">"PDF 다루는 스킬 있어?"</span></td><td data-label="설치 · 저장소"><code>npx skills add vercel-labs/skills --skill find-skills</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">systematic-debugging</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td data-label="용도">원인부터 찾는 디버깅</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">버그 보고 시 자동</span></td><td data-label="설치 · 저장소"><code>npx skills add obra/superpowers --skill systematic-debugging</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">Ponytail</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td data-label="용도">코드 최소화</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">코드 작성 시 자동. <code>/ponytail off</code>로 해제</span></td><td data-label="설치 · 저장소"><code>/plugin marketplace add DietrichGebert/ponytail</code> 후 <code>/plugin install ponytail@ponytail</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">mcp-builder</span><span class="badges"><span class="tag k-s">스킬</span></span><span class="sub">공식</span></div></td><td data-label="용도">MCP 서버 제작 가이드</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">"X 서비스용 MCP 서버 만들어줘"</span></td><td data-label="설치 · 저장소">example-skills (12장)</td></tr>
     
-      <tr><td class="name"><div class="cell"><span class="nm">context-mode</span><span class="badges"><span class="tag k-p">플러그인</span></span></div></td><td>툴 출력 격리로 토큰 절약</td><td><span class="call">자동</span><span class="use">설치하면 자동</span></td><td><code>/plugin marketplace add mksglu/context-mode</code> 후 <code>/plugin install context-mode@context-mode</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">context-mode</span><span class="badges"><span class="tag k-p">플러그인</span></span></div></td><td data-label="용도">툴 출력 격리로 토큰 절약</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">설치하면 자동</span></td><td data-label="설치 · 저장소"><code>/plugin marketplace add mksglu/context-mode</code> 후 <code>/plugin install context-mode@context-mode</code></td></tr>
     </tbody></table></div>
 </section>
 
@@ -604,14 +722,14 @@
   <div class="tblwrap rv"><table class="tbl t4">
     <thead><tr><th>항목</th><th>용도</th><th>호출 · 사용법</th><th>설치</th></tr></thead>
     <tbody>
-      <tr><td class="name"><div class="cell"><span class="nm">security-guidance</span><span class="badges"><span class="tag k-p">플러그인</span></span><span class="sub">누구나</span></div></td><td>비밀키·취약 코드 경고</td><td><span class="call">자동</span><span class="use">설치하면 편집 시 경고</span></td><td><code>/plugin install security-guidance@claude-plugins-official</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">learning-output-style</span><span class="badges"><span class="tag k-p">플러그인</span></span><span class="sub">누구나</span></div></td><td>핵심 코드를 직접 써 보는 학습 모드</td><td><span class="call">자동</span><span class="use">설치하면 켜짐. 설명형은 <code>/config</code> → Output style</span></td><td><code>/plugin install learning-output-style@claude-plugins-official</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">commit-commands</span><span class="badges"><span class="tag k-p">플러그인</span></span><span class="sub">퍼블리싱 · 프론트엔드</span></div></td><td>커밋·푸시·PR 한 번에</td><td><span class="call"><code>/commit</code> · <code>/commit-push-pr</code></span><span class="use">작업 끝에 실행. PR은 <code>gh</code> 로그인 필요</span></td><td><code>/plugin install commit-commands@claude-plugins-official</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">webapp-testing</span><span class="badges"><span class="tag k-s">스킬</span></span><span class="sub">퍼블리싱 · 프론트엔드</span></div></td><td>로컬 웹앱 Playwright 테스트</td><td><span class="call">자동</span><span class="use">Python · Playwright 설치 후 "이 페이지 테스트해줘"</span></td><td>example-skills (아래 설치)</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">web-artifacts-builder</span><span class="badges"><span class="tag k-s">스킬</span></span><span class="sub">퍼블리싱 · 프론트엔드</span></div></td><td>React 앱을 HTML 한 파일로</td><td><span class="call">자동</span><span class="use">"React로 만들어서 HTML 하나로 묶어줘"</span></td><td>example-skills</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">brand-guidelines</span><span class="badges"><span class="tag k-s">스킬</span></span><span class="sub">디자인</span></div></td><td>Anthropic 브랜드 적용 예제</td><td><span class="call">자동</span><span class="use">자사 브랜드는 SKILL.md 복사 후 색 · 서체 교체</span></td><td>example-skills</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">doc-coauthoring</span><span class="badges"><span class="tag k-s">스킬</span></span><span class="sub">문서 · 업무</span></div></td><td>제안서 · 스펙 공동 작성</td><td><span class="call">자동</span><span class="use">"제안서 같이 써 줘"</span></td><td>example-skills</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">internal-comms</span><span class="badges"><span class="tag k-s">스킬</span></span><span class="sub">문서 · 업무</span></div></td><td>사내 공지·보고 형식</td><td><span class="call">자동</span><span class="use">예제 양식 기준. 자사 양식은 SKILL.md 수정</span></td><td>example-skills</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">security-guidance</span><span class="badges"><span class="tag k-p">플러그인</span></span><span class="sub">누구나</span></div></td><td data-label="용도">비밀키·취약 코드 경고</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">설치하면 편집 시 경고</span></td><td data-label="설치"><code>/plugin install security-guidance@claude-plugins-official</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">learning-output-style</span><span class="badges"><span class="tag k-p">플러그인</span></span><span class="sub">누구나</span></div></td><td data-label="용도">핵심 코드를 직접 써 보는 학습 모드</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">설치하면 켜짐. 설명형은 <code>/config</code> → Output style</span></td><td data-label="설치"><code>/plugin install learning-output-style@claude-plugins-official</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">commit-commands</span><span class="badges"><span class="tag k-p">플러그인</span></span><span class="sub">퍼블리싱 · 프론트엔드</span></div></td><td data-label="용도">커밋·푸시·PR 한 번에</td><td data-label="호출 · 사용법"><span class="call"><code>/commit</code> · <code>/commit-push-pr</code></span><span class="use">작업 끝에 실행. PR은 <code>gh</code> 로그인 필요</span></td><td data-label="설치"><code>/plugin install commit-commands@claude-plugins-official</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">webapp-testing</span><span class="badges"><span class="tag k-s">스킬</span></span><span class="sub">퍼블리싱 · 프론트엔드</span></div></td><td data-label="용도">로컬 웹앱 Playwright 테스트</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">Python · Playwright 설치 후 "이 페이지 테스트해줘"</span></td><td data-label="설치">example-skills (아래 설치)</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">web-artifacts-builder</span><span class="badges"><span class="tag k-s">스킬</span></span><span class="sub">퍼블리싱 · 프론트엔드</span></div></td><td data-label="용도">React 앱을 HTML 한 파일로</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">"React로 만들어서 HTML 하나로 묶어줘"</span></td><td data-label="설치">example-skills</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">brand-guidelines</span><span class="badges"><span class="tag k-s">스킬</span></span><span class="sub">디자인</span></div></td><td data-label="용도">Anthropic 브랜드 적용 예제</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">자사 브랜드는 SKILL.md 복사 후 색 · 서체 교체</span></td><td data-label="설치">example-skills</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">doc-coauthoring</span><span class="badges"><span class="tag k-s">스킬</span></span><span class="sub">문서 · 업무</span></div></td><td data-label="용도">제안서 · 스펙 공동 작성</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">"제안서 같이 써 줘"</span></td><td data-label="설치">example-skills</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">internal-comms</span><span class="badges"><span class="tag k-s">스킬</span></span><span class="sub">문서 · 업무</span></div></td><td data-label="용도">사내 공지·보고 형식</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">예제 양식 기준. 자사 양식은 SKILL.md 수정</span></td><td data-label="설치">example-skills</td></tr>
     </tbody></table></div>
   <div class="note rv"><b>example-skills 설치.</b> <code>/plugin marketplace add anthropics/skills</code> 후 <code>/plugin install example-skills@anthropic-agent-skills</code></div>
 </section>
@@ -621,28 +739,29 @@
   <div class="tblwrap rv"><table class="tbl t4">
     <thead><tr><th>항목</th><th>판정</th><th>이유</th><th>대신</th></tr></thead>
     <tbody>
-      <tr><td class="name"><div class="cell"><span class="nm">superpowers</span><span class="badges"><span class="tag k-p">플러그인</span></span></div></td><td>비효율</td><td>워크플로 강제형이라 느리고 토큰을 더 쓴다는 평</td><td>grill-me · 필요한 스킬만 발췌(10장)</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">gstack</span><span class="badges"><span class="tag k-p">플러그인</span></span></div></td><td>비권장</td><td>스킬 40개+ 대형 셋업. 품질 편차 · 과장 논란</td><td>grill-me · 공식 플러그인</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">GitHub MCP</span><span class="badges"><span class="tag k-m">MCP</span></span></div></td><td>비효율</td><td>툴 85개+. <code>gh</code>로 대부분 대체</td><td><code>gh</code> 명령어</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">Playwright MCP</span><span class="badges"><span class="tag k-m">MCP</span></span></div></td><td>비효율</td><td>툴 50개+. MS도 코딩 에이전트엔 CLI 권장</td><td>agent-browser · Playwright CLI</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">Sequential Thinking MCP</span><span class="badges"><span class="tag k-m">MCP</span></span></div></td><td>비권장</td><td>내장 기능으로 충분</td><td>Plan 모드</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">Serena MCP</span><span class="badges"><span class="tag k-m">MCP</span></span></div></td><td>비권장</td><td>공식 LSP 플러그인 등장. 보안 이슈 제기 이력</td><td>typescript-lsp</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">caveman</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td>비효율</td><td>벤치마크에서 "간단히 답해"와 차이 없음</td><td>적게 설치 · <code>/context</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">mcproxy</span><span class="badges"><span class="tag k-t">도구</span></span></div></td><td>비권장</td><td>2026-01 이후 업데이트 없음. 내장 Tool Search로 대체</td><td>MCP Tool Search</td></tr>
-          <tr><td class="name"><div class="cell"><span class="nm">get-shit-done</span><span class="badges"><span class="tag k-t">도구</span></span></div></td><td>비권장</td><td>원 저장소 아카이브(open-gsd로 이전). 명령 많고 무거움</td><td>Plan 모드 · <code>grill-me</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">claude-mem</span><span class="badges"><span class="tag k-p">플러그인</span></span></div></td><td>비효율</td><td>리밋 소진 빠르고 자주 깨짐</td><td>CLAUDE.md · git 기록</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">ui-ux-pro-max</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td>비효율</td><td>Python 스크립트 의존 · 설정 복잡. frontend-design과 중복</td><td>frontend-design</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">code-review</span><span class="badges"><span class="tag k-p">플러그인</span></span></div></td><td>비효율</td><td>내장 명령과 중복</td><td>내장 <code>/code-review</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">code-simplifier</span><span class="badges"><span class="tag k-p">플러그인</span></span></div></td><td>비효율</td><td>내장 명령과 중복</td><td>내장 <code>/simplify</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">graphify</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td>비권장</td><td>코드 · 문서 지식 그래프. 이 업무엔 과함</td><td>필요 없음</td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">headroom · RTK</span><span class="badges"><span class="tag k-t">도구</span></span></div></td><td>비효율</td><td>툴 출력 · 터미널 압축. 개발 세션용</td><td>적게 설치 · <code>/context</code></td></tr>
-      <tr><td class="name"><div class="cell"><span class="nm">ccstatusline · claude-hud</span><span class="badges"><span class="tag k-t">도구</span></span></div></td><td>비효율</td><td>상태줄 꾸미기용</td><td>내장 <code>/statusline</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">superpowers</span><span class="badges"><span class="tag k-p">플러그인</span></span></div></td><td data-label="판정">비효율</td><td data-label="이유">워크플로 강제형이라 느리고 토큰을 더 쓴다는 평</td><td data-label="대신">grill-me · 필요한 스킬만 발췌(10장)</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">gstack</span><span class="badges"><span class="tag k-p">플러그인</span></span></div></td><td data-label="판정">비권장</td><td data-label="이유">스킬 40개+ 대형 셋업. 품질 편차 · 과장 논란</td><td data-label="대신">grill-me · 공식 플러그인</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">GitHub MCP</span><span class="badges"><span class="tag k-m">MCP</span></span></div></td><td data-label="판정">비효율</td><td data-label="이유">툴 85개+. <code>gh</code>로 대부분 대체</td><td data-label="대신"><code>gh</code> 명령어</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">Playwright MCP</span><span class="badges"><span class="tag k-m">MCP</span></span></div></td><td data-label="판정">비효율</td><td data-label="이유">툴 50개+. MS도 코딩 에이전트엔 CLI 권장</td><td data-label="대신">agent-browser · Playwright CLI</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">Sequential Thinking MCP</span><span class="badges"><span class="tag k-m">MCP</span></span></div></td><td data-label="판정">비권장</td><td data-label="이유">내장 기능으로 충분</td><td data-label="대신">Plan 모드</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">Serena MCP</span><span class="badges"><span class="tag k-m">MCP</span></span></div></td><td data-label="판정">비권장</td><td data-label="이유">공식 LSP 플러그인 등장. 보안 이슈 제기 이력</td><td data-label="대신">typescript-lsp</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">caveman</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td data-label="판정">비효율</td><td data-label="이유">벤치마크에서 "간단히 답해"와 차이 없음</td><td data-label="대신">적게 설치 · <code>/context</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">mcproxy</span><span class="badges"><span class="tag k-t">도구</span></span></div></td><td data-label="판정">비권장</td><td data-label="이유">2026-01 이후 업데이트 없음. 내장 Tool Search로 대체</td><td data-label="대신">MCP Tool Search</td></tr>
+          <tr><td class="name"><div class="cell"><span class="nm">get-shit-done</span><span class="badges"><span class="tag k-t">도구</span></span></div></td><td data-label="판정">비권장</td><td data-label="이유">원 저장소 아카이브(open-gsd로 이전). 명령 많고 무거움</td><td data-label="대신">Plan 모드 · <code>grill-me</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">claude-mem</span><span class="badges"><span class="tag k-p">플러그인</span></span></div></td><td data-label="판정">비효율</td><td data-label="이유">리밋 소진 빠르고 자주 깨짐</td><td data-label="대신">CLAUDE.md · git 기록</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">ui-ux-pro-max</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td data-label="판정">비효율</td><td data-label="이유">Python 스크립트 의존 · 설정 복잡. frontend-design과 중복</td><td data-label="대신">frontend-design</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">code-review</span><span class="badges"><span class="tag k-p">플러그인</span></span></div></td><td data-label="판정">비효율</td><td data-label="이유">내장 명령과 중복</td><td data-label="대신">내장 <code>/code-review</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">code-simplifier</span><span class="badges"><span class="tag k-p">플러그인</span></span></div></td><td data-label="판정">비효율</td><td data-label="이유">내장 명령과 중복</td><td data-label="대신">내장 <code>/simplify</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">graphify</span><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td data-label="판정">비권장</td><td data-label="이유">코드 · 문서 지식 그래프. 이 업무엔 과함</td><td data-label="대신">필요 없음</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">headroom · RTK</span><span class="badges"><span class="tag k-t">도구</span></span></div></td><td data-label="판정">비효율</td><td data-label="이유">툴 출력 · 터미널 압축. 개발 세션용</td><td data-label="대신">적게 설치 · <code>/context</code></td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">ccstatusline · claude-hud</span><span class="badges"><span class="tag k-t">도구</span></span></div></td><td data-label="판정">비효율</td><td data-label="이유">상태줄 꾸미기용</td><td data-label="대신">내장 <code>/statusline</code></td></tr>
     </tbody></table></div>
 </section>
 
 </main>
 </div>
 
+<button class="totop" type="button" aria-label="맨 위로">↑</button>
 <footer><div class="shell row"><span><b>Claude Code 업무별 스킬 · 플러그인</b></span><span>2026-09 기준</span></div></footer>
 </div>
 
@@ -653,6 +772,20 @@
   var links=[].slice.call(document.querySelectorAll('#toc a'));var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
   var so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('on');});var i=secs.indexOf(e.target);if(i>-1)links[i].classList.add('on');}});},{rootMargin:'-30% 0px -60% 0px'});
   secs.forEach(function(s){if(s)so.observe(s);});
+  // 목차 패널: 태블릿 이하는 접힌 상태로 시작, 항목을 누르면 닫히고, 바에 현재 섹션을 표시
+  var box=document.querySelector('.tocbox'),cur=document.getElementById('toccur'),mq=window.matchMedia('(max-width:1080px)');
+  function sync(){box.open=!mq.matches;}
+  sync();mq.addEventListener?mq.addEventListener('change',sync):mq.addListener(sync);
+  links.forEach(function(a){a.addEventListener('click',function(){if(mq.matches)box.open=false;});});
+  document.addEventListener('click',function(e){if(mq.matches&&box.open&&!box.contains(e.target))box.open=false;});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mq.matches)box.open=false;});
+  new MutationObserver(function(){var on=document.querySelector('#toc a.on');if(on&&cur)cur.innerHTML=on.innerHTML;}).observe(document.getElementById('toc'),{attributes:true,subtree:true,attributeFilter:['class']});
+  // 읽기 진행선
+  var asideEl=document.querySelector('aside');
+  window.addEventListener('scroll',function(){var d=document.documentElement;var max=d.scrollHeight-d.clientHeight;asideEl.style.setProperty('--p',(max>0?Math.min(100,window.scrollY/max*100):0).toFixed(1)+'%');},{passive:true});
+  // 맨 위로
+  var top=document.querySelector('.totop');
+  if(top){window.addEventListener('scroll',function(){top.classList.toggle('show',window.scrollY>600);},{passive:true});top.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});}
 })();
 </script>
 </body>
