@@ -1,6 +1,6 @@
 # Claude Code, 업무별로 쓸 만한 스킬·플러그인
 
-기획·디자인·퍼블리싱·프론트엔드·문서 업무 기준. 여러 곳에서 반복 추천되고 평가가 좋은 것 위주. (2026-09 기준)
+기획·디자인·퍼블리싱·프론트엔드·문서 업무 기준. 여러 곳에서 반복 추천되고 평가가 좋은 것 위주. (2026-09 기준 · 공식 문서: https://code.claude.com/docs)
 
 ---
 
@@ -20,18 +20,18 @@
 
 ## 1. 시작하기 A–Z
 
-유료 플랜 필요. `PS C:\…>`는 프롬프트, `>`는 Claude에게 치는 말, `⏺`는 Claude의 답.
+유료 플랜 + Node.js(nodejs.org, LTS) 필요. `PS C:\…>`는 PowerShell 창, `>`는 Claude에게 치는 말, `⏺`는 Claude의 답.
 
 ### A. 설치와 확인
 
-한 줄 붙여넣고 버전이 찍히면 끝. 이 방식은 업데이트도 자동, 문제는 `claude doctor`.
+한 줄 붙여넣고 버전이 찍히면 끝. 이 방식은 업데이트도 자동, 문제는 `claude doctor`. 터미널이 낯설면 데스크톱 앱(claude.com/download).
 
 ```text
 # Windows PowerShell — 설치와 확인
-PS C:\Users\soonu> irm https://claude.ai/install.ps1 | iex
+PS C:\Users\<이름>> irm https://claude.ai/install.ps1 | iex
 Installing Claude Code...
-✔ Installed to C:\Users\soonu\.local\bin\claude.exe
-PS C:\Users\soonu> claude --version
+✔ Installed to C:\Users\<이름>\.local\bin\claude.exe
+PS C:\Users\<이름>> claude --version
 2.1.263 (Claude Code)
 ```
 
@@ -41,7 +41,7 @@ PS C:\Users\soonu> claude --version
 
 ```text
 # Windows PowerShell — 로그인 · 첫 실행 · /init
-PS C:\Users\soonu> cd C:\work\my-project
+PS C:\Users\<이름>> cd C:\work\my-project
 PS C:\work\my-project> claude
 Opening browser to log in...   (처음 한 번만)
 > 이 프로젝트가 뭐 하는 건지 설명해줘
@@ -53,7 +53,7 @@ Opening browser to log in...   (처음 한 번만)
 
 ### C. 플러그인 · MCP · 스킬 붙이기
 
-플러그인은 Claude 안에서, MCP·스킬은 프롬프트에서.
+플러그인은 Claude 안에서, MCP·스킬은 PowerShell 창에서.
 
 ```text
 # Windows PowerShell — 플러그인 · MCP · 스킬
@@ -61,7 +61,7 @@ Opening browser to log in...   (처음 한 번만)
 ✔ Installed skill-creator
 > /plugin install mattpocock-skills@claude-plugins-official
 ✔ Installed mattpocock-skills   (/grill-me, /to-spec, /to-tickets)
-# MCP와 npx 스킬은 Claude를 나와서(Ctrl+D) 프롬프트에서
+# MCP와 스킬은 Claude를 나와서(Ctrl+D) PowerShell 창에서
 PS C:\work\my-project> npx ctx7 setup
 ✔ Context7 connected   (브라우저에서 API 키 발급)
 PS C:\work\my-project> npm i -g agent-browser && agent-browser install
@@ -69,9 +69,6 @@ PS C:\work\my-project> npx skills add vercel-labs/agent-browser
 ✔ Installed skill agent-browser
 ```
 
-### D. 에디터에서 쓰기
-
-VS Code·Cursor·JetBrains 모두 확장 마켓에서 "Claude Code" 설치. 터미널이 낯설면 데스크톱 앱(claude.com/download).
 
 ### 자주 쓰는 명령 한눈에
 
@@ -133,7 +130,7 @@ PS C:\work\design-system> claude
 ```
 
 <details>
-<summary><b>B. PowerShell 프롬프트에서</b> — `Tab` 자동 완성 · `Esc` 지우기 · `Ctrl+R` 검색 · 자주 쓰는 명령 5</summary>
+<summary><b>B. PowerShell 창에서</b> — `Tab` 자동 완성 · `Esc` 지우기 · `Ctrl+R` 검색 · 자주 쓰는 명령 5</summary>
 
 | 하는 일 | 키 | 메모 |
 |---|---|---|
@@ -149,7 +146,7 @@ PS C:\work\design-system> claude
 | 단어 하나 지우기 | `Ctrl+Backspace` |  |
 | 화면 지우기 | `Ctrl+L` | `cls`와 같음 |
 | 되돌리기 | `Ctrl+Z` | 입력 편집 취소 |
-| 여러 줄 명령 | `Shift+Enter` | PowerShell 프롬프트에서는 됨 (Claude 안에서는 Ctrl+J) |
+| 여러 줄 명령 | `Shift+Enter` | PowerShell 창에서는 됨 (Claude 안에서는 Ctrl+J) |
 | 경로 넣기 | 탐색기에서 폴더를 창으로 드래그 | 경로가 그대로 붙음 |
 
 **자주 쓰는 명령 다섯 개**
@@ -184,10 +181,10 @@ PS C:\work\design-system> claude
 | 단축키 도움말 | `?` | 빈 입력창에서 누르면 모든 단축키가 뜸 |
 | 답변 멈추기 `필수` | `Esc` |  |
 | 되감기 `필수` | `Esc` 두 번 | 이전 지점으로 돌아가 다시 시도 |
-| 입력 지우기 · 중단 | `Ctrl+C` | 입력 중이면 지우기, 실행 중이면 중단. PowerShell 프롬프트에서도 같음 |
+| 입력 지우기 · 중단 | `Ctrl+C` | 입력 중이면 지우기, 실행 중이면 중단. PowerShell 창에서도 같음 |
 | 종료 | `Ctrl+D` |  |
 | 여러 줄 입력 `필수` | `Ctrl+J` | 안 되면 줄 끝에 `\` 치고 Enter |
-| 이전 입력 | `↑` | PowerShell 프롬프트에서도 같음 |
+| 이전 입력 | `↑` | PowerShell 창에서도 같음 |
 | 권한 모드 전환 `필수` | `Shift+Tab` | Manual → acceptEdits → Plan → auto 순환 |
 | 이미지 붙이기 `필수` | `Alt+V` | 스크린샷 복사 후 바로. 파일 드래그도 됨 |
 | 대화 맨 위로 | `Ctrl+Home` | 전체화면 모드에서. 마우스 휠도 됨 |
@@ -231,11 +228,13 @@ PS C:\work\design-system> claude
 
 ## 3. 활용 예시
 
-요구사항 → 디자인 → 검증 → 문서. 실제 대화 그대로, 이렇게 말하면 됩니다.
+하루 업무를 네 장면으로. `>`가 내가 치는 말, `⏺`가 Claude의 답입니다.
+
+설치한 플러그인·스킬은 `/이름`으로 직접 부르거나(장면 1), 말만 하면 알아서 쓰입니다(장면 2~4).
 
 ### 1. 요구사항 확정 → 스펙 → 티켓
 
-mattpocock-skills의 `/grill-me` → `/to-spec` → `/to-tickets`.
+만들 것을 한 줄로 말하면 Claude가 먼저 질문해서 빈 곳을 채우고, 그 답을 스펙 문서와 작업 티켓으로 만듭니다. `/grill-me`로 시작해 질문에 답만 하면 됩니다(플러그인 mattpocock-skills).
 
 ```text
 # Windows PowerShell — 요구사항 → 스펙 → 티켓
@@ -251,20 +250,20 @@ mattpocock-skills의 `/grill-me` → `/to-spec` → `/to-tickets`.
 
 ### 2. 디자인 → 코드
 
-Figma 링크(node-id 포함)를 붙여넣으면 Figma MCP가 읽습니다.
+Figma에서 컴포넌트를 선택해 링크를 복사(우클릭 → 링크 복사)하고 붙여넣으면 디자인을 읽어 코드로 만듭니다(플러그인 figma). 지킬 규칙이 있으면 "우리 변수로"처럼 한 문장만 덧붙입니다.
 
 ```text
 # Windows PowerShell — 디자인 → 코드
-> https://www.figma.com/design/xxxx?node-id=12-345 이 컴포넌트를 우리 토큰으로 코드화해줘
+> https://www.figma.com/design/xxxx?node-id=12-345 이 컴포넌트를 우리 색·간격 변수로 코드화해줘
 ⏺ figma - get_design_context(node 12-345)
 ⏺ Write(src/components/Button.tsx)
 ⏺ Write(src/components/button.scss)
-⏺ 색·간격을 토큰(--color-primary, --space-3)에 매핑했습니다.
+⏺ 색·간격을 변수(--color-primary, --space-3)에 맞췄습니다.
 ```
 
 ### 3. 화면 검증
 
-agent-browser가 화면을 열어 보고, web-design-guidelines가 접근성을 검토합니다.
+만든 화면이 실제로 뜨는지 Claude가 브라우저를 열어 눌러 보고 스크린샷으로 보여 줍니다(스킬 agent-browser). 이어서 "접근성 기준으로"처럼 보고 싶은 관점을 말하면 그 기준으로 검토합니다(스킬 web-design-guidelines).
 
 ```text
 # Windows PowerShell — 화면 검증
@@ -277,7 +276,7 @@ agent-browser가 화면을 열어 보고, web-design-guidelines가 접근성을 
 
 ### 4. 문서 업무와 마무리
 
-문서 스킬은 준비물(04장)만 갖추면 자동. 커밋도 말로.
+PDF·엑셀·PPT는 파일 이름과 원하는 결과만 말하면 됩니다(플러그인 document-skills, 준비물은 06장 문서 탭). 작업이 끝나면 "커밋해줘" 한마디로 변경 내용을 기록합니다(git을 쓰는 프로젝트일 때).
 
 ```text
 # Windows PowerShell — 문서 업무와 마무리
@@ -290,30 +289,27 @@ agent-browser가 화면을 열어 보고, web-design-guidelines가 접근성을 
 ⏺ 커밋했습니다.
 ```
 
-> 팁: "로그인 버그 고쳐줘"보다 "비밀번호 틀리면 빈 화면 뜨는 버그 고쳐줘"처럼 구체적으로.
+> 팁: "로그인 버그 고쳐줘"보다 "비밀번호 틀리면 빈 화면 뜨는 버그 고쳐줘"처럼 구체적으로. 결과가 마음에 안 들면 "왜 그렇게 했어?"라고 묻거나 `Esc` 두 번으로 되감아 다시 시킵니다.
 
 ---
 
 ## 4. 핵심 요약 — 이것만 알아도 됨
 
-업무와 상관없이 먼저 설치할 8개. 이 표만 따라 해도 됩니다.
+업무와 상관없이 꼭 설치할 7개. 업무별 도구는 06장.
 
 `필수` = 누구나 · `핵심` = 업무별 기본 · `/이름` = 직접 호출 · 자동 = 설치만.
 
 | 항목 | 한 줄 | 호출 · 사용법 | 설치 |
 |---|---|---|---|
-| **Hooks** `필수` · 설정 | 위험 명령 차단·종료 검사 | **설정** `/hookify`에 규칙을 말하면 훅 생성 | `/plugin install hookify@claude-plugins-official` |
-| **skill-creator** `필수` · 플러그인 | 반복 지시를 스킬로 | **`/skill-creator`** 반복 지시를 설명하면 스킬 파일 생성 | `/plugin install skill-creator@claude-plugins-official` |
-| **grill-me** `필수` · 스킬 | 시작 전 요구사항 검증 | **`/grill-me`** 하고 싶은 일을 말하면 질문으로 검증 | `/plugin install mattpocock-skills@claude-plugins-official` |
-| **Context7** `핵심` · MCP | 최신 문서 참조 | **자동** 라이브러리 질문 시 자동. "use context7"로 강제 | `npx ctx7 setup` (API 키 발급 · MCP 등록 자동) |
-| **agent-browser** `핵심` · 스킬 · CLI | 브라우저로 화면 확인 | **자동** "localhost:3000 열어서 확인해줘" | `npm i -g agent-browser && agent-browser install` 후 `npx skills add vercel-labs/agent-browser` |
-| **frontend-design** `핵심` · 플러그인 | "AI 티" 나는 화면 방지 | **자동** UI 작업이면 자동 적용 | `/plugin install frontend-design@claude-plugins-official` |
-| **Figma MCP** `핵심` · MCP | Figma → 코드·토큰 | **자동** 첫 사용 전 `/mcp`에서 로그인. 링크 붙여넣고 "코드로 만들어줘" | `/plugin install figma@claude-plugins-official` |
-| **문서 스킬** `핵심` · 스킬 | 워드·PPT·엑셀·PDF | **자동** "이 내용으로 PPT 만들어줘" | `/plugin marketplace add anthropics/skills` 후 `/plugin install document-skills@anthropic-agent-skills` |
+| **[skill-creator](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/skill-creator)** `필수` · 플러그인 | 반복 지시를 스킬로 | **`/skill-creator`** 반복 지시를 설명하면 스킬 파일 생성 | `/plugin install skill-creator@claude-plugins-official` |
+| **[grill-me](https://github.com/mattpocock/skills/tree/main/skills/productivity/grill-me)** `필수` · 스킬 | 시작 전 요구사항 검증 | **`/grill-me`** 하고 싶은 일을 말하면 질문으로 검증 | `/plugin install mattpocock-skills@claude-plugins-official` |
+| **[find-skills](https://github.com/vercel-labs/skills/tree/main/skills/find-skills)** `필수` · 스킬 | 필요한 스킬 검색·설치 | **자동** "PDF 다루는 스킬 있어?" | `npx skills add vercel-labs/skills --skill find-skills` |
+| **[security-guidance](https://code.claude.com/docs/en/security-guidance)** `필수` · 플러그인 | 비밀키·취약 코드 경고 | **자동** Python 설치 후. 편집 시 경고 | `/plugin install security-guidance@claude-plugins-official` |
+| **[Hooks](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/hookify)** `필수` · 설정 | 위험 명령 차단·종료 전 검사 | **설정** `/hookify`에 "삭제 명령 막아줘"처럼 말하면 훅 생성 | `/plugin install hookify@claude-plugins-official` |
+| **[humanizer](https://github.com/blader/humanizer)** `필수` · 스킬 | AI 문체 제거 | **`/humanizer`** 글을 붙여넣고 실행 | `npx skills add blader/humanizer` |
+| **[claude-md-management](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/claude-md-management)** `필수` (공식) · 플러그인 | 세션 학습을 CLAUDE.md에 반영 | **`/revise-claude-md`** 세션 끝에 실행. 점검은 "CLAUDE.md 감사해줘" | `/plugin install claude-md-management@claude-plugins-official` |
 
 > 원칙: 적게 설치(MCP 3~6, 스킬 8~12). 명령어로 되면 MCP 대신 스킬·CLI.
-
-> 준비물: 문서 스킬은 Node.js·Python·LibreOffice·Poppler가 있어야 파일이 만들어집니다. 플러그인 스킬의 정식 호출은 `/플러그인:스킬`이며 겹치지 않으면 `/스킬`도 됩니다.
 
 ---
 
@@ -325,105 +321,114 @@ agent-browser가 화면을 열어 보고, web-design-guidelines가 접근성을 
 
 | 모드 | 동작 | 언제 |
 |---|---|---|
-| **Manual** (default) | 도구별 첫 사용 시 확인 | Enterprise·API 키·`-p`의 기본. 처음 익힐 때 |
+| **Manual** (default) | 도구별 첫 사용 시 확인 | 하나씩 확인받고 싶을 때. 일반 플랜 기본은 auto |
 | **acceptEdits** | 파일 편집 자동 승인 | 평소 작업. 확인 창 줄이기 |
 | **Plan** | 파일 수정 없이 읽기·계획 | 시작 전 계획 세울 때 |
-| **auto** | 안전 검사 후 자동 승인 | Pro·Max·Team의 기본(2.1.228+). 긴 작업 |
-| **dontAsk** | 허용 목록 외 자동 거부 | `--permission-mode dontAsk`로만. Shift+Tab엔 없음 |
+| **auto** | 안전 검사 후 자동 승인 | Pro·Max·Team 기본. 긴 작업 맡길 때 |
+| **dontAsk** | 허용 목록 외 자동 거부 | 명령줄 옵션으로만 켬. Shift+Tab엔 없음 |
 | **bypassPermissions** (`claude --dangerously-skip-permissions`) | 확인 없이 전부 실행 | 격리 환경(컨테이너·VM)에서만. 차단 훅 먼저 |
 
 ### 습관 4개
 
 | 항목 | 무엇 |
 |---|---|
-| `/context` | 도구가 쓰는 토큰 확인. MCP 20k 이하 유지 |
-| `/statusline` | 아래에 모델·컨텍스트·폴더 표시. 입력하면 자동 설정 |
+| `/context` | 도구가 쓰는 토큰 확인. MCP가 많이 차지하면 끄기 |
+| `/statusline` | 아래에 모델·컨텍스트·폴더 표시. 입력하면 자동 설정. 더 풍부하게는 [claude-hud](https://github.com/jarrodwatts/claude-hud) |
 | `/clear` · `/compact` | 작업 바뀌면 clear, 길어지면 compact |
-| CLAUDE.md 짧게 | `/init`으로 만들고 200줄 미만. 강제는 훅으로 |
+| CLAUDE.md 짧게 | `/init`으로 만들고 200줄 미만 |
 
 ---
 
-## 6. 기획
+## 6. 업무별 도구
+
+내 업무 하나만 보면 됩니다. 겹치는 도구는 04 핵심 요약에 있습니다.
+
+### 기획
 
 요구사항을 질문으로 확정하고 스펙·티켓·기획서로 만드는 도구.
 
 | 항목 | 용도 | 호출 · 사용법 | 설치 |
 |---|---|---|---|
-| **grill-me** `필수` · 스킬 | 질문으로 요구사항 확정 | **`/grill-me`** 하고 싶은 일을 말하면 질문으로 검증 | 핵심 요약 참고 |
-| **to-spec · to-tickets** · 스킬 | 요구사항 → 스펙·티켓 | **`/to-spec` · `/to-tickets`** grill 뒤에 실행. 티켓 게시는 `/setup-matt-pocock-skills` 먼저 | grill-me와 같은 플러그인 |
-| **문서 스킬** `핵심` (pptx·docx) · 스킬 | 기획서·제안서 생성 | **자동** "이 내용으로 PPT 만들어줘" | `/plugin marketplace add anthropics/skills` 후 `/plugin install document-skills@anthropic-agent-skills` |
-| **Notion MCP** · MCP | Notion 읽기·쓰기 | **자동** 첫 사용 전 `/mcp`에서 로그인. "Notion 기획 페이지 요약해줘" | `/plugin install notion@claude-plugins-official` |
+| **[grill-me](https://github.com/mattpocock/skills/tree/main/skills/productivity/grill-me)** `필수` · 스킬 | 질문으로 요구사항 확정 | **`/grill-me`** 하고 싶은 일을 말하면 질문으로 검증 | 핵심 요약 참고 |
+| **[to-spec · to-tickets](https://github.com/mattpocock/skills/tree/main/skills/engineering)** · 스킬 | 요구사항 → 스펙·티켓 | **`/to-spec` · `/to-tickets`** grill 뒤에 실행. 티켓 게시는 `/setup-matt-pocock-skills` 먼저 | grill-me와 같은 플러그인 |
+| **[문서 스킬](https://github.com/anthropics/skills/tree/main/skills)** `핵심` (pptx·docx) · 스킬 | 기획서·제안서 생성 | **자동** "이 내용으로 PPT 만들어줘" | `/plugin marketplace add anthropics/skills` 후 `/plugin install document-skills@anthropic-agent-skills` |
+| **[Notion MCP](https://github.com/makenotion/claude-code-notion-plugin)** · MCP | Notion 읽기·쓰기 | **자동** 첫 사용 전 `/mcp`에서 로그인. "Notion 기획 페이지 요약해줘" | `/plugin install notion@claude-plugins-official` |
 
----
-
-## 7. 디자인
+### 디자인
 
 Figma에서 코드까지. 결과물이 평범해지지 않게 잡아 주는 도구.
 
 | 항목 | 용도 | 호출 · 사용법 | 설치 |
 |---|---|---|---|
-| **frontend-design** `핵심` (공식) · 플러그인 | "AI 티" 나는 화면 방지 | **자동** UI 작업이면 자동 적용 | 핵심 요약 참고 |
-| **Figma MCP** `핵심` (공식) · MCP | Figma → 코드·토큰 | **자동** 첫 사용 전 `/mcp`에서 로그인. 링크 붙여넣고 "코드로 만들어줘" | 핵심 요약 참고 |
-| **design-taste-frontend** · 스킬 | 디자인 취향 보정 | **자동** 디자인 작업 시 자동 | `npx skills add Leonxlnx/taste-skill --skill design-taste-frontend` |
-| **animate** · 스킬 | 애니메이션 설계 | **자동** "호버 애니메이션 넣어줘" | `npx skills add emilkowalski/skills` |
-| **apple-design** · 스킬 | Apple식 모션·타이포 | **자동** "Apple 느낌 모션으로" | 위와 같은 저장소 |
+| **[frontend-design](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/frontend-design)** `핵심` (공식) · 플러그인 | "AI 티" 나는 화면 방지 | **자동** UI 작업이면 자동 적용 | `/plugin install frontend-design@claude-plugins-official` |
+| **[Figma MCP](https://developers.figma.com/docs/figma-mcp-server/)** `핵심` (공식) · MCP | Figma → 코드·스타일 변수 | **자동** 첫 사용 전 `/mcp`에서 로그인. 링크 붙여넣고 "코드로 만들어줘" | `/plugin install figma@claude-plugins-official` |
+| **[design-taste-frontend](https://github.com/Leonxlnx/taste-skill/tree/main/skills/taste-skill)** · 스킬 | 디자인 취향 보정 | **자동** 디자인 작업 시 자동 | `npx skills add Leonxlnx/taste-skill --skill design-taste-frontend` |
+| **[animate](https://github.com/emilkowalski/skills/tree/main/skills/animate)** · 스킬 | 애니메이션 설계 | **자동** "호버 애니메이션 넣어줘" | `npx skills add emilkowalski/skills` |
+| **[apple-design](https://github.com/emilkowalski/skills/tree/main/skills/apple-design)** · 스킬 | Apple식 모션·타이포 | **자동** "Apple 느낌 모션으로" | 위와 같은 저장소 |
+| **[ui-ux-pro-max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)** · 플러그인 | 팔레트·서체·UX 규칙 데이터베이스 검색 | **자동** 디자인 작업 시 규칙을 찾아 적용. frontend-design과 역할이 겹치면 하나만 | `/plugin marketplace add nextlevelbuilder/ui-ux-pro-max-skill` 후 `/plugin install ui-ux-pro-max@ui-ux-pro-max-skill` |
 
 > 회사 디자인 시스템이 있으면 그쪽이 우선.
 
----
-
-## 8. 퍼블리싱 · 프론트엔드
+### 퍼블리싱 · 프론트엔드
 
 최신 문서 참조·화면 검증·타입과 성능 규칙.
 
 | 항목 | 용도 | 호출 · 사용법 | 설치 |
 |---|---|---|---|
-| **Context7** `핵심` · MCP | 최신 문서 참조 | **자동** 라이브러리 질문 시 자동. "use context7"로 강제 | 핵심 요약 참고 |
-| **agent-browser** `핵심` · 스킬 · CLI | 브라우저로 화면 직접 확인 | **자동** "localhost:3000 열어서 확인해줘" | 핵심 요약 참고 |
-| **web-design-guidelines** (Vercel) · 스킬 | 접근성·UX 감사 | **자동** "접근성 기준으로 검토해줘" | `npx skills add vercel-labs/agent-skills` |
-| **react-best-practices** (Vercel) · 스킬 | React 성능 규칙 | **자동** React 작성 시 자동 | 위와 같은 저장소 |
-| **pick-ui-library** · 스킬 | UI 라이브러리 추천 | **`/pick-ui-library`** 요구를 말하면 라이브러리 1개 추천 | `npx skills add emilkowalski/skills` |
-| **typescript-lsp** (공식) · 플러그인 | 타입 오류 자동 확인 | **자동** 타입 오류를 스스로 확인 | `npm i -g typescript-language-server typescript` 후 `/plugin install typescript-lsp@claude-plugins-official` |
+| **[Context7](https://github.com/upstash/context7)** `핵심` · MCP | 최신 문서 참조 | **자동** 라이브러리 질문 시 자동. "use context7"로 강제 | `npx ctx7 setup` (API 키 발급 · MCP 등록 자동) |
+| **[agent-browser](https://github.com/vercel-labs/agent-browser)** `핵심` · 스킬 · CLI | 브라우저로 화면 직접 확인 | **자동** "localhost:3000 열어서 확인해줘" | `npm i -g agent-browser && agent-browser install` 후 `npx skills add vercel-labs/agent-browser` |
+| **[web-design-guidelines](https://github.com/vercel-labs/agent-skills/tree/main/skills/web-design-guidelines)** (Vercel) · 스킬 | 접근성·UX 감사 | **자동** "접근성 기준으로 검토해줘" | `npx skills add vercel-labs/agent-skills` |
+| **[react-best-practices](https://github.com/vercel-labs/agent-skills/tree/main/skills/react-best-practices)** (Vercel) · 스킬 | React 성능 규칙 | **자동** React 작성 시 자동 | 위와 같은 저장소 |
+| **[pick-ui-library](https://github.com/emilkowalski/skills/tree/main/skills/pick-ui-library)** · 스킬 | UI 라이브러리 추천 | **`/pick-ui-library`** 요구를 말하면 라이브러리 1개 추천 | `npx skills add emilkowalski/skills` |
+| **[typescript-lsp](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/typescript-lsp)** (공식) · 플러그인 | 타입 오류 자동 확인 | **자동** 타입 오류를 스스로 확인 | `npm i -g typescript-language-server typescript` 후 `/plugin install typescript-lsp@claude-plugins-official` |
 
----
-
-## 9. 문서 · 업무
+### 문서 · 업무
 
 워드·PPT·엑셀·PDF와 Notion, 문체 정리.
 
 | 항목 | 용도 | 호출 · 사용법 | 설치 |
 |---|---|---|---|
-| **문서 스킬** `핵심` (docx·pptx·xlsx·pdf) · 스킬 | 워드·PPT·엑셀·PDF | **자동** "이 내용으로 PPT 만들어줘" | 핵심 요약 참고 |
-| **humanizer** · 스킬 | AI 문체 제거 | **`/humanizer`** 글을 붙여넣고 실행 | `npx skills add blader/humanizer` |
-| **Notion MCP** · MCP | Notion 연동 | **자동** "Notion 기획 페이지 요약해줘" | 기획 표와 동일 |
-| **marketingskills** · 스킬 | 마케팅·SEO 스킬 묶음 | **자동** "이 페이지 SEO 감사해줘" | `npx skills add coreyhaines31/marketingskills --skill seo-audit` (필요한 것만) |
+| **[문서 스킬](https://github.com/anthropics/skills/tree/main/skills)** `핵심` (docx·pptx·xlsx·pdf) · 스킬 | 워드·PPT·엑셀·PDF | **자동** "이 내용으로 PPT 만들어줘" | `/plugin marketplace add anthropics/skills` 후 `/plugin install document-skills@anthropic-agent-skills` |
+| **[humanizer](https://github.com/blader/humanizer)** `필수` · 스킬 | AI 문체 제거 | **`/humanizer`** 글을 붙여넣고 실행 | 핵심 요약 참고 |
+| **[Notion MCP](https://github.com/makenotion/claude-code-notion-plugin)** · MCP | Notion 연동 | **자동** "Notion 기획 페이지 요약해줘" | 기획 표와 동일 |
+| **[marketingskills](https://github.com/coreyhaines31/marketingskills)** · 스킬 | 마케팅·SEO 스킬 묶음 | **자동** "이 페이지 SEO 감사해줘" | `npx skills add coreyhaines31/marketingskills --skill seo-audit` (필요한 것만) |
+
+> 준비물: 문서 스킬은 Node.js·Python·LibreOffice·Poppler가 있어야 파일이 만들어집니다.
 
 ---
 
-## 10. 작업 방식 · 세팅
+## 7. 작업 방식 · 세팅
 
 환경 세팅·스킬 찾기·디버깅·컨텍스트 절약.
 
 | 항목 | 용도 | 호출 · 사용법 | 설치 |
 |---|---|---|---|
-| **claude-code-setup** (공식) · 플러그인 | 맞는 훅·스킬·MCP 추천 | **자동** 프로젝트 폴더에서 "이 프로젝트에 맞는 자동화 추천해줘" | `/plugin install claude-code-setup@claude-plugins-official` |
-| **claude-md-management** (공식) · 플러그인 | 세션 학습을 CLAUDE.md에 반영 | **`/revise-claude-md`** 세션 끝에 실행. 점검은 "CLAUDE.md 감사해줘" | `/plugin install claude-md-management@claude-plugins-official` |
-| **find-skills** · 스킬 | 필요한 스킬 검색·설치 | **자동** "PDF 다루는 스킬 있어?" | `npx skills add vercel-labs/skills --skill find-skills` |
-| **systematic-debugging** · 스킬 | 원인부터 찾는 디버깅 | **자동** 버그 보고 시 자동 | `npx skills add obra/superpowers --skill systematic-debugging` |
-| **Ponytail** · 스킬 | 코드 최소화 | **자동** 코드 작성 시 자동. `/ponytail off`로 해제 | `/plugin marketplace add DietrichGebert/ponytail` 후 `/plugin install ponytail@ponytail` |
-| **mcp-builder** (공식) · 스킬 | MCP 서버 제작 가이드 | **자동** "X 서비스용 MCP 서버 만들어줘" | example-skills (12장) |
-| **context-mode** · 플러그인 | 툴 출력 격리로 토큰 절약 | **자동** 설치하면 자동 | `/plugin marketplace add mksglu/context-mode` 후 `/plugin install context-mode@context-mode` |
+| **[Hooks](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/hookify)** `필수` · 설정 | 위험 명령 차단·종료 검사 | **설정** `/hookify`에 규칙을 말하면 훅 생성 | 핵심 요약 참고 |
+| **[claude-code-setup](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/claude-code-setup)** (공식) · 플러그인 | 맞는 훅·스킬·MCP 추천 | **자동** 프로젝트 폴더에서 "이 프로젝트에 맞는 자동화 추천해줘" | `/plugin install claude-code-setup@claude-plugins-official` |
+| **[claude-md-management](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/claude-md-management)** `필수` (공식) · 플러그인 | 세션 학습을 CLAUDE.md에 반영 | **`/revise-claude-md`** 세션 끝에 실행. 점검은 "CLAUDE.md 감사해줘" | 핵심 요약 참고 |
+| **[find-skills](https://github.com/vercel-labs/skills/tree/main/skills/find-skills)** `필수` · 스킬 | 필요한 스킬 검색·설치 | **자동** "PDF 다루는 스킬 있어?" | 핵심 요약 참고 |
+| **[systematic-debugging](https://github.com/obra/superpowers/tree/main/skills/systematic-debugging)** · 스킬 | 원인부터 찾는 디버깅 | **자동** 버그 보고 시 자동 | `npx skills add obra/superpowers --skill systematic-debugging` (전체는 아래 superpowers) |
+| **[Ponytail](https://github.com/DietrichGebert/ponytail)** · 스킬 | 코드 최소화 | **자동** 코드 작성 시 자동. `/ponytail off`로 해제 | `/plugin marketplace add DietrichGebert/ponytail` 후 `/plugin install ponytail@ponytail` |
+| **[context-mode](https://github.com/mksglu/context-mode)** · 플러그인 | 툴 출력 격리로 토큰 절약 | **자동** 설치하면 자동 | `/plugin marketplace add mksglu/context-mode` 후 `/plugin install context-mode@context-mode` |
+| **[RTK](https://github.com/rtk-ai/rtk)** · 도구 | 터미널 출력 압축으로 토큰 절약 | **자동** `rtk init -g` 한 번이면 이후 셸 명령이 자동 압축 | Releases의 `rtk-x86_64-pc-windows-msvc.zip`을 PATH에 두고 `rtk init -g` |
+| **[graphify](https://github.com/Graphify-Labs/graphify)** · 스킬 | 코드·문서를 지식 그래프로 파악 | **`/graphify .`** 프로젝트나 문서 폴더에서 실행 | `pip install graphifyy && graphify install` (Python 3.10+) |
+| **[superpowers](https://github.com/obra/superpowers)** · 플러그인 | 브레인스토밍 → 계획 → TDD → 검증 절차 강제 | **자동** 설치하면 작업마다 절차를 밟음. 토큰·시간을 더 씀 | `/plugin install superpowers@claude-plugins-official` |
+| **[gstack](https://github.com/garrytan/gstack)** · 스킬 묶음 | 리뷰·QA·배포까지 40개+ 스킬 | **`/review` `/qa` `/ship` 등** 설치 후 `/`로 목록 확인 | `git clone --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup` (Git·Bun 필요) |
+| **[open-gsd](https://github.com/open-gsd/gsd-core)** · 도구 | 며칠 걸리는 프로젝트를 계획 → 실행 → 검증으로 | **`/gsd-new-project` · `/gsd-onboard`** 새 프로젝트·기존 코드 | `npx @opengsd/gsd-core@latest` |
+| **[code-review](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/code-review)** (공식) · 플러그인 | PR을 에이전트 4개가 병렬로 심층 리뷰 | **`/code-review`** PR 올린 뒤 실행. 내장 명령보다 깊게 봄 | `/plugin install code-review@claude-plugins-official` |
+
+> 끄기·지우기: 플러그인 `/plugin uninstall 이름`, MCP `claude mcp remove 이름`, 스킬은 `.claude/skills/이름` 폴더 삭제. 항목 이름을 누르면 원본 저장소로 갑니다.
 
 ---
 
-## 11. 스킬 직접 만들기
+## 8. 스킬 직접 만들기
 
 스킬은 SKILL.md 한 파일. `/skill-creator`에게 말로 시키거나 아래처럼 직접 만듭니다.
 
 ```text
 # Windows PowerShell — SKILL.md 만들기
-PS C:\Users\soonu> mkdir .claude\skills\meeting-notes
-PS C:\Users\soonu> notepad .claude\skills\meeting-notes\SKILL.md
+PS C:\Users\<이름>> mkdir .claude\skills\meeting-notes
+PS C:\Users\<이름>> notepad .claude\skills\meeting-notes\SKILL.md
 # 메모장에 아래 내용을 붙여넣고 저장
 ---
 name: meeting-notes
@@ -436,44 +441,36 @@ description: 회의 메모를 결정 사항 · 할 일 · 다음 안건 형식�
 
 ---
 
-## 12. Anthropic 공식 스킬·플러그인
+## 9. Anthropic 공식 스킬·플러그인
 
 공식 마켓·저장소 중 이 문서 업무에 맞는 것. 앞 장 항목 제외.
 
 | 항목 | 용도 | 호출 · 사용법 | 설치 |
 |---|---|---|---|
-| **security-guidance** · 플러그인 · 누구나 | 비밀키·취약 코드 경고 | **자동** 설치하면 편집 시 경고 | `/plugin install security-guidance@claude-plugins-official` |
-| **learning-output-style** · 플러그인 · 누구나 | 핵심 코드를 직접 써 보는 학습 모드 | **자동** 설치하면 켜짐. 설명형은 `/config` → Output style | `/plugin install learning-output-style@claude-plugins-official` |
-| **commit-commands** · 플러그인 · 퍼블리싱 · 프론트엔드 | 커밋·푸시·PR 한 번에 | **`/commit` · `/commit-push-pr`** 작업 끝에 실행. PR은 `gh` 로그인 필요 | `/plugin install commit-commands@claude-plugins-official` |
-| **webapp-testing** · 스킬 · 퍼블리싱 · 프론트엔드 | 로컬 웹앱 Playwright 테스트 | **자동** Python·Playwright 설치 후 "이 페이지 테스트해줘" | example-skills (아래 설치) |
-| **web-artifacts-builder** · 스킬 · 퍼블리싱 · 프론트엔드 | React 앱을 HTML 한 파일로 | **자동** "React로 만들어서 HTML 하나로 묶어줘" | example-skills |
-| **brand-guidelines** · 스킬 · 디자인 | Anthropic 브랜드 적용 예제 | **자동** 자사 브랜드는 SKILL.md 복사 후 색·서체 교체 | example-skills |
-| **doc-coauthoring** · 스킬 · 문서 · 업무 | 제안서·스펙 공동 작성 | **자동** "제안서 같이 써 줘" | example-skills |
-| **internal-comms** · 스킬 · 문서 · 업무 | 사내 공지·보고 형식 | **자동** 예제 양식 기준. 자사 양식은 SKILL.md 수정 | example-skills |
+| **[security-guidance](https://code.claude.com/docs/en/security-guidance)** `필수` · 플러그인 · 누구나 | 비밀키·취약 코드 경고 | **자동** Python 설치 후. 편집 시 경고 | 핵심 요약 참고 |
+| **[commit-commands](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/commit-commands)** · 플러그인 · 퍼블리싱 · 프론트엔드 | 커밋·푸시·PR 한 번에 | **`/commit` · `/commit-push-pr`** 작업 끝에 실행. PR은 `gh` 로그인 필요 | `/plugin install commit-commands@claude-plugins-official` |
+| **[webapp-testing](https://github.com/anthropics/skills/tree/main/skills/webapp-testing)** · 스킬 · 퍼블리싱 · 프론트엔드 | 로컬 웹앱 Playwright 테스트 | **자동** Python·Playwright 설치 후 "이 페이지 테스트해줘" | example-skills (아래 설치) |
+| **[web-artifacts-builder](https://github.com/anthropics/skills/tree/main/skills/web-artifacts-builder)** · 스킬 · 퍼블리싱 · 프론트엔드 | React 앱을 HTML 한 파일로 | **자동** "React로 만들어서 HTML 하나로 묶어줘" | example-skills |
+| **[brand-guidelines](https://github.com/anthropics/skills/tree/main/skills/brand-guidelines)** · 스킬 · 디자인 | Anthropic 브랜드 적용 예제 | **자동** 자사 브랜드는 SKILL.md 복사 후 색·서체 교체 | example-skills |
+| **[doc-coauthoring](https://github.com/anthropics/skills/tree/main/skills/doc-coauthoring)** · 스킬 · 문서 · 업무 | 제안서·스펙 공동 작성 | **자동** "제안서 같이 써 줘" | example-skills |
+| **[internal-comms](https://github.com/anthropics/skills/tree/main/skills/internal-comms)** · 스킬 · 문서 · 업무 | 사내 공지·보고 형식 | **자동** 예제 양식 기준. 자사 양식은 SKILL.md 수정 | example-skills |
 
 > example-skills 설치: `/plugin marketplace add anthropics/skills` 후 `/plugin install example-skills@anthropic-agent-skills`
 
 ---
 
-## 13. 비권장 · 비효율
+## 10. 비권장 · 비효율
 
 부정 평가 우세 · 토큰 대비 효과 낮음 · 내장 기능과 중복.
 
 | 항목 | 판정 | 이유 | 대신 |
 |---|---|---|---|
-| **superpowers** · 플러그인 | 비효율 | 워크플로 강제형이라 느리고 토큰을 더 쓴다는 평 | grill-me · 필요한 스킬만 발췌(10장) |
-| **gstack** · 플러그인 | 비권장 | 스킬 40개+ 대형 셋업. 품질 편차·과장 논란 | grill-me · 공식 플러그인 |
-| **GitHub MCP** · MCP | 비효율 | 툴 85개+. `gh`로 대부분 대체 | `gh` 명령어 |
-| **Playwright MCP** · MCP | 비효율 | 툴 50개+. MS도 코딩 에이전트엔 CLI 권장 | agent-browser · Playwright CLI |
-| **Sequential Thinking MCP** · MCP | 비권장 | 내장 기능으로 충분 | Plan 모드 |
-| **Serena MCP** · MCP | 비권장 | 공식 LSP 플러그인 등장. 보안 이슈 제기 이력 | typescript-lsp |
-| **caveman** · 스킬 | 비효율 | 벤치마크에서 "간단히 답해"와 차이 없음 | 적게 설치 · `/context` |
-| **mcproxy** · 도구 | 비권장 | 2026-01 이후 업데이트 없음. 내장 Tool Search로 대체 | MCP Tool Search |
-| **get-shit-done** · 도구 | 비권장 | 원 저장소 아카이브(open-gsd로 이전). 명령 많고 무거움 | Plan 모드 · `grill-me` |
-| **claude-mem** · 플러그인 | 비효율 | 리밋 소진 빠르고 자주 깨짐 | CLAUDE.md · git 기록 |
-| **ui-ux-pro-max** · 스킬 | 비효율 | Python 스크립트 의존·설정 복잡. frontend-design과 중복 | frontend-design |
-| **code-review** · 플러그인 | 비효율 | 내장 명령과 중복 | 내장 `/code-review` |
-| **code-simplifier** · 플러그인 | 비효율 | 내장 명령과 중복 | 내장 `/simplify` |
-| **graphify** · 스킬 | 비권장 | 코드·문서 지식 그래프. 이 업무엔 과함 | 필요 없음 |
-| **headroom · RTK** · 도구 | 비효율 | 툴 출력·터미널 압축. 개발 세션용 | 적게 설치 · `/context` |
-| **ccstatusline · claude-hud** · 도구 | 비효율 | 상태줄 꾸미기용 | 내장 `/statusline` |
+| **[GitHub MCP](https://github.com/github/github-mcp-server)** · MCP | 비효율 | 툴 85개+. `gh`로 대부분 대체 | `gh` 명령어 |
+| **[Playwright MCP](https://github.com/microsoft/playwright-mcp)** · MCP | 비효율 | 툴 50개+. MS도 코딩 에이전트엔 CLI 권장 | agent-browser · Playwright CLI |
+| **[Sequential Thinking MCP](https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking)** · MCP | 비권장 | 내장 기능으로 충분 | Plan 모드 |
+| **[Serena MCP](https://github.com/oraios/serena)** · MCP | 비권장 | 공식 LSP 플러그인 등장. 보안 이슈 제기 이력 | typescript-lsp |
+| **[caveman](https://github.com/JuliusBrussee/caveman)** · 스킬 | 비효율 | 벤치마크에서 "간단히 답해"와 차이 없음 | 적게 설치 · `/context` |
+| **[mcproxy](https://github.com/team-attention/mcproxy)** · 도구 | 비권장 | 2026-01 이후 업데이트 없음. 내장 Tool Search로 대체 | MCP Tool Search |
+| **[claude-mem](https://github.com/thedotmack/claude-mem)** · 플러그인 | 비효율 | 리밋 소진 빠르고 자주 깨짐 | CLAUDE.md · git 기록 |
+| **[code-simplifier](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/code-simplifier)** · 플러그인 | 비효율 | 내장 명령과 중복 | 내장 `/simplify` |
+| **[headroom](https://github.com/headroomlabs-ai/headroom)** · 도구 | 비효율 | 프록시·라이브러리 방식이라 설정이 무거움 | RTK(7장) |
