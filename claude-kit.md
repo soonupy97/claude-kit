@@ -20,11 +20,27 @@
 
 ## 1. 시작하기 A–Z
 
-유료 플랜 + Node.js(nodejs.org, LTS) 필요. `PS C:\…>`는 PowerShell 창, `>`는 Claude에게 치는 말, `⏺`는 Claude의 답.
+유료 플랜 필요. Node.js(nodejs.org, LTS)는 Claude 자체에는 필요 없지만 이 문서의 스킬 설치(`npx`)·MCP 서버 실행에 쓰이므로 함께 설치. `PS C:\…>`는 PowerShell 창, `>`는 Claude에게 치는 말, `⏺`는 Claude의 답.
 
 ### A. 설치와 확인
 
-한 줄 붙여넣고 버전이 찍히면 끝. 이 방식은 업데이트도 자동, 문제는 `claude doctor`. 터미널이 낯설면 데스크톱 앱(claude.com/download).
+설치는 명령 한 줄이면 끝납니다. 순서대로 따라 하세요.
+
+1. **PowerShell 열기** — 시작 메뉴에서 `PowerShell`을 검색해 실행. 검은(파란) 글자 창이 뜨면 됩니다.
+2. **설치 명령 붙여넣기** — 아래 첫 줄(`irm … | iex`)을 복사해 창에 붙여넣고 Enter. 인터넷에서 Claude를 받아 자동으로 설치합니다.
+3. **설치 확인** — `claude --version`을 치고 Enter. 숫자 버전이 찍히면 성공.
+4. **Node.js 설치** — [nodejs.org 다운로드](https://nodejs.org/ko/download)에서 LTS 버전을 받아 "다음"만 눌러 설치. Claude 자체에는 필요 없지만 이 문서의 스킬·MCP 설치 명령(`npx`)이 사용합니다.
+
+이 방식은 이후 업데이트도 자동입니다. 뭔가 이상하면 `claude doctor`가 원인을 알려 줍니다.
+
+**설치 링크 모음**
+
+- [Claude Code 공식 설치 안내](https://code.claude.com/docs/en/setup) — Windows·Mac·Linux 설치 방법과 문제 해결
+- [데스크톱 앱 다운로드](https://claude.com/download) — 터미널 없이 창에서 쓰는 버전
+- [Node.js LTS 다운로드](https://nodejs.org/ko/download) — 스킬·MCP 설치용
+- [claude.ai](https://claude.ai) — 로그인 · 플랜 확인
+
+**가장 쉬운 길 (터미널이 낯설 때)** — 데스크톱 앱을 받아 설치 → 로그인 → "폴더 열기"로 작업 폴더 선택. 이것만으로 대화·코드 수정이 됩니다. 위 PowerShell 설치와 스킬·MCP는 익숙해진 뒤에 붙여도 늦지 않습니다.
 
 ```text
 # Windows PowerShell — 설치와 확인
@@ -474,3 +490,18 @@ description: 회의 메모를 결정 사항 · 할 일 · 다음 안건 형식�
 | **[claude-mem](https://github.com/thedotmack/claude-mem)** · 플러그인 | 비효율 | 리밋 소진 빠르고 자주 깨짐 | CLAUDE.md · git 기록 |
 | **[code-simplifier](https://claude.com/plugins/code-simplifier)** · 플러그인 | 비효율 | 내장 명령과 중복 | 내장 `/simplify` |
 | **[headroom](https://github.com/headroomlabs-ai/headroom)** · 도구 | 비효율 | 프록시·라이브러리 방식이라 설정이 무거움 | [RTK(7장)](#7-작업-방식--세팅) |
+
+---
+
+## 11. 기타 — 터미널 대체·보조
+
+기본은 [Windows Terminal(2장)](#2-터미널-쉽게-쓰기)과 데스크톱 앱(1장)으로 충분합니다. 아래는 Claude Code 세션을 여럿 동시에 돌리거나 출력·미리보기를 더 편하게 보고 싶을 때 고르는 도구. 터미널을 바꿔도 Claude Code와 `~/.claude` 설정(스킬·MCP·로그인)은 그대로 씁니다.
+
+| 항목 | 용도 | 호출 · 사용법 | 설치 |
+|---|---|---|---|
+| **[Orca](https://www.onorca.dev)** · 도구 | Claude Code 전용 작업 창. 프로젝트마다 worktree를 나눠 세션 여러 개 병렬, 내장 브라우저·에디터, 휴대폰 앱으로 진행 확인 | **앱** 프로젝트 열기 → 에이전트로 Claude Code 선택. 기존 로그인을 자동 인식 | [onorca.dev/download](https://www.onorca.dev/download). Claude Code는 미리 설치·로그인(1장). 무료·오픈소스 · Win·Mac·Linux |
+| **[Warp](https://www.warp.dev)** · 도구 | AI 터미널. 명령·출력이 블록으로 나뉘고 자동완성·오류 설명 | **터미널** 열고 `claude` 그대로 실행 | [warp.dev/download](https://www.warp.dev/download). 계정 가입 필요 · Windows 지원 |
+| **[Wave Terminal](https://www.waveterm.dev)** · 도구 | 오픈소스 블록형 터미널. 옆 칸에 파일 미리보기·브라우저를 띄워 놓고 작업 | **터미널** 열고 `claude` 실행. 옆 칸에 파일·URL 열어 두기 | [waveterm.dev](https://www.waveterm.dev). 무료·오픈소스 · Windows 지원 |
+| **[Ghostty](https://ghostty.org)** · 도구 | 빠르고 가벼운 터미널. Mac·Linux에서 인기 | **터미널** Windows는 공식 미지원(2026-09 기준) | Mac·Linux만. Windows는 [Windows Terminal(2장)](#2-터미널-쉽게-쓰기) |
+
+> 고르는 기준: 세션 하나면 Windows Terminal. 여러 프로젝트·세션을 한 화면에서 관리하고 밖에서도 확인하려면 Orca. 터미널은 그대로 두고 출력만 보기 좋게 하려면 Warp·Wave. 어느 쪽이든 스킬·MCP 설치 명령은 이 문서 그대로.
