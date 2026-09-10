@@ -20,7 +20,8 @@
 
 ## 1. 시작하기 A–Z
 
-유료 플랜 필요. Node.js(nodejs.org, LTS)는 Claude 자체에는 필요 없지만 이 문서의 스킬 설치(`npx`)·MCP 서버 실행에 쓰이므로 함께 설치. `PS C:\…>`는 PowerShell 창, `>`는 Claude에게 치는 말, `⏺`는 Claude의 답.
+유료 플랜 필요. Node.js는 Claude 자체엔 불필요하나 스킬(`npx`)·MCP 설치에 쓰이므로 함께 설치.  
+`PS C:\…>`는 PowerShell 창, `>`는 내가 치는 말, `⏺`는 Claude의 답.
 
 ### A. 설치와 확인
 
@@ -35,12 +36,13 @@
 
 **설치 링크 모음**
 
-- [Claude Code 공식 설치 안내](https://code.claude.com/docs/en/setup) — Windows·Mac·Linux 설치 방법과 문제 해결
-- [데스크톱 앱 다운로드](https://claude.com/download) — 터미널 없이 창에서 쓰는 버전
-- [Node.js LTS 다운로드](https://nodejs.org/ko/download) — 스킬·MCP 설치용
-- [claude.ai](https://claude.ai) — 로그인 · 플랜 확인
+- [Claude Code 공식 설치 안내](https://code.claude.com/docs/en/setup) — 설치·문제 해결
+- [데스크톱 앱](https://claude.com/download) — 터미널 없이 사용
+- [Node.js LTS](https://nodejs.org/ko/download) — 스킬·MCP 설치용
+- [claude.ai](https://claude.ai) — 로그인·플랜
 
-**가장 쉬운 길 (터미널이 낯설 때)** — 데스크톱 앱을 받아 설치 → 로그인 → "폴더 열기"로 작업 폴더 선택. 이것만으로 대화·코드 수정이 됩니다. 위 PowerShell 설치와 스킬·MCP는 익숙해진 뒤에 붙여도 늦지 않습니다.
+**가장 쉬운 길 (터미널이 낯설 때)** — 데스크톱 앱 설치 → 로그인 → 폴더 열기. 이것만으로 대화·코드 수정이 됩니다.  
+PowerShell 설치와 스킬·MCP는 익숙해진 뒤에.
 
 ```text
 # Windows PowerShell — 설치와 확인
@@ -305,7 +307,7 @@ PDF·엑셀·PPT는 파일 이름과 원하는 결과만 말하면 됩니다(플
 ⏺ 커밋했습니다.
 ```
 
-> 팁: "로그인 버그 고쳐줘"보다 "비밀번호 틀리면 빈 화면 뜨는 버그 고쳐줘"처럼 구체적으로. 마음에 안 들면 "왜 그렇게 했어?"라고 묻거나 `Esc` 두 번으로 되감습니다.
+> 팁: "로그인 버그 고쳐줘"보다 "비밀번호 틀리면 빈 화면 뜨는 버그 고쳐줘"처럼 구체적으로. 마음에 안 들면 "왜 그렇게 했어?" 또는 `Esc` 두 번으로 되감기.
 
 ---
 
@@ -433,7 +435,7 @@ Figma에서 코드까지. 결과물이 평범해지지 않게 잡아 주는 도�
 | **[open-gsd](https://github.com/open-gsd/gsd-core)** · 도구 | 며칠 걸리는 프로젝트를 계획 → 실행 → 검증으로 | **`/gsd-new-project` · `/gsd-onboard`** 새 프로젝트·기존 코드 | `npx @opengsd/gsd-core@latest` |
 | **[code-review](https://claude.com/plugins/code-review)** (공식) · 플러그인 | PR을 에이전트 4개가 병렬로 심층 리뷰 | **`/code-review`** PR 올린 뒤 실행. 내장 명령보다 깊게 봄 | `/plugin install code-review@claude-plugins-official` |
 
-> 끄기·지우기: 플러그인 `/plugin uninstall 이름`, MCP `claude mcp remove 이름`, 스킬은 `.claude/skills/이름` 폴더 삭제. 항목 이름을 누르면 원본으로 이동. GitHub가 열리면 화면의 설명글만 읽으면 되고, 설치는 이 표의 명령으로 합니다.
+> 끄기·지우기: 플러그인 `/plugin uninstall 이름` · MCP `claude mcp remove 이름` · 스킬은 `.claude/skills/이름` 폴더 삭제. 항목 이름을 누르면 원본으로 이동. 설치는 이 표의 명령으로.
 
 ---
 
@@ -453,7 +455,7 @@ description: 회의 메모를 결정 사항 · 할 일 · 다음 안건 형식�
 결정 사항 → 할 일(담당자 · 기한) → 다음 안건 순으로 개조식 정리. 한국어.
 ```
 
-> 저장하면 `/meeting-notes`로 바로 씁니다. `C:\Users\<이름>\.claude\skills\`는 내 PC 전체, `프로젝트\.claude\skills\`는 그 프로젝트만(git 공유). description은 Claude가 스킬을 고르는 기준이니 "언제 쓰는지"를 적습니다.
+> 저장하면 `/meeting-notes`로 바로 사용. `C:\Users\<이름>\.claude\skills\`는 내 PC 전체, `프로젝트\.claude\skills\`는 그 프로젝트만(git 공유). description에는 "언제 쓰는지"를 적습니다. Claude가 스킬을 고르는 기준.
 
 ---
 
@@ -495,7 +497,8 @@ description: 회의 메모를 결정 사항 · 할 일 · 다음 안건 형식�
 
 ## 11. 기타 — 터미널 대체·보조
 
-기본은 [Windows Terminal(2장)](#2-터미널-쉽게-쓰기)과 데스크톱 앱(1장)으로 충분합니다. 아래는 Claude Code 세션을 여럿 동시에 돌리거나 출력·미리보기를 더 편하게 보고 싶을 때 고르는 도구. 터미널을 바꿔도 Claude Code와 `~/.claude` 설정(스킬·MCP·로그인)은 그대로 씁니다.
+기본은 [Windows Terminal(2장)](#2-터미널-쉽게-쓰기)·데스크톱 앱(1장). 세션을 여럿 돌리거나 미리보기가 필요할 때만 선택.  
+터미널을 바꿔도 `~/.claude` 설정(스킬·MCP·로그인)은 그대로.
 
 | 항목 | 용도 | 호출 · 사용법 | 설치 |
 |---|---|---|---|
@@ -504,4 +507,8 @@ description: 회의 메모를 결정 사항 · 할 일 · 다음 안건 형식�
 | **[Wave Terminal](https://www.waveterm.dev)** · 도구 | 오픈소스 블록형 터미널. 옆 칸에 파일 미리보기·브라우저를 띄워 놓고 작업 | **터미널** 열고 `claude` 실행. 옆 칸에 파일·URL 열어 두기 | [waveterm.dev](https://www.waveterm.dev). 무료·오픈소스 · Windows 지원 |
 | **[Ghostty](https://ghostty.org)** · 도구 | 빠르고 가벼운 터미널. Mac·Linux에서 인기 | **터미널** Windows는 공식 미지원(2026-09 기준) | Mac·Linux만. Windows는 [Windows Terminal(2장)](#2-터미널-쉽게-쓰기) |
 
-> 고르는 기준: 세션 하나면 Windows Terminal. 여러 프로젝트·세션을 한 화면에서 관리하고 밖에서도 확인하려면 Orca. 터미널은 그대로 두고 출력만 보기 좋게 하려면 Warp·Wave. 어느 쪽이든 스킬·MCP 설치 명령은 이 문서 그대로.
+> 고르는 기준: 세션 하나면 Windows Terminal. 여러 세션·원격 확인은 Orca. 출력만 보기 좋게 하려면 Warp·Wave. 어느 쪽이든 설치 명령은 이 문서 그대로.
+
+---
+
+© 2026 soonupy. All rights reserved. · [공식 문서 code.claude.com/docs](https://code.claude.com/docs/en/overview) · 2026-09 기준

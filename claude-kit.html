@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Claude Code 업무별 스킬·플러그인</title>
+<title>Claude Kit</title>
+<link rel="icon" type="image/png" sizes="128x128" href="favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <style>
   /* ---------- 1. 토큰 ---------- */
   :root{
@@ -207,8 +209,10 @@
   .note kbd{font-size:12px}
 
   /* ---------- 13. 푸터 ---------- */
-  footer{padding:32px 0 64px;border-top:1px solid var(--line);background:var(--surface-2)}
-  footer .row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;font:12px/1.8 var(--mono);letter-spacing:.02em;color:var(--muted)}
+  footer{padding:16px 0 24px;border-top:1px solid var(--line);background:var(--surface-2)}
+  footer .row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 20px;font:12px/1.6 var(--mono);letter-spacing:.02em;color:var(--muted)}
+  footer .row a{text-decoration:underline;text-decoration-color:var(--line-3);text-underline-offset:3px}
+  footer .row a:hover{text-decoration-color:var(--ink)}
   footer .row b{color:var(--ink-2);font-weight:600}
   a.ref{color:var(--muted);text-decoration:underline;text-decoration-color:var(--line-3);text-underline-offset:3px}
   a.ref:hover{color:var(--ink);text-decoration-color:var(--ink)}
@@ -354,8 +358,8 @@
     .tabs{gap:0}
     .tabs label{flex:1 1 50%;justify-content:center;padding:0 8px;min-height:42px}
     kbd{min-width:20px;padding:0 5px}
-    footer{padding:24px 0 48px}
-    footer .row{flex-direction:column;gap:4px}
+    footer{padding:12px 0 20px}
+    footer .row{flex-direction:column;gap:2px}
   }
   /* 맨 위로 (모바일 · 태블릿) */
   .totop{position:fixed;right:16px;bottom:16px;z-index:6;width:44px;height:44px;border:1px solid var(--line-3);border-radius:9999px;background:var(--surface);color:var(--ink);font:16px var(--sans);cursor:pointer;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 2px 8px rgba(0,0,0,.06)}
@@ -427,7 +431,7 @@
 
 <section id="setup">
   <div class="sec-head rv"><div class="idx">01</div><h2>시작하기 A–Z</h2>
-    <p class="sec-desc">유료 플랜 필요. Node.js(nodejs.org, LTS)는 Claude 자체에는 필요 없지만 이 문서의 스킬 설치(<code>npx</code>)·MCP 서버 실행에 쓰이므로 함께 설치. <code>PS C:\…&gt;</code>는 PowerShell 창, <code>&gt;</code>는 Claude에게 치는 말, <code>⏺</code>는 Claude의 답.</p></div>
+    <p class="sec-desc">유료 플랜 필요. Node.js는 Claude 자체엔 불필요하나 스킬(<code>npx</code>) · MCP 설치에 쓰이므로 함께 설치.<br><code>PS C:\…&gt;</code>는 PowerShell 창, <code>&gt;</code>는 내가 치는 말, <code>⏺</code>는 Claude의 답.</p></div>
   <div class="step rv"><div class="step-h"><span class="step-n">A</span><h3>설치와 확인</h3></div><p>설치는 명령 한 줄이면 끝납니다. 순서대로 따라 하세요.</p>
     <ol>
       <li><b>PowerShell 열기</b> — 시작 메뉴에서 <code>PowerShell</code>을 검색해 실행. 검은(파란) 글자 창이 뜨면 됩니다.</li>
@@ -436,12 +440,12 @@
       <li><b>Node.js 설치</b> — <a href="https://nodejs.org/ko/download" target="_blank" rel="noopener">nodejs.org 다운로드</a>에서 LTS 버전을 받아 "다음"만 눌러 설치. Claude 자체에는 필요 없지만 이 문서의 스킬·MCP 설치 명령(<code>npx</code>)이 사용합니다.</li>
     </ol>
     <p>이 방식은 이후 업데이트도 자동입니다. 뭔가 이상하면 <code>claude doctor</code>가 원인을 알려 줍니다.</p>
-    <div class="note"><b>설치 링크 모음.</b>
-      <a href="https://code.claude.com/docs/en/setup" target="_blank" rel="noopener">Claude Code 공식 설치 안내</a> (Windows·Mac·Linux 설치 방법과 문제 해결) ·
-      <a href="https://claude.com/download" target="_blank" rel="noopener">데스크톱 앱 다운로드</a> (터미널 없이 창에서 쓰는 버전) ·
-      <a href="https://nodejs.org/ko/download" target="_blank" rel="noopener">Node.js LTS 다운로드</a> (스킬·MCP 설치용) ·
-      <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> (로그인 · 플랜 확인)</div>
-    <div class="note"><b>가장 쉬운 길 (터미널이 낯설 때).</b> 데스크톱 앱을 받아 설치 → 로그인 → "폴더 열기"로 작업 폴더 선택. 이것만으로 대화·코드 수정이 됩니다. 위 PowerShell 설치와 스킬·MCP는 익숙해진 뒤에 붙여도 늦지 않습니다.</div><figure class="term rv"><figcaption><span class="tab"><i></i>Windows PowerShell — 설치와 확인</span><span class="win">—&nbsp;&nbsp;☐&nbsp;&nbsp;✕</span></figcaption><pre><span class="l ps">PS C:\Users\&lt;이름&gt;&gt; irm https://claude.ai/install.ps1 | iex</span>
+    <div class="note"><b>설치 링크 모음.</b><br>
+      <a href="https://code.claude.com/docs/en/setup" target="_blank" rel="noopener">Claude Code 공식 설치 안내</a> — 설치 · 문제 해결<br>
+      <a href="https://claude.com/download" target="_blank" rel="noopener">데스크톱 앱</a> — 터미널 없이 사용<br>
+      <a href="https://nodejs.org/ko/download" target="_blank" rel="noopener">Node.js LTS</a> — 스킬 · MCP 설치용<br>
+      <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> — 로그인 · 플랜</div>
+    <div class="note"><b>가장 쉬운 길 (터미널이 낯설 때).</b> 데스크톱 앱 설치 → 로그인 → 폴더 열기. 이것만으로 대화 · 코드 수정이 됩니다.<br>PowerShell 설치와 스킬 · MCP는 익숙해진 뒤에.</div><figure class="term rv"><figcaption><span class="tab"><i></i>Windows PowerShell — 설치와 확인</span><span class="win">—&nbsp;&nbsp;☐&nbsp;&nbsp;✕</span></figcaption><pre><span class="l ps">PS C:\Users\&lt;이름&gt;&gt; irm https://claude.ai/install.ps1 | iex</span>
 <span class="l out">Installing Claude Code...</span>
 <span class="l ok">✔ Installed to C:\Users\&lt;이름&gt;\.local\bin\claude.exe</span>
 <span class="l ps">PS C:\Users\&lt;이름&gt;&gt; claude --version</span>
@@ -629,7 +633,7 @@
 <span class="l in">&gt; 변경한 파일 커밋해줘</span>
 <span class="l tool">⏺ Bash(git add -A &amp;&amp; git commit -m "feat: 카카오 로그인 추가")</span>
 <span class="l ai">⏺ 커밋했습니다.</span></pre></figure></div>
-  <div class="note rv"><b>팁.</b> "로그인 버그 고쳐줘"보다 "비밀번호 틀리면 빈 화면 뜨는 버그 고쳐줘"처럼 구체적으로. 마음에 안 들면 "왜 그렇게 했어?"라고 묻거나 <kbd>Esc</kbd><kbd>Esc</kbd>로 되감습니다.</div>
+  <div class="note rv"><b>팁.</b> "로그인 버그 고쳐줘"보다 "비밀번호 틀리면 빈 화면 뜨는 버그 고쳐줘"처럼 구체적으로.<br>마음에 안 들면 "왜 그렇게 했어?" 또는 <kbd>Esc</kbd><kbd>Esc</kbd>로 되감기.</div>
 </section>
 
 <section id="core" class="core">
@@ -761,7 +765,7 @@
       <tr><td class="name"><div class="cell"><a class="nm" href="https://github.com/open-gsd/gsd-core" target="_blank" rel="noopener">open-gsd</a><span class="badges"><span class="tag k-t">도구</span></span></div></td><td data-label="용도">며칠 걸리는 프로젝트를 계획 → 실행 → 검증으로</td><td data-label="호출 · 사용법"><span class="call"><code>/gsd-new-project</code> · <code>/gsd-onboard</code></span><span class="use">새 프로젝트 · 기존 코드</span></td><td data-label="설치 · 저장소"><code>npx @opengsd/gsd-core@latest</code></td></tr>
       <tr><td class="name"><div class="cell"><a class="nm" href="https://claude.com/plugins/code-review" target="_blank" rel="noopener">code-review</a><span class="badges"><span class="tag k-p">플러그인</span></span><span class="sub">공식</span></div></td><td data-label="용도">PR을 에이전트 4개가 병렬로 심층 리뷰</td><td data-label="호출 · 사용법"><span class="call"><code>/code-review</code></span><span class="use">PR 올린 뒤 실행. 내장 명령보다 깊게 봄</span></td><td data-label="설치 · 저장소"><code>/plugin install code-review@claude-plugins-official</code></td></tr>
     </tbody></table></div>
-  <div class="note rv"><b>끄기 · 지우기.</b> 플러그인 <code>/plugin uninstall 이름</code>, MCP <code>claude mcp remove 이름</code>, 스킬은 <code>.claude/skills/이름</code> 폴더 삭제. 항목 이름을 누르면 원본으로 이동. GitHub가 열리면 화면의 설명글만 읽으면 되고, 설치는 이 표의 명령으로 합니다.</div>
+  <div class="note rv"><b>끄기 · 지우기.</b> 플러그인 <code>/plugin uninstall 이름</code> · MCP <code>claude mcp remove 이름</code> · 스킬은 <code>.claude/skills/이름</code> 폴더 삭제.<br>항목 이름을 누르면 원본으로 이동. 설치는 이 표의 명령으로.</div>
 </section>
 
 <section id="make">
@@ -775,7 +779,7 @@
 <span class="l out">description: 회의 메모를 결정 사항 · 할 일 · 다음 안건 형식의 회의록으로 정리한다</span>
 <span class="l out">---</span>
 <span class="l out">결정 사항 → 할 일(담당자 · 기한) → 다음 안건 순으로 개조식 정리. 한국어.</span></pre></figure>
-  <div class="note rv"><b>바로 사용.</b> 저장하면 <code>/meeting-notes</code>로 바로 씁니다. <code>C:\Users\&lt;이름&gt;\.claude\skills\</code>는 내 PC 전체, <code>프로젝트\.claude\skills\</code>는 그 프로젝트만(git 공유). description은 Claude가 스킬을 고르는 기준이니 "언제 쓰는지"를 적습니다.</div>
+  <div class="note rv"><b>바로 사용.</b> 저장하면 <code>/meeting-notes</code>로 바로 사용.<br><code>C:\Users\&lt;이름&gt;\.claude\skills\</code>는 내 PC 전체, <code>프로젝트\.claude\skills\</code>는 그 프로젝트만(git 공유).<br>description에는 "언제 쓰는지"를 적습니다. Claude가 스킬을 고르는 기준.</div>
 </section>
 
 <section id="official">
@@ -814,7 +818,7 @@
 
 <section id="etc">
   <div class="sec-head rv"><div class="idx">11</div><h2>기타 — 터미널 대체 · 보조</h2>
-    <p class="sec-desc">기본은 <a class="ref" href="#terminal">Windows Terminal(2장)</a>과 데스크톱 앱(1장)으로 충분합니다. 아래는 Claude Code 세션을 여럿 동시에 돌리거나 출력 · 미리보기를 더 편하게 보고 싶을 때 고르는 도구. 터미널을 바꿔도 Claude Code와 <code>~/.claude</code> 설정(스킬 · MCP · 로그인)은 그대로 씁니다.</p></div>
+    <p class="sec-desc">기본은 <a class="ref" href="#terminal">Windows Terminal(2장)</a> · 데스크톱 앱(1장). 세션을 여럿 돌리거나 미리보기가 필요할 때만 선택.<br>터미널을 바꿔도 <code>~/.claude</code> 설정(스킬 · MCP · 로그인)은 그대로.</p></div>
   <div class="tblwrap rv"><table class="tbl t4">
     <thead><tr><th>항목</th><th>용도</th><th>호출 · 사용법</th><th>설치</th></tr></thead>
     <tbody>
@@ -823,14 +827,14 @@
       <tr id="etc-wave"><td class="name"><div class="cell"><a class="nm" href="https://www.waveterm.dev" target="_blank" rel="noopener">Wave Terminal</a><span class="badges"><span class="tag k-t">도구</span></span></div></td><td data-label="용도">오픈소스 블록형 터미널. 옆 칸에 파일 미리보기 · 브라우저를 띄워 놓고 작업</td><td data-label="호출 · 사용법"><span class="call">터미널</span><span class="use">열고 <code>claude</code> 실행. 옆 칸에 파일 · URL 열어 두기</span></td><td data-label="설치"><a class="ext" href="https://www.waveterm.dev" target="_blank" rel="noopener">waveterm.dev</a>. 무료 · 오픈소스 · Windows 지원</td></tr>
       <tr id="etc-ghostty"><td class="name"><div class="cell"><a class="nm" href="https://ghostty.org" target="_blank" rel="noopener">Ghostty</a><span class="badges"><span class="tag k-t">도구</span></span></div></td><td data-label="용도">빠르고 가벼운 터미널. Mac · Linux에서 인기</td><td data-label="호출 · 사용법"><span class="call">터미널</span><span class="use">Windows는 공식 미지원(2026-09 기준)</span></td><td data-label="설치">Mac · Linux만. Windows는 <a class="ref" href="#terminal">Windows Terminal(2장)</a></td></tr>
     </tbody></table></div>
-  <div class="note rv"><b>고르는 기준.</b> 세션 하나면 Windows Terminal. 여러 프로젝트 · 세션을 한 화면에서 관리하고 밖에서도 확인하려면 Orca. 터미널은 그대로 두고 출력만 보기 좋게 하려면 Warp · Wave. 어느 쪽이든 스킬 · MCP 설치 명령은 이 문서 그대로.</div>
+  <div class="note rv"><b>고르는 기준.</b> 세션 하나면 Windows Terminal. 여러 세션 · 원격 확인은 Orca.<br>출력만 보기 좋게 하려면 Warp · Wave. 어느 쪽이든 설치 명령은 이 문서 그대로.</div>
 </section>
 
 </main>
 </div>
 
 <button class="totop" type="button" aria-label="맨 위로">↑</button>
-<footer><div class="shell row"><span><b>Claude Code 업무별 스킬 · 플러그인</b></span><span><a class="ext" href="https://code.claude.com/docs/en/overview" target="_blank" rel="noopener">공식 문서 code.claude.com/docs</a> · 2026-09 기준</span></div></footer>
+<footer><div class="shell row"><span>© 2026 <b>soonupy</b>. All rights reserved.</span><span><a class="ext" href="https://code.claude.com/docs/en/overview" target="_blank" rel="noopener">공식 문서 code.claude.com/docs</a> · 2026-09 기준</span></div></footer>
 </div>
 <script>
 (function(){
