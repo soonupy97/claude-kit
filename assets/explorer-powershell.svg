@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 500" width="760" height="500" role="img" aria-labelledby="t d">
+<title id="t">탐색기 주소창에 powershell 입력 → 그 폴더에서 PowerShell 열림 → claude 실행</title>
+<desc id="d">탐색기에서 프로젝트 폴더를 연 뒤 주소창에 powershell을 입력하고 Enter를 누르면 그 폴더 경로가 잡힌 PowerShell 창이 열린다. 이어서 claude를 입력하고 Enter를 누르면 Claude Code 시작 화면이 뜬다.</desc>
+<style>
+text{font-family:'Segoe UI Variable','Segoe UI','Malgun Gothic',system-ui,sans-serif}
+.mono{font-family:'Cascadia Mono','Cascadia Code',Consolas,'Courier New',monospace}
+@keyframes crumb{0%,7.93%{opacity:1}8.00%,96.00%{opacity:0}96.07%,100%{opacity:1}}
+.crumb{animation:crumb 15s linear infinite}
+@keyframes pathsel{0%,8.00%{opacity:0}8.07%,13.27%{opacity:1}13.33%,100%{opacity:0}}
+.pathsel{animation:pathsel 15s linear infinite}
+
+@keyframes focusline{0%,8.00%{opacity:0}8.07%,96.00%{opacity:1}96.07%,100%{opacity:0}}
+.focusline{animation:focusline 15s linear infinite}
+
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.blink{animation:blink 1s steps(1) infinite}
+@keyframes caretA{0%,12.00%{opacity:0}14.00%,32.00%{opacity:1}32.67%,100%{opacity:0}}
+.caretA{animation:caretA 15s linear infinite}
+
+@keyframes enter1{0%,26.00%{opacity:0;transform:translateY(4px)}28.00%,37.33%{opacity:1;transform:translateY(0)}38.00%,100%{opacity:0;transform:translateY(4px)}}
+.enter1{animation:enter1 15s ease-out infinite}
+
+@keyframes term{0%,33.33%{opacity:0;transform:translateY(14px)}35.33%,96.00%{opacity:1;transform:translateY(0)}96.67%,100%{opacity:0;transform:translateY(14px)}}
+.term{animation:term 15s ease-out infinite}
+
+@keyframes caretT{0%,36.67%{opacity:0}38.67%,56.00%{opacity:1}56.67%,100%{opacity:0}}
+.caretT{animation:caretT 15s linear infinite}
+
+@keyframes enter2{0%,51.33%{opacity:0;transform:translateY(4px)}53.33%,59.33%{opacity:1;transform:translateY(0)}60.00%,100%{opacity:0;transform:translateY(4px)}}
+.enter2{animation:enter2 15s ease-out infinite}
+
+@keyframes claude{0%,56.67%{opacity:0;transform:translateY(6px)}58.67%,96.00%{opacity:1;transform:translateY(0)}96.67%,100%{opacity:0;transform:translateY(6px)}}
+.claude{animation:claude 15s ease-out infinite}
+
+@keyframes hint{0%,1.33%{opacity:0}3.33%,96.00%{opacity:1}96.67%,100%{opacity:0}}
+.hint{animation:hint 15s linear infinite}
+
+@keyframes a0{0%,13.33%{opacity:0}13.40%,96.00%{opacity:1}96.07%,100%{opacity:0}}
+.a0{animation:a0 15s linear infinite}
+@keyframes a1{0%,14.40%{opacity:0}14.47%,96.00%{opacity:1}96.07%,100%{opacity:0}}
+.a1{animation:a1 15s linear infinite}
+@keyframes a2{0%,15.47%{opacity:0}15.53%,96.00%{opacity:1}96.07%,100%{opacity:0}}
+.a2{animation:a2 15s linear infinite}
+@keyframes a3{0%,16.53%{opacity:0}16.60%,96.00%{opacity:1}96.07%,100%{opacity:0}}
+.a3{animation:a3 15s linear infinite}
+@keyframes a4{0%,17.60%{opacity:0}17.67%,96.00%{opacity:1}96.07%,100%{opacity:0}}
+.a4{animation:a4 15s linear infinite}
+@keyframes a5{0%,18.67%{opacity:0}18.73%,96.00%{opacity:1}96.07%,100%{opacity:0}}
+.a5{animation:a5 15s linear infinite}
+@keyframes a6{0%,19.73%{opacity:0}19.80%,96.00%{opacity:1}96.07%,100%{opacity:0}}
+.a6{animation:a6 15s linear infinite}
+@keyframes a7{0%,20.80%{opacity:0}20.87%,96.00%{opacity:1}96.07%,100%{opacity:0}}
+.a7{animation:a7 15s linear infinite}
+@keyframes a8{0%,21.87%{opacity:0}21.93%,96.00%{opacity:1}96.07%,100%{opacity:0}}
+.a8{animation:a8 15s linear infinite}
+@keyframes a9{0%,22.93%{opacity:0}23.00%,96.00%{opacity:1}96.07%,100%{opacity:0}}
+.a9{animation:a9 15s linear infinite}
+@keyframes t0{0%,43.33%{opacity:0}43.40%,96.00%{opacity:1}96.07%,100%{opacity:0}}
+.t0{animation:t0 15s linear infinite}
+@keyframes t1{0%,44.40%{opacity:0}44.47%,96.00%{opacity:1}96.07%,100%{opacity:0}}
+.t1{animation:t1 15s linear infinite}
+@keyframes t2{0%,45.47%{opacity:0}45.53%,96.00%{opacity:1}96.07%,100%{opacity:0}}
+.t2{animation:t2 15s linear infinite}
+@keyframes t3{0%,46.53%{opacity:0}46.60%,96.00%{opacity:1}96.07%,100%{opacity:0}}
+.t3{animation:t3 15s linear infinite}
+@keyframes t4{0%,47.60%{opacity:0}47.67%,96.00%{opacity:1}96.07%,100%{opacity:0}}
+.t4{animation:t4 15s linear infinite}
+@keyframes t5{0%,48.67%{opacity:0}48.73%,96.00%{opacity:1}96.07%,100%{opacity:0}}
+.t5{animation:t5 15s linear infinite}
+@keyframes mvA{0%,13.33%{transform:translateX(0)}13.40%{transform:translateX(6.6px)}14.47%{transform:translateX(13.2px)}15.53%{transform:translateX(19.8px)}16.60%{transform:translateX(26.4px)}17.67%{transform:translateX(33.0px)}18.73%{transform:translateX(39.6px)}19.80%{transform:translateX(46.2px)}20.87%{transform:translateX(52.8px)}21.93%{transform:translateX(59.4px)}23.00%{transform:translateX(66.0px)}96.00%{transform:translateX(66.0px)}100%{transform:translateX(0)}}
+.mvA{animation:mvA 15s steps(1,end) infinite}
+@keyframes mvT{0%,43.33%{transform:translateX(0)}43.40%{transform:translateX(8.4px)}44.47%{transform:translateX(16.8px)}45.53%{transform:translateX(25.2px)}46.60%{transform:translateX(33.6px)}47.67%{transform:translateX(42.0px)}48.73%{transform:translateX(50.4px)}96.00%{transform:translateX(50.4px)}100%{transform:translateX(0)}}
+.mvT{animation:mvT 15s steps(1,end) infinite}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important}
+  .crumb,.pathsel,.caretA,.enter1,.enter2,.caretT{opacity:0}.focusline{opacity:1}
+  .term,.claude,.hint,[class^="a"],[class^="t"]{opacity:1;transform:none}
+}
+</style>
+<rect width="760" height="500" fill="#F7F7F7"/>
+
+<g id="explorer">
+  <rect x="8" y="8" width="600" height="348" rx="10" fill="#F3F3F3" stroke="#CFCFCF"/>
+  <!-- 탭 줄 -->
+  <rect x="8" y="8" width="600" height="40" rx="10" fill="#E9E9E9"/><rect x="8" y="28" width="600" height="20" fill="#E9E9E9"/>
+  <rect x="16" y="16" width="150" height="32" rx="7" fill="#F3F3F3"/><rect x="16" y="38" width="150" height="10" fill="#F3F3F3"/>
+  <path d="M26 27h5l2 2h9v9H26z" fill="#F6C343" stroke="#D9A521" stroke-width=".8"/><text x="48" y="36" font-size="12" fill="#1B1B1B">my-project</text><text x="149" y="36" font-size="11" fill="#6B6B6B">✕</text>
+  <text x="180" y="37" font-size="15" fill="#5A5A5A">+</text>
+  <text x="512" y="35" font-size="12" fill="#1B1B1B" font-weight="300" letter-spacing="22">—☐✕</text>
+  <!-- 명령 모음: 새로 만들기 ▾ │ 아이콘 6개 │ 정렬 ▾ 보기 ▾ ··· -->
+  <text x="24" y="70" font-size="12" fill="#1B1B1B"><tspan fill="#0067C0" font-weight="600">⊕</tspan> 새로 만들기 ▾</text>
+  <line x1="130" y1="58" x2="130" y2="76" stroke="#D4D4D4"/>
+  <text x="144" y="71" font-size="13" fill="#5A5A5A" letter-spacing="14">✂⧉⎘✎⤴⌫</text>
+  <line x1="324" y1="58" x2="324" y2="76" stroke="#D4D4D4"/>
+  <text x="338" y="70" font-size="12" fill="#1B1B1B">⇅ 정렬 ▾     ⊞ 보기 ▾     ···</text>
+  <!-- 탐색 줄 -->
+  <text x="24" y="104" font-size="13" fill="#8A8A8A" letter-spacing="7">←→˅↑</text>
+  <rect x="100" y="88" width="338" height="30" rx="5" fill="#FFFFFF" stroke="#CFCFCF"/>
+  <line class="focusline" x1="104" y1="117" x2="434" y2="117" stroke="#0067C0" stroke-width="2"/>
+  <g class="crumb">
+    <rect x="108" y="96" width="14" height="12" rx="2" fill="#5B9BD5" stroke="#3B78B5" stroke-width=".8"/>
+    <text x="130" y="108" font-size="12.5" fill="#1B1B1B">› 내 PC  › 로컬 디스크 (C:)  › work  › my-project</text>
+    <text x="422" y="108" font-size="11" fill="#6B6B6B">˅</text>
+  </g>
+  <g class="pathsel">
+    <rect x="108" y="94" width="130" height="18" fill="#0067C0" opacity=".28"/>
+    <text x="110" y="108" font-size="12.5" fill="#1B1B1B">C:\work\my-project</text>
+  </g>
+  <text x="110" y="108" font-size="12.5" fill="#1B1B1B"><tspan class="a0">p</tspan><tspan class="a1">o</tspan><tspan class="a2">w</tspan><tspan class="a3">e</tspan><tspan class="a4">r</tspan><tspan class="a5">s</tspan><tspan class="a6">h</tspan><tspan class="a7">e</tspan><tspan class="a8">l</tspan><tspan class="a9">l</tspan></text>
+  <g class="caretA"><g class="blink"><rect class="mvA" x="110" y="95" width="1.2" height="16" fill="#1B1B1B"/></g></g>
+  <text x="446" y="109" font-size="14" fill="#6B6B6B">⟳</text>
+  <rect x="470" y="88" width="122" height="30" rx="5" fill="#FFFFFF" stroke="#CFCFCF"/>
+  <text x="480" y="108" font-size="12" fill="#8A8A8A">my-project 검색</text>
+  <circle cx="576" cy="101" r="4" fill="none" stroke="#6B6B6B" stroke-width="1.3"/><line x1="579" y1="104" x2="583" y2="108" stroke="#6B6B6B" stroke-width="1.3"/>
+  <!-- 왼쪽 탐색 창 (Win11: 홈·갤러리·OneDrive / 고정 폴더 / 내 PC·네트워크) -->
+  <g font-size="11.5" fill="#1B1B1B">
+    <text x="30" y="142"><tspan fill="#2F7BD9">⌂</tspan> 홈</text>
+    <text x="30" y="158"><tspan fill="#8E5CD9">▦</tspan> 갤러리</text>
+    <text x="22" y="174" fill="#8A8A8A">›</text><text x="30" y="174"><tspan fill="#2F7BD9">☁</tspan> OneDrive</text>
+    <line x1="28" y1="182" x2="174" y2="182" stroke="#DDDDDD"/>
+    <path d="M30 188.55h4.25l1.7 1.7h7.6499999999999995v7.6499999999999995H30z" fill="#F6C343" stroke="#D9A521" stroke-width=".8"/><text x="50" y="197">바탕 화면</text><path d="M158 190l4 4M159 192l3-3 2 2-3 3z" fill="none" stroke="#8A8A8A" stroke-width=".9"/>
+    <path d="M30 204.55h4.25l1.7 1.7h7.6499999999999995v7.6499999999999995H30z" fill="#F6C343" stroke="#D9A521" stroke-width=".8"/><text x="50" y="213">다운로드</text><path d="M158 206l4 4M159 208l3-3 2 2-3 3z" fill="none" stroke="#8A8A8A" stroke-width=".9"/>
+    <path d="M30 220.55h4.25l1.7 1.7h7.6499999999999995v7.6499999999999995H30z" fill="#F6C343" stroke="#D9A521" stroke-width=".8"/><text x="50" y="229">문서</text><path d="M158 222l4 4M159 224l3-3 2 2-3 3z" fill="none" stroke="#8A8A8A" stroke-width=".9"/>
+    <path d="M30 236.55h4.25l1.7 1.7h7.6499999999999995v7.6499999999999995H30z" fill="#F6C343" stroke="#D9A521" stroke-width=".8"/><text x="50" y="245">사진</text><path d="M158 238l4 4M159 240l3-3 2 2-3 3z" fill="none" stroke="#8A8A8A" stroke-width=".9"/>
+    <path d="M30 252.55h4.25l1.7 1.7h7.6499999999999995v7.6499999999999995H30z" fill="#F6C343" stroke="#D9A521" stroke-width=".8"/><text x="50" y="261">음악</text>
+    <path d="M30 268.55h4.25l1.7 1.7h7.6499999999999995v7.6499999999999995H30z" fill="#F6C343" stroke="#D9A521" stroke-width=".8"/><text x="50" y="277">동영상</text>
+    <line x1="28" y1="286" x2="174" y2="286" stroke="#DDDDDD"/>
+    <text x="22" y="302" fill="#8A8A8A">›</text><text x="30" y="302"><tspan fill="#2F7BD9">▭</tspan> 내 PC</text>
+    <text x="22" y="318" fill="#8A8A8A">›</text><text x="30" y="318"><tspan fill="#2F7BD9">⚇</tspan> 네트워크</text>
+  </g>
+  <!-- 흰 콘텐츠 카드 -->
+  <rect x="188" y="124" width="410" height="206" rx="8" fill="#FFFFFF" stroke="#E6E6E6"/>
+  <g font-size="12" fill="#6B6B6B">
+    <text x="222" y="136" font-size="9" text-anchor="middle">˄</text>
+    <text x="214" y="148">이름</text><text x="338" y="148">수정한 날짜</text><text x="478" y="148">유형</text><text x="584" y="148" text-anchor="end">크기</text>
+    <line x1="328" y1="134" x2="328" y2="154" stroke="#ECECEC"/><line x1="470" y1="134" x2="470" y2="154" stroke="#ECECEC"/><line x1="544" y1="134" x2="544" y2="154" stroke="#ECECEC"/>
+  </g>
+  <line x1="196" y1="156" x2="590" y2="156" stroke="#ECECEC"/>
+  <g font-size="12.5" fill="#1B1B1B">
+    <path d="M200 169h5l2 2h9v9H200z" fill="#F6C343" stroke="#D9A521" stroke-width=".8"/><text x="224" y="178">docs</text><text x="338" y="178" fill="#6B6B6B">2026-09-08 오후 3:12</text><text x="478" y="178" fill="#6B6B6B">파일 폴더</text>
+    <path d="M200 193h5l2 2h9v9H200z" fill="#F6C343" stroke="#D9A521" stroke-width=".8"/><text x="224" y="202">src</text><text x="338" y="202" fill="#6B6B6B">2026-09-09 오전 10:40</text><text x="478" y="202" fill="#6B6B6B">파일 폴더</text>
+    <path d="M202 215h8l4 4v11H202z" fill="#FFFFFF" stroke="#9A9A9A" stroke-width=".8"/><path d="M210 215v4h4" fill="none" stroke="#9A9A9A" stroke-width=".8"/><text x="224" y="228">package.json</text><text x="338" y="228" fill="#6B6B6B">2026-09-09 오전 10:40</text><text x="478" y="228" fill="#6B6B6B">JSON 파일</text><text x="584" y="228" fill="#6B6B6B" text-anchor="end">1KB</text>
+    <path d="M202 239h8l4 4v11H202z" fill="#FFFFFF" stroke="#9A9A9A" stroke-width=".8"/><path d="M210 239v4h4" fill="none" stroke="#9A9A9A" stroke-width=".8"/><text x="224" y="252">README.md</text><text x="338" y="252" fill="#6B6B6B">2026-09-07 오후 5:01</text><text x="478" y="252" fill="#6B6B6B">MD 파일</text><text x="584" y="252" fill="#6B6B6B" text-anchor="end">2KB</text>
+  </g>
+  <!-- 상태 표시줄 -->
+  <text x="24" y="348" font-size="11.5" fill="#6B6B6B">4개 항목</text>
+  <text x="564" y="349" font-size="12" fill="#5A5A5A" letter-spacing="8">≡▦</text>
+</g><g class="enter1"><rect x="338" y="124" width="84" height="24" rx="6" fill="#1B1B1B"/><text x="380" y="140" font-size="12" fill="#FFFFFF" text-anchor="middle">Enter ↵</text></g>
+<g class="term">
+  <rect x="212" y="186" width="540" height="256" rx="8" fill="#0C0C0C" stroke="#2B2B2B"/>
+  <rect x="212" y="186" width="540" height="34" rx="8" fill="#202020"/><rect x="212" y="206" width="540" height="14" fill="#202020"/>
+  <rect x="220" y="192" width="160" height="28" rx="6" fill="#0C0C0C"/>
+  <rect x="230" y="200" width="12" height="12" rx="2" fill="#012456" stroke="#5B7FB5"/>
+  <text x="250" y="211" font-size="12" fill="#F2F2F2">Windows PowerShell</text>
+  <text x="682" y="210" font-size="12" fill="#9A9A9A" font-weight="300" letter-spacing="18">—☐✕</text>
+  <text x="230" y="250" font-size="14" fill="#F2F2F2" class="mono">PS C:\work\my-project&gt; <tspan><tspan class="t0">c</tspan><tspan class="t1">l</tspan><tspan class="t2">a</tspan><tspan class="t3">u</tspan><tspan class="t4">d</tspan><tspan class="t5">e</tspan></tspan></text>
+  <g class="caretT"><g class="blink"><rect class="mvT" x="423.2" y="237" width="1.5" height="16" fill="#F2F2F2"/></g></g>
+  <g class="enter2"><rect x="652" y="232" width="84" height="24" rx="6" fill="#1B1B1B"/><text x="694" y="248" font-size="12" fill="#FFFFFF" text-anchor="middle">Enter ↵</text></g>
+  <!-- Claude Code 시작 화면 (2.x: 블록 로고 + 제목·모델·작업 폴더 3줄, 입력 상자, 푸터) -->
+  <g class="claude">
+    <g font-size="14" class="mono" fill="#D97757" xml:space="preserve">
+      <text x="234" y="286"> ▐▛███▜▌</text>
+      <text x="234" y="304">▝▜█████▛▘</text>
+      <text x="234" y="322">  ▘▘ ▝▝</text>
+    </g>
+    <text x="346" y="286" font-size="13.5" class="mono" fill="#F2F2F2" font-weight="600">Welcome to Claude Code <tspan fill="#9A9A9A" font-weight="400">v2.1.263</tspan></text>
+    <text x="346" y="304" font-size="13" class="mono" fill="#CCCCCC">Opus 5 · Claude Pro</text>
+    <text x="346" y="322" font-size="13" class="mono" fill="#9A9A9A">C:\work\my-project</text>
+    <rect x="230" y="342" width="504" height="34" rx="4" fill="none" stroke="#3A3A3A"/>
+    <text x="242" y="364" font-size="14" class="mono" fill="#F2F2F2">&gt; <tspan fill="#6B6B6B">Try "edit README.md to..."</tspan></text>
+    <text x="234" y="400" font-size="12" class="mono" fill="#6B6B6B">? for shortcuts</text>
+  </g>
+</g><g class="hint"><text x="8" y="488" font-size="12" fill="#6B6B6B">① 탐색기 주소창 클릭 → ② powershell 입력 → ③ Enter → 그 폴더에서 PowerShell 열림 → ④ claude 입력 · Enter → Claude Code 시작</text></g>
+</svg>
