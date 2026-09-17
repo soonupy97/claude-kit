@@ -31,7 +31,7 @@
 
 ### B. 설치 · 확인
 
-① 설치 명령을 붙여넣고(`Ctrl`+`V`, 안 되면 마우스 오른쪽 클릭) Enter. `PS` 줄이 다시 보이면 끝.
+① 설치 명령을 붙여넣고(`Ctrl`+`V`, 안 되면 마우스 오른쪽 클릭) Enter. `✅ Installation complete!`가 보이면 끝. PATH 관련 안내가 함께 보이면 아래 '안 될 때' 첫 줄대로.
 
 ```powershell
 irm https://claude.ai/install.ps1 | iex
@@ -47,13 +47,23 @@ claude --version
 
 | 오류 문구 | 해결 |
 |---|---|
-| 'claude' 용어가 … 인식되지 않습니다 (is not recognized) | 창을 모두 닫고 새로 열기. 그래도 같으면 `[Environment]::SetEnvironmentVariable('PATH', [Environment]::GetEnvironmentVariable('PATH', 'User') + ";$env:USERPROFILE\.local\bin", 'User')` 실행(아무것도 안 나오면 정상) 후 새 창에서 다시 |
+| 'claude' 용어가 … 인식되지 않습니다 (is not recognized) | 창을 모두 닫고 새로 열기. 그래도 같으면 `[Environment]::SetEnvironmentVariable('PATH', [Environment]::GetEnvironmentVariable('PATH', 'User') + ";$env:USERPROFILE\.local\bin", 'User')` 실행(아무것도 안 나오면 정상) 후 새 창에서 다시. 그래도 안 되면 설치가 끝나지 않은 것이니 ①을 다시 실행해 빨간 문구를 이 표에서 찾기 |
 | 'irm'은(는) … 명령이 아닙니다 · '&&' 토큰 · 'fsSL' 매개 변수 (not recognized · not a valid statement separator · parameter name 'fsSL') | 다른 창(CMD)이거나 다른 OS용 명령입니다. PowerShell 창에서 위 설치 명령을 그대로 복사해 다시 |
 | SSL/TLS 보안 채널 · 기본 연결이 닫혔습니다 (SSL/TLS secure channel · connection was closed) | `[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://claude.ai/install.ps1 \| iex`. 회사망이면 IT 담당자에게 `downloads.claude.ai` 허용 요청 |
-| 회사망에서 원격 서버에 연결할 수 없습니다 (Unable to connect to the remote server) | 회사 프록시를 거쳐야 하는 경우. IT 담당자에게 받은 주소로 `$p = 'http://프록시주소:포트'; [Environment]::SetEnvironmentVariable('HTTPS_PROXY', $p, 'User'); $env:HTTP_PROXY = $p; $env:HTTPS_PROXY = $p; irm https://claude.ai/install.ps1 \| iex`. 이후 Claude 실행에도 계속 적용 |
-| 버전은 나오는데 예전 번호 그대로 | 예전에 npm으로 설치한 claude가 먼저 실행되는 중. `where.exe claude`로 둘 이상 보이면 `npm uninstall -g @anthropic-ai/claude-code` 후 새 창에서 다시 |
+| 원격 서버에 연결할 수 없습니다 · (407) 프록시 인증 · Failed to get latest version (Unable to connect to the remote server · Proxy Authentication Required) | 회사 프록시를 거쳐야 하는 경우. IT 담당자에게 받은 주소를 넣어 아래 '프록시 설정 명령' 실행. 이후 Claude 실행에도 계속 적용. 같은 오류가 반복되면 주소·포트를 IT 담당자에게 다시 확인 |
+| 버전은 나오는데 예전 번호 그대로 | 예전 설치가 먼저 실행되는 중. `where.exe claude`로 둘 이상 보이면 예전 것을 지우고 새 창에서 다시. 경로에 `npm`이 있으면 `npm uninstall -g @anthropic-ai/claude-code`, `WinGet`이 있으면 `winget uninstall Anthropic.ClaudeCode` |
 | 그룹 정책에 의해 차단되었습니다 · 백신이 claude.exe 격리 (blocked by group policy) | 회사 보안 정책이 새 프로그램을 막는 중. IT 담당자에게 `claude.exe` 실행 허용 요청 |
-| `<html` 같은 글자가 섞인 오류 · 403 | 잠시 뒤 다시. 계속되면 `winget install Anthropic.ClaudeCode`(자동 업데이트 없음) |
+| `<html` 같은 글자가 섞인 오류 · 403 · Failed to get a valid version · Checksum verification failed | 잠시 뒤, 가능하면 다른 네트워크에서 다시. 계속되면 `winget install Anthropic.ClaudeCode`(자동 업데이트 없음, winget이 없다고 나오면 D의 '안 될 때'). 문구에 region이 있으면 [지원 국가](https://www.anthropic.com/supported-countries)에서만 사용 가능 |
+
+프록시 설정 명령(첫 줄에 주소 입력):
+
+```powershell
+$p = 'http://프록시주소:포트'
+[Environment]::SetEnvironmentVariable('HTTPS_PROXY', $p, 'User'); $env:HTTPS_PROXY = $p
+[Net.WebRequest]::DefaultWebProxy = New-Object Net.WebProxy($p)
+[Net.WebRequest]::DefaultWebProxy.Credentials = [Net.CredentialCache]::DefaultNetworkCredentials
+irm https://claude.ai/install.ps1 | iex
+```
 
 그 밖의 오류는 [공식 문제 해결](https://code.claude.com/docs/en/troubleshoot-install)에서 문구로 찾기.
 
@@ -90,38 +100,40 @@ Opening browser to log in...   (처음 한 번만)
 | 브라우저가 안 열림 | 창에서 `c`를 눌러 주소를 복사해 브라우저에 붙여넣기 |
 | 브라우저에 코드가 보임 · Paste code here | 코드를 복사해 창에 붙여넣고 Enter. `Ctrl`+`V`가 안 되면 마우스 오른쪽 클릭 |
 | 403 Forbidden · 사용 권한 없음 | 무료 플랜이거나 구독이 끝났습니다. [claude.ai/settings](https://claude.ai/settings)에서 확인. Team·Enterprise면 관리자에게 Claude Code 사용 권한 요청 |
-| This organization has been disabled | 예전에 넣은 API 키가 구독 대신 쓰이는 중. `[Environment]::SetEnvironmentVariable('ANTHROPIC_API_KEY', $null, 'User')` 후 새 창에서 다시 |
+| Unable to connect to Anthropic services · 인증서 오류(self-signed certificate · SELF_SIGNED_CERT_IN_CHAIN · unable to get local issuer certificate) | 회사망 문제. 프록시를 쓰는 회사면 B의 '프록시 설정 명령' 실행 후 새 창에서 다시. 인증서 오류면 IT 담당자에게 회사 인증서 파일(.pem)을 받아 `[Environment]::SetEnvironmentVariable('NODE_EXTRA_CA_CERTS', 'C:\인증서경로\회사인증서.pem', 'User')` 실행 후 새 창에서 다시. `Ignoring extra certs`가 보이면 경로가 틀린 것 |
+| This organization has been disabled | 예전에 넣은 API 키가 구독 대신 쓰이는 중. `[Environment]::SetEnvironmentVariable('ANTHROPIC_API_KEY', $null, 'User')` 후 새 창에서 다시. 그래도 같으면 PC 전체 설정에 들어 있는 경우라 IT 담당자에게 삭제 요청 |
 
-### D. Node.js · Python 설치
+### D. Node.js · Python · Git 설치
 
-E의 스킬·MCP 설치(`npx`)와 문서 스킬용. Claude를 끝낸(`/exit`) PowerShell 창에서 실행하고, 설치 허용 창이 뜨면 **예**. 끝나면 창을 새로 열어 `node -v`로 확인. Claude 자체에는 필요 없으니 막히면 건너뛰어도 됩니다.
+E의 스킬·MCP 설치(`npx`·`git`)와 문서 스킬용. Claude를 끝낸(`/exit`) PowerShell 창에서 실행하고, 설치 허용 창이 뜨면 **예**. 이미 설치돼 있다고 나오면 그대로 두면 됩니다. 끝나면 창을 새로 열어 `node -v; git --version`으로 확인. Claude 자체에는 필요 없으니 막히면 건너뛰어도 됩니다.
 
 ```powershell
 winget install OpenJS.NodeJS.LTS --accept-source-agreements --accept-package-agreements
 winget install Python.Python.3.12 --accept-source-agreements --accept-package-agreements
+winget install Git.Git --accept-source-agreements --accept-package-agreements
 ```
 
 **안 될 때**
 
 | 증상 · 오류 문구 | 해결 |
 |---|---|
-| 'node'·'npx' 용어가 … 인식되지 않습니다 | 창을 모두 닫고 새로 열기 |
+| 'node'·'npx'·'git' 용어가 … 인식되지 않습니다 · spawn git ENOENT | 창을 모두 닫고 새로 열기 |
 | 스크립트를 실행할 수 없으므로 … npx.ps1 (running scripts is disabled) | `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser`(묻으면 `Y`). 회사 정책으로 막히면 `npx` 대신 `npx.cmd` |
 | 'winget' 용어가 … 인식되지 않습니다 · 관리자 권한 요구 | 사이트에서 설치 파일로(권한이 막히면 IT 담당자에게 요청): [Node.js](https://nodejs.org/ko/download) · [Python](https://www.python.org/downloads/)(첫 화면에서 Add python.exe to PATH 체크) |
 
 ### E. 플러그인 · MCP · 스킬 붙이기
 
-① 플러그인은 Claude 대화창에서. 설치 범위를 물으면 그대로 Enter, 다시 시작하라고 하면 `/exit` → `claude`.
+① 플러그인은 Claude 대화창에서. 설치 범위를 물으면 그대로 Enter, 다시 시작하라고 하면 `/exit` → `claude`. 플러그인을 찾을 수 없다고 나오면 PowerShell에서 `claude update` 후 다시.
 
 ```text
 /plugin install skill-creator@claude-plugins-official
 /plugin install mattpocock-skills@claude-plugins-official
 ```
 
-② 스킬·MCP는 PowerShell에서. `Ok to proceed?`에는 `y`, 설치 위치 등을 물으면 그대로 Enter. 아래는 필요한 스킬을 말로 찾아 주는 find-skills이고, 다른 도구는 4–5장 표의 '설치' 칸에 있습니다. `npx` 오류는 D의 '안 될 때'.
+② 스킬·MCP는 PowerShell에서. 아래는 필요한 스킬을 말로 찾아 주는 find-skills로, 확인 질문 없이 모든 폴더에서 쓰이게 설치합니다. 다른 도구는 4–5장 표의 '설치' 칸에 있고, `npx skills add`로 시작하는 명령은 끝에 `-g -y`를 붙이면 모든 폴더에서 쓰입니다. `npx` 오류는 D의 '안 될 때'.
 
 ```powershell
-npx skills add vercel-labs/skills --skill find-skills
+npx -y skills add vercel-labs/skills --skill find-skills -g -a claude-code -y --copy
 ```
 
 > 세팅 추천: `/plugin install claude-code-setup@claude-plugins-official` 후 "이 프로젝트에 맞는 자동화 추천해줘". 프로젝트에 맞는 훅·스킬·MCP를 골라 줍니다.
