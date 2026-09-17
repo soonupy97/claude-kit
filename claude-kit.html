@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Claude Kit</title>
+<meta name="description" content="Claude Code를 처음 쓰는 분을 위한 설치 가이드와 업무별 스킬 · 플러그인 · MCP 모음. Windows 기준.">
 <link rel="icon" type="image/png" sizes="128x128" href="favicon.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <style>
@@ -259,7 +260,7 @@
   .note.flash{animation:flash-box 1.5s ease-out}
   @media (max-width:760px){tr.flash td{animation:none}tr.flash{animation:flash-box 1.5s ease-out}}
   @media (prefers-reduced-motion:reduce){tr.flash td,tr.flash,.note.flash{animation:none}tr.flash td{box-shadow:inset 0 2px 0 rgba(149,100,0,.55),inset 0 -2px 0 rgba(149,100,0,.55)}.note.flash{box-shadow:inset 0 0 0 2px rgba(149,100,0,.55)}}
-  .tbl td a.ext{text-decoration:underline;text-decoration-color:var(--line-3);text-underline-offset:3px}
+  .tbl td a.ext,.note a.ext{text-decoration:underline;text-decoration-color:var(--line-3);text-underline-offset:3px}
   footer .row a.ext{text-decoration:underline;text-underline-offset:3px}
 
   /* ---------- 14. 등장 효과 ---------- */
@@ -428,7 +429,7 @@
   <div class="shell">
     <div class="eyebrow"><span>처음 쓰는 분을 위한 참고 문서</span><span>2026-09 기준</span></div>
     <h1>Claude Code, 업무별로 쓸 만한<br><em>스킬과 플러그인</em></h1>
-    <p class="lede">기획 · 디자인 · 퍼블리싱 · 프론트엔드 · 문서 · 마케팅 업무 기준. 여러 곳에서 반복 추천되고 평가가 좋은 것 위주.</p>
+    <p class="lede">기획 · 디자인 · 퍼블리싱 · 프론트엔드 · 문서 · 마케팅 업무 기준으로, 설치부터 도구 고르기까지. 설치 명령과 이름은 2026-09에 확인했습니다.</p>
   </div>
 </header>
 
@@ -511,8 +512,8 @@ irm https://claude.ai/install.ps1 | iex</code></div></td></tr>
     <details class="acc pic"><summary><span class="acc-t">그림으로 보기</span><span class="acc-n">15초</span></summary>
     <figure class="shot"><img src="assets/explorer-powershell.svg" alt="탐색기 주소창에 powershell 입력 → 그 폴더에서 PowerShell 열림 → claude 실행" width="760" height="500" loading="lazy"><figcaption>탐색기 주소창에 <code>powershell</code> → Enter → 그 폴더에서 열린 창에 <code>claude</code> → Enter.</figcaption></figure>
     </details>
-    <p>② 처음 한 번만 묻는 것: 테마(Enter) → 로그인 방식 <b>Claude account with subscription</b> → 브라우저에서 로그인 · 승인 → 창으로 돌아와 Enter → 이 폴더를 신뢰하는지(<b>Yes</b>).</p>
-    <p>③ <code>&gt;</code> 입력창이 보이면 성공. 첫 명령으로 Claude가 매번 읽는 메모(CLAUDE.md)를 만드세요. 끝낼 때는 <code>/exit</code>.</p>
+    <p>② 처음 한 번은 화면 안내를 따릅니다: 테마 고르기 → 로그인 방식은 <b>구독 계정(Claude account)</b> 항목 → 브라우저에서 로그인 · 승인 → 창으로 돌아와 Enter → 이 폴더를 신뢰하는지 물으면 <b>Yes</b>.</p>
+    <p>③ <code>&gt;</code> 입력창이 보이면 성공. 첫 명령으로 Claude가 매번 읽는 메모(CLAUDE.md)를 만드세요. 끝낼 때는 <code>/exit</code>. Pro · Max · Team은 묻지 않고 실행하는 auto 모드로 시작하니, 하나씩 확인받으려면 <kbd>Shift</kbd>+<kbd>Tab</kbd>으로 Manual(<a class="ref" href="#habits">3장</a>).</p>
     <div class="cmd" data-sh="Claude"><code>/init</code></div>
     <figure class="term rv"><figcaption><span class="tab"><i></i>Windows PowerShell — 첫 실행 · /init</span><span class="win">—&nbsp;&nbsp;☐&nbsp;&nbsp;✕</span></figcaption><pre><span class="l ps">PS C:\work\my-project&gt; claude</span>
 <span class="l out">Opening browser to log in...   (처음 한 번만)</span>
@@ -567,7 +568,7 @@ winget install Python.Python.3.12 --accept-source-agreements --accept-package-ag
       <tr><td class="name"><code>claude -c</code> · <code>claude -r</code></td><td data-label="무엇">직전 세션(대화 한 판) 이어가기 · 이전 세션 고르기</td></tr>
       <tr><td class="name"><code>/help</code> · <code>/model</code> · <code>/exit</code></td><td data-label="무엇">명령 목록 · 모델 변경 · 종료</td></tr>
       <tr><td class="name"><code>/plugin</code> · <code>/mcp</code> · <code>/permissions</code></td><td data-label="무엇">플러그인 탐색 · MCP 상태 · 권한 설정</td></tr>
-      <tr><td class="name"><code>/cost</code> · <code>/rewind</code> · <code>/resume</code></td><td data-label="무엇">토큰 · 비용 확인 · 체크포인트(자동 저장 지점)로 되감기(<kbd>Esc</kbd> 두 번과 같음) · 이전 세션 이어가기</td></tr>
+      <tr><td class="name"><code>/usage</code> · <code>/rewind</code> · <code>/resume</code></td><td data-label="무엇">사용량 확인 · 체크포인트(자동 저장 지점)로 되감기(<kbd>Esc</kbd> 두 번과 같음) · 이전 세션 이어가기</td></tr>
       <tr><td class="name"><code>/security-review</code></td><td data-label="무엇">변경한 코드의 보안 점검. 설치 없이 바로</td></tr>
       <tr><td class="name"><code>/statusline</code></td><td data-label="무엇">입력창 아래 상태 표시줄 설정. 모델 · 컨텍스트 · 플랜 사용량을 상시 표시(아래 예). 한 번 설정하면 이후 자동. 더 풍부하게는 <a class="ext" href="https://github.com/jarrodwatts/claude-hud" target="_blank" rel="noopener">claude-hud</a></td></tr>
     </tbody></table></div>
@@ -576,17 +577,17 @@ winget install Python.Python.3.12 --accept-source-agreements --accept-package-ag
 
 <section id="terminal">
   <div class="sec-head rv"><div class="idx">02</div><h2>터미널 쉽게 쓰기</h2>
-    <p class="sec-desc">제목을 누르면 펼쳐집니다. Windows 기준, 맥은 마지막. <span class="tag g">필수</span> 표시 6개만 익혀도 충분합니다.</p></div>
+    <p class="sec-desc">제목을 누르면 펼쳐집니다. Windows 기준, 맥은 마지막. <span class="tag g">필수</span> 표시만 익혀도 충분합니다.</p></div>
 
   
   <details class="acc"><summary><span class="acc-t">A. Windows Terminal</span><span class="acc-n">18개</span><span class="acc-s">새 탭 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> · 화면 나누기 <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd> · 복사 · 붙여넣기</span></summary>
 <div class="tblwrap rv"><table class="tbl keys">
     <thead><tr><th>하는 일</th><th>키</th><th>메모</th></tr></thead>
     <tbody>
-      <tr><td class="name">새 탭</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>T</kbd></td><td data-label="메모">프로젝트 폴더마다 탭 하나</td></tr>
+      <tr class="must"><td class="name">새 탭<span class="tag g">필수</span></td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>T</kbd></td><td data-label="메모">프로젝트 폴더마다 탭 하나</td></tr>
       <tr><td class="name">탭 전환</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Tab</kbd></td><td data-label="메모"></td></tr>
       <tr><td class="name">탭 닫기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>W</kbd></td><td data-label="메모">나눈 창에서는 포커스된 창만 닫힘</td></tr>
-      <tr><td class="name">화면 나누기</td><td data-label="키"><kbd>Alt</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>D</kbd></td><td data-label="메모">지금 창을 복제해 넓은 쪽으로 나눔</td></tr>
+      <tr class="must"><td class="name">화면 나누기<span class="tag g">필수</span></td><td data-label="키"><kbd>Alt</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>D</kbd></td><td data-label="메모">지금 창을 복제해 넓은 쪽으로 나눔</td></tr>
       <tr><td class="name">나눈 창 이동</td><td data-label="키"><kbd>Alt</kbd><span class="plus">+</span><kbd>←→↑↓</kbd></td><td data-label="메모"></td></tr>
       <tr><td class="name">나눈 창 크기 조절</td><td data-label="키"><kbd>Alt</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>←→↑↓</kbd></td><td data-label="메모"></td></tr>
       <tr><td class="name">검색</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>F</kbd></td><td data-label="메모"></td></tr>
@@ -596,8 +597,8 @@ winget install Python.Python.3.12 --accept-source-agreements --accept-package-ag
       <tr><td class="name">한 화면 아래로</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>PgDn</kbd></td><td data-label="메모"></td></tr>
       <tr><td class="name">글자 키우기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>=</kbd></td><td data-label="메모"></td></tr>
       <tr><td class="name">글자 줄이기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>-</kbd></td><td data-label="메모"></td></tr>
-      <tr><td class="name">복사</td><td data-label="키">드래그 후 <kbd>Ctrl</kbd><span class="plus">+</span><kbd>C</kbd></td><td data-label="메모"></td></tr>
-      <tr><td class="name">붙여넣기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>V</kbd></td><td data-label="메모"></td></tr>
+      <tr class="must"><td class="name">복사<span class="tag g">필수</span></td><td data-label="키">드래그 후 <kbd>Ctrl</kbd><span class="plus">+</span><kbd>C</kbd></td><td data-label="메모"></td></tr>
+      <tr class="must"><td class="name">붙여넣기<span class="tag g">필수</span></td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>V</kbd></td><td data-label="메모"></td></tr>
       <tr><td class="name">명령 팔레트</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>P</kbd></td><td data-label="메모">모든 동작 검색</td></tr>
       <tr><td class="name">퀵 창</td><td data-label="키"><kbd>Win</kbd><span class="plus">+</span><kbd>`</kbd></td><td data-label="메모">화면 위에서 내려오는 터미널</td></tr>
       <tr><td class="name">키 바꾸기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>,</kbd></td><td data-label="메모">설정 → 동작에서 변경</td></tr>
@@ -628,7 +629,7 @@ winget install Python.Python.3.12 --accept-source-agreements --accept-package-ag
       <tr><td class="name">단어 하나 지우기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Backspace</kbd></td><td data-label="메모"></td></tr>
       <tr><td class="name">화면 지우기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>L</kbd></td><td data-label="메모"><code>cls</code>와 같음</td></tr>
       <tr><td class="name">되돌리기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Z</kbd></td><td data-label="메모">입력 편집 취소</td></tr>
-      <tr><td class="name">여러 줄 명령</td><td data-label="키"><kbd>Shift</kbd><span class="plus">+</span><kbd>Enter</kbd></td><td data-label="메모">PowerShell 창에서는 됨 (Claude 안에서는 Ctrl+J)</td></tr>
+      <tr><td class="name">여러 줄 명령</td><td data-label="키"><kbd>Shift</kbd><span class="plus">+</span><kbd>Enter</kbd></td><td data-label="메모">PowerShell 창에서 줄바꿈. Claude 안에서는 Ctrl+J가 어느 터미널에서나 됨</td></tr>
       <tr><td class="name">경로 넣기</td><td data-label="키">탐색기에서 폴더를 창으로 드래그</td><td data-label="메모">경로가 그대로 붙음</td></tr>
       <tr><td class="name">이 폴더에서 터미널 열기</td><td data-label="키">탐색기 주소창에 <code>powershell</code> 입력 후 Enter</td><td data-label="메모"><code>cd</code> 없이 그 폴더에서 바로 열림. <code>wt</code>를 치면 Windows Terminal. 빈 곳 <kbd>Shift</kbd>+우클릭 → "터미널에서 열기"도 같음</td></tr>
     </tbody></table></div>
@@ -693,7 +694,7 @@ winget install Python.Python.3.12 --accept-source-agreements --accept-package-ag
     <thead><tr><th>하는 일</th><th>키</th><th>메모</th></tr></thead>
     <tbody>
       <tr><td class="name">iTerm2 화면 나누기</td><td data-label="키"><kbd>Cmd</kbd><span class="plus">+</span><kbd>D</kbd></td><td data-label="메모">가로는 <code>Cmd+Shift+D</code>. 새 탭은 <code>Cmd+T</code></td></tr>
-      <tr><td class="name">Alt 단축키 쓰기</td><td data-label="키">터미널 설정에서 <kbd>Option</kbd> → Meta</td><td data-label="메모"><code>Alt+P</code> 같은 키를 쓰려면 필요</td></tr>
+      <tr><td class="name">Alt 단축키 쓰기</td><td data-label="키"><kbd>Option</kbd> → Meta</td><td data-label="메모">터미널 설정에서 변경. <code>Alt+P</code> 같은 키를 쓰려면 필요</td></tr>
       <tr><td class="name">이미지 붙이기</td><td data-label="키"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>V</kbd></td><td data-label="메모">iTerm2는 <code>Cmd+V</code></td></tr>
     </tbody></table></div>
   </details>
@@ -701,15 +702,15 @@ winget install Python.Python.3.12 --accept-source-agreements --accept-package-ag
 
 <section id="habits">
   <div class="sec-head rv"><div class="idx">03</div><h2>권한 모드와 습관</h2>
-    <p class="sec-desc">Claude가 어디까지 스스로 하게 둘지 정하는 권한 모드와, 대화 공간(컨텍스트)을 아끼는 습관. 처음엔 기본 Manual로 쓰고, 계획만 받고 싶을 때 Plan.</p></div>
+    <p class="sec-desc">Claude가 어디까지 스스로 하게 둘지 정하는 권한 모드와, 대화 공간(컨텍스트)을 아끼는 습관. Pro · Max · Team은 auto로 시작합니다. 하나씩 확인받고 싶으면 <kbd>Shift</kbd>+<kbd>Tab</kbd>으로 Manual, 계획만 받고 싶으면 Plan.</p></div>
   <div class="grp rv">권한 모드 6가지<span class="hint">주로 <code>Shift+Tab</code>으로 전환</span></div>
   <div class="tblwrap rv"><table class="tbl">
     <thead><tr><th>모드</th><th>동작</th><th>언제</th></tr></thead>
     <tbody>
-      <tr><td class="name"><div class="cell"><span class="nm">Manual</span><span class="sub">default</span></div></td><td data-label="동작">도구별 첫 사용 시 확인 창(↑↓로 고르고 Enter 허용 · Esc 거부)</td><td data-label="언제">하나씩 확인받고 싶을 때</td></tr>
+      <tr><td class="name"><div class="cell"><span class="nm">Manual</span><span class="sub">default</span></div></td><td data-label="동작">도구별 첫 사용 시 확인 창(↑↓로 고르고 Enter 허용 · Esc 거부)</td><td data-label="언제">하나씩 확인받고 싶을 때. Enterprise와 설치 후 첫 세션은 이 모드로 시작</td></tr>
       <tr><td class="name">acceptEdits</td><td data-label="동작">파일 편집 자동 승인</td><td data-label="언제">평소 작업. 확인 창 줄이기</td></tr>
       <tr><td class="name">Plan</td><td data-label="동작">파일 수정 없이 읽기 · 계획</td><td data-label="언제">시작 전 계획 세울 때</td></tr>
-      <tr><td class="name">auto</td><td data-label="동작">안전 검사 후 자동 승인</td><td data-label="언제">Pro · Max · Team에서 사용 가능. 긴 작업 맡길 때</td></tr>
+      <tr><td class="name">auto</td><td data-label="동작">안전 검사 후 자동 승인</td><td data-label="언제">Pro · Max · Team의 시작 모드. 긴 작업 맡길 때</td></tr>
       <tr><td class="name">dontAsk</td><td data-label="동작">허용 목록 외 자동 거부</td><td data-label="언제">고급. 명령줄 옵션으로만 켬(Shift+Tab엔 없음)</td></tr>
       <tr><td class="name"><div class="cell"><span class="nm">bypassPermissions</span><span class="sub"><code>claude --dangerously-skip-permissions</code></span></div></td><td data-label="동작">확인 없이 전부 실행</td><td data-label="언제">고급. 내 PC와 분리된 가상 환경(컨테이너 · VM)에서만. 먼저 hookify(4장)로 위험 명령 차단</td></tr>
     </tbody></table></div>
@@ -727,7 +728,7 @@ winget install Python.Python.3.12 --accept-source-agreements --accept-package-ag
 <section id="core" class="core">
   <div class="sec-head rv"><div class="idx">04</div><h2>핵심 요약<span class="tag g">이것만 알아도 됨</span></h2>
     <p class="sec-desc">누구나 먼저 설치할 6개. 요구사항 검증 · 스킬 찾기 · 안전장치 · CLAUDE.md 관리. 업무별 도구는 5장.</p></div>
-  <div class="legend rv"><span><span class="tag g">필수</span> 누구나</span><span><span class="tag b">핵심</span> 업무별 기본</span><span><span class="tag k-s">스킬</span><span class="tag k-p">플러그인</span><span class="tag k-m">MCP</span><span class="tag k-t">도구 · 설정</span></span><span><code>/이름</code> 직접 호출 · 자동 = 설치만 하면 말로 시킬 때 알아서 쓰임</span><span>설치 명령이 <code>/</code>로 시작하면 Claude 대화창(<code>&gt;</code>)에, 그 외(<code>npx</code> · <code>npm</code> · <code>pip</code>)는 PowerShell 창(<code>PS&gt;</code>)에</span></div>
+  <div class="legend rv"><span><span class="tag g">필수</span> 누구나</span><span><span class="tag b">핵심</span> 업무별 기본</span><span><span class="tag k-s">스킬</span><span class="tag k-p">플러그인</span><span class="tag k-m">MCP</span><span class="tag k-t">도구 · 설정</span></span><span><code>/이름</code> 직접 호출 · 자동 = 설치만 하면 말로 시킬 때 알아서 쓰임</span><span>설치: <code>/</code>로 시작하면 Claude 대화창, 그 외는 PowerShell</span></div>
   <div class="tblwrap rv"><table class="tbl t4">
     <thead><tr><th>항목</th><th>용도</th><th>호출 · 사용법</th><th>설치</th></tr></thead>
     <tbody>
@@ -739,6 +740,7 @@ winget install Python.Python.3.12 --accept-source-agreements --accept-package-ag
       <tr class="must" id="core-claude-md-management"><td class="name"><div class="cell"><a class="nm" href="https://claude.com/plugins/claude-md-management" target="_blank" rel="noopener">claude-md-management</a><span class="badges"><span class="tag g">필수</span><span class="tag k-p">플러그인</span></span><span class="sub">공식</span></div></td><td data-label="용도">세션 학습을 CLAUDE.md에 반영</td><td data-label="호출 · 사용법"><span class="call"><code>/revise-claude-md</code></span><span class="use">세션 끝에 실행. 점검은 "CLAUDE.md 감사해줘"</span></td><td data-label="설치"><code>/plugin install claude-md-management@claude-plugins-official</code></td></tr>
     </tbody></table></div>
   <div class="note rv"><b>원칙.</b> 적게 설치(MCP 3~6, 스킬 8~12). 명령으로 되면 MCP 대신 스킬 · CLI(터미널 명령 도구).</div>
+  <div class="note rv"><b>더 찾아보기.</b> 먼저 <a class="ref" href="#core-find-skills">find-skills</a>에게 말로 물어보고, 목록을 직접 보고 싶으면 <a class="ext" href="https://github.com/ComposioHQ/awesome-claude-skills" target="_blank" rel="noopener">Awesome Claude Skills</a>.<br>누구나 올린 목록이라 품질이 제각각입니다. 설치 전에 SKILL.md를 읽어 보고, 별이 적거나 오래 방치된 것은 피하세요.</div>
 </section>
 
 <section id="roles">
@@ -750,10 +752,10 @@ winget install Python.Python.3.12 --accept-source-agreements --accept-package-ag
   <input type="radio" name="roles" id="tab-front" >
   <input type="radio" name="roles" id="tab-work" >
   <div class="tabs rv" role="tablist" aria-label="업무별 도구">
-    <label for="tab-plan" role="tab">기획</label>
-    <label for="tab-design" role="tab">디자인</label>
-    <label for="tab-front" role="tab">퍼블리싱 · 프론트엔드</label>
-    <label for="tab-work" role="tab">문서 · 업무</label>
+    <label for="tab-plan" role="tab" aria-selected="true">기획</label>
+    <label for="tab-design" role="tab" aria-selected="false">디자인</label>
+    <label for="tab-front" role="tab" aria-selected="false">퍼블리싱 · 프론트엔드</label>
+    <label for="tab-work" role="tab" aria-selected="false">문서 · 업무</label>
   </div>
   <div class="panel" id="panel-plan" role="tabpanel">
     <p class="tab-desc">요구사항을 질문으로 확정하고 스펙 · 티켓 · 기획서로 만드는 도구.</p>
@@ -847,11 +849,11 @@ winget install Python.Python.3.12 --accept-source-agreements --accept-package-ag
       <tr id="superpowers"><td class="name"><div class="cell"><a class="nm" href="https://github.com/obra/superpowers" target="_blank" rel="noopener">superpowers</a><span class="badges"><span class="tag k-p">플러그인</span></span></div></td><td data-label="용도">브레인스토밍 → 계획 → TDD(테스트 먼저 쓰기) → 검증 절차 강제</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">설치하면 작업마다 절차를 밟음. 토큰 · 시간을 더 씀</span></td><td data-label="설치 · 저장소"><code>/plugin install superpowers@claude-plugins-official</code></td></tr>
       <tr><td class="name"><div class="cell"><a class="nm" href="https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md" target="_blank" rel="noopener">systematic-debugging</a><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td data-label="용도">원인부터 찾는 디버깅</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">버그 보고 시 자동</span></td><td data-label="설치 · 저장소"><code>npx skills add obra/superpowers --skill systematic-debugging</code> (전체는 위 superpowers)</td></tr>
       <tr><td class="name"><div class="cell"><a class="nm" href="https://claude.com/plugins/code-review" target="_blank" rel="noopener">code-review</a><span class="badges"><span class="tag k-p">플러그인</span></span><span class="sub">공식</span></div></td><td data-label="용도">PR(코드 변경 검토 요청)을 에이전트 4개가 병렬로 심층 리뷰</td><td data-label="호출 · 사용법"><span class="call"><code>/code-review</code></span><span class="use">PR 올린 뒤 실행. 내장 명령보다 깊게 봄</span></td><td data-label="설치 · 저장소"><code>/plugin install code-review@claude-plugins-official</code></td></tr>
-      <tr><td class="name"><div class="cell"><a class="nm" href="https://github.com/garrytan/gstack" target="_blank" rel="noopener">gstack</a><span class="badges"><span class="tag k-s">스킬 묶음</span></span></div></td><td data-label="용도">리뷰 · QA · 배포까지 40개+ 스킬</td><td data-label="호출 · 사용법"><span class="call"><code>/review</code> <code>/qa</code> <code>/ship</code> 등</span><span class="use">설치 후 <code>/</code>로 목록 확인</span></td><td data-label="설치 · 저장소">Git Bash(Git 설치 시 딸려오는 터미널) 창에서 <code>git clone --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack &amp;&amp; cd ~/.claude/skills/gstack &amp;&amp; ./setup</code> (PowerShell에선 안 됨 · Git · Bun(JS 실행기) 필요)</td></tr>
+      <tr><td class="name"><div class="cell"><a class="nm" href="https://github.com/garrytan/gstack" target="_blank" rel="noopener">gstack</a><span class="badges"><span class="tag k-s">스킬 묶음</span></span><span class="sub">고급</span></div></td><td data-label="용도">리뷰 · QA · 배포까지 40개+ 스킬</td><td data-label="호출 · 사용법"><span class="call"><code>/review</code> <code>/qa</code> <code>/ship</code> 등</span><span class="use">설치 후 <code>/</code>로 목록 확인</span></td><td data-label="설치 · 저장소">Git Bash(Git 설치 시 딸려오는 터미널) 창에서 <code>git clone --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack &amp;&amp; cd ~/.claude/skills/gstack &amp;&amp; ./setup</code> (PowerShell에선 안 됨 · Git · Bun(JS 실행기) 필요)</td></tr>
       <tr><td class="name"><div class="cell"><a class="nm" href="https://github.com/open-gsd/gsd-core" target="_blank" rel="noopener">open-gsd</a><span class="badges"><span class="tag k-t">도구</span></span></div></td><td data-label="용도">며칠 걸리는 프로젝트를 계획 → 실행 → 검증으로</td><td data-label="호출 · 사용법"><span class="call"><code>/gsd-new-project</code> · <code>/gsd-onboard</code></span><span class="use">새 프로젝트 · 기존 코드</span></td><td data-label="설치 · 저장소"><code>npx @opengsd/gsd-core@latest</code></td></tr>
       <tr><td class="name"><div class="cell"><span class="nm">loop · schedule</span><span class="badges"><span class="tag k-s">스킬</span></span><span class="sub">내장</span></div></td><td data-label="용도">반복 실행 · 예약 실행</td><td data-label="호출 · 사용법"><span class="call"><code>/loop</code> · <code>/schedule</code></span><span class="use"><code>/loop 5m /명령</code>은 5분마다 반복, <code>/schedule</code>은 크론(시각 · 주기) 예약</span></td><td data-label="설치 · 저장소">내장. 설치 불필요</td></tr>
       <tr><td class="name"><div class="cell"><a class="nm" href="https://github.com/mksglu/context-mode" target="_blank" rel="noopener">context-mode</a><span class="badges"><span class="tag k-p">플러그인</span></span></div></td><td data-label="용도">도구 실행 결과를 따로 보관해 토큰 절약</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">설치하면 자동</span></td><td data-label="설치 · 저장소"><code>/plugin marketplace add mksglu/context-mode</code> 후 <code>/plugin install context-mode@context-mode</code></td></tr>
-      <tr><td class="name"><div class="cell"><a class="nm" href="https://github.com/rtk-ai/rtk" target="_blank" rel="noopener">RTK</a><span class="badges"><span class="tag k-t">도구</span></span></div></td><td data-label="용도">터미널 출력 압축으로 토큰 절약</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use"><code>rtk init -g</code> 한 번 실행</span></td><td data-label="설치 · 저장소">Releases의 Windows zip을 풀어 <code>C:\Users\&lt;이름&gt;\.local\bin</code>(claude.exe와 같은 폴더)에 넣기</td></tr>
+      <tr><td class="name"><div class="cell"><a class="nm" href="https://github.com/rtk-ai/rtk" target="_blank" rel="noopener">RTK</a><span class="badges"><span class="tag k-t">도구</span></span><span class="sub">고급</span></div></td><td data-label="용도">터미널 출력 압축으로 토큰 절약</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use"><code>rtk init -g</code> 한 번 실행</span></td><td data-label="설치 · 저장소"><a class="ext" href="https://github.com/rtk-ai/rtk/releases" target="_blank" rel="noopener">Releases</a>의 Windows zip을 풀어 <code>C:\Users\&lt;이름&gt;\.local\bin</code>(claude.exe와 같은 폴더)에 넣기</td></tr>
       <tr><td class="name"><div class="cell"><a class="nm" href="https://github.com/DietrichGebert/ponytail" target="_blank" rel="noopener">Ponytail</a><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td data-label="용도">코드를 짧게 유지</td><td data-label="호출 · 사용법"><span class="call">자동</span><span class="use">코드 작성 시 자동. <code>/ponytail off</code>로 해제</span></td><td data-label="설치 · 저장소"><code>/plugin marketplace add DietrichGebert/ponytail</code> 후 <code>/plugin install ponytail@ponytail</code></td></tr>
       <tr><td class="name"><div class="cell"><a class="nm" href="https://github.com/Graphify-Labs/graphify" target="_blank" rel="noopener">graphify</a><span class="badges"><span class="tag k-s">스킬</span></span></div></td><td data-label="용도">코드 · 문서를 지식 그래프로 파악</td><td data-label="호출 · 사용법"><span class="call"><code>/graphify .</code></span><span class="use">프로젝트나 문서 폴더에서 실행</span></td><td data-label="설치 · 저장소"><code>pip install graphifyy</code> 후 <code>graphify install</code> (Python 3.10+)</td></tr>
     </tbody></table></div>
@@ -956,7 +958,7 @@ description: 회의 메모를 결정 사항 · 할 일 · 다음 안건 형식�
   document.querySelectorAll('a.ref').forEach(function(a){a.addEventListener('click',function(e){var hash=a.getAttribute('href'),el=reveal(hash);if(el&&(el.tagName==='TR'||el.classList.contains('note'))){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'center'});history.replaceState(null,'',hash);setTimeout(function(){flash(hash);},400);}else{setTimeout(function(){flash(hash);},350);}});});
   if(location.hash)flash(location.hash);
   // 탭 패널 앵커: #panel-xxx 로 이동하면 해당 탭을 선택
-  function openPanel(hash){var mm=/^#panel-([a-z]+)$/.exec(hash);if(!mm)return false;var r=document.getElementById('tab-'+mm[1]);if(r){r.checked=true;document.getElementById('roles').scrollIntoView({behavior:'smooth',block:'start'});return true;}return false;}
+  function openPanel(hash){var mm=/^#panel-([a-z]+)$/.exec(hash);if(!mm)return false;var r=document.getElementById('tab-'+mm[1]);if(r){r.checked=true;syncTabs();document.getElementById('roles').scrollIntoView({behavior:'smooth',block:'start'});return true;}return false;}
   document.querySelectorAll('a[href^="#panel-"]').forEach(function(a){a.addEventListener('click',function(e){if(openPanel(a.getAttribute('href')))e.preventDefault();});});
   if(location.hash)openPanel(location.hash);
   // 명령 복사 버튼
@@ -968,6 +970,10 @@ description: 회의 메모를 결정 사항 · 할 일 · 다음 안건 형식�
     function fallback(t){var ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');ta.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.appendChild(ta);ta.select();var ok=false;try{ok=document.execCommand('copy');}catch(e){}document.body.removeChild(ta);done(ok);}
     btn.addEventListener('click',function(){var t=code.textContent.replace(/\r\n?/g,'\n');if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(function(){done(true);},function(){fallback(t);});}else fallback(t);});
   });
+  // 업무별 탭: 선택 상태를 화면 낭독기에 알림
+  var tabRadios=document.querySelectorAll('#roles>input[name="roles"]');
+  function syncTabs(){document.querySelectorAll('#roles>input[name="roles"]').forEach(function(r){var l=document.querySelector('label[for="'+r.id+'"]');if(l)l.setAttribute('aria-selected',r.checked?'true':'false');});}
+  tabRadios.forEach(function(r){r.addEventListener('change',syncTabs);});syncTabs();
   // 맨 위로
   var top=document.querySelector('.totop');
   if(top){window.addEventListener('scroll',function(){top.classList.toggle('show',window.scrollY>600);},{passive:true});top.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});}

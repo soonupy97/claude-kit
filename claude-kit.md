@@ -1,6 +1,6 @@
 # Claude Code, 업무별로 쓸 만한 스킬·플러그인
 
-기획·디자인·퍼블리싱·프론트엔드·문서·마케팅 업무 기준. 여러 곳에서 반복 추천되고 평가가 좋은 것 위주. (2026-09 기준 · 공식 문서: https://code.claude.com/docs)
+기획·디자인·퍼블리싱·프론트엔드·문서·마케팅 업무 기준으로, 설치부터 도구 고르기까지. 설치 명령과 이름은 2026-09에 확인했습니다. (2026-09 기준 · 공식 문서: https://code.claude.com/docs)
 
 ---
 
@@ -50,7 +50,7 @@ claude --version
 | 'claude' 용어가 … 인식되지 않습니다 (is not recognized) | 창을 모두 닫고 새로 열기. 그래도 같으면 `[Environment]::SetEnvironmentVariable('PATH', [Environment]::GetEnvironmentVariable('PATH', 'User') + ";$env:USERPROFILE\.local\bin", 'User')` 실행(아무것도 안 나오면 정상) 후 새 창에서 다시 |
 | 'irm'은(는) … 명령이 아닙니다 · '&&' 토큰 · 'fsSL' 매개 변수 (not recognized · not a valid statement separator · parameter name 'fsSL') | 다른 창(CMD)이거나 다른 OS용 명령입니다. PowerShell 창에서 위 설치 명령을 그대로 복사해 다시 |
 | SSL/TLS 보안 채널 · 기본 연결이 닫혔습니다 (SSL/TLS secure channel · connection was closed) | `[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://claude.ai/install.ps1 \| iex`. 회사망이면 IT 담당자에게 `downloads.claude.ai` 허용 요청 |
-| 회사망에서 원격 서버에 연결할 수 없습니다 (Unable to connect to the remote server) | 회사 프록시를 거쳐야 하는 경우. IT 담당자에게 받은 주소로 `$p = 'http://프록시주소:포트'; [Environment]::SetEnvironmentVariable('HTTPS_PROXY', $p, 'User'); $env:HTTP_PROXY = $p; $env:HTTPS_PROXY = $p; irm https://claude.ai/install.ps1 | iex`. 이후 Claude 실행에도 계속 적용 |
+| 회사망에서 원격 서버에 연결할 수 없습니다 (Unable to connect to the remote server) | 회사 프록시를 거쳐야 하는 경우. IT 담당자에게 받은 주소로 `$p = 'http://프록시주소:포트'; [Environment]::SetEnvironmentVariable('HTTPS_PROXY', $p, 'User'); $env:HTTP_PROXY = $p; $env:HTTPS_PROXY = $p; irm https://claude.ai/install.ps1 \| iex`. 이후 Claude 실행에도 계속 적용 |
 | `<html` 같은 글자가 섞인 오류 · 403 | 잠시 뒤 다시. 계속되면 `winget install Anthropic.ClaudeCode`(자동 업데이트 없음) |
 
 그 밖의 오류는 [공식 문제 해결](https://code.claude.com/docs/en/troubleshoot-install)에서 문구로 찾기.
@@ -66,9 +66,9 @@ claude --version
 
 </details>
 
-② 처음 한 번만 묻는 것: 테마(Enter) → 로그인 방식 **Claude account with subscription** → 브라우저에서 로그인·승인 → 창으로 돌아와 Enter → 이 폴더를 신뢰하는지(**Yes**).
+② 처음 한 번은 화면 안내를 따릅니다: 테마 고르기 → 로그인 방식은 **구독 계정(Claude account)** 항목 → 브라우저에서 로그인·승인 → 창으로 돌아와 Enter → 이 폴더를 신뢰하는지 물으면 **Yes**.
 
-③ `>` 입력창이 보이면 성공. 첫 명령 `/init`으로 Claude가 매번 읽는 메모(CLAUDE.md)를 만드세요. 끝낼 때는 `/exit`.
+③ `>` 입력창이 보이면 성공. 첫 명령 `/init`으로 Claude가 매번 읽는 메모(CLAUDE.md)를 만드세요. 끝낼 때는 `/exit`. Pro·Max·Team은 묻지 않고 실행하는 auto 모드로 시작하니, 하나씩 확인받으려면 `Shift`+`Tab`으로 Manual(3장).
 
 ```text
 # Windows PowerShell — 첫 실행 · /init
@@ -132,7 +132,7 @@ npx skills add vercel-labs/skills --skill find-skills
 | `claude -c` · `claude -r` | 직전 세션(대화 한 판) 이어가기 · 이전 세션 고르기 |
 | `/help` · `/model` · `/exit` | 명령 목록 · 모델 변경 · 종료 |
 | `/plugin` · `/mcp` · `/permissions` | 플러그인 탐색 · MCP 상태 · 권한 설정 |
-| `/cost` · `/rewind` · `/resume` | 토큰·비용 확인 · 체크포인트(자동 저장 지점)로 되감기(`Esc` 두 번과 같음) · 이전 세션 이어가기 |
+| `/usage` · `/rewind` · `/resume` | 사용량 확인 · 체크포인트(자동 저장 지점)로 되감기(`Esc` 두 번과 같음) · 이전 세션 이어가기 |
 | `/security-review` | 변경한 코드의 보안 점검. 설치 없이 바로 |
 | `/statusline` | 입력창 아래 상태 표시줄 설정. 모델·컨텍스트·플랜 사용량을 상시 표시(아래 예). 한 번 설정하면 이후 자동. 더 풍부하게는 [claude-hud](https://github.com/jarrodwatts/claude-hud) |
 
@@ -143,17 +143,17 @@ npx skills add vercel-labs/skills --skill find-skills
 
 ## 2. 터미널 쉽게 쓰기
 
-제목을 누르면 펼쳐집니다. Windows 기준, 맥은 마지막. `필수` 표시 6개만 익혀도 충분합니다.
+제목을 누르면 펼쳐집니다. Windows 기준, 맥은 마지막. `필수` 표시만 익혀도 충분합니다.
 
 <details>
 <summary><b>A. Windows Terminal</b> — 새 탭 `Ctrl+Shift+T` · 화면 나누기 `Alt+Shift+D` · 복사 · 붙여넣기</summary>
 
 | 하는 일 | 키 | 메모 |
 |---|---|---|
-| 새 탭 | `Ctrl+Shift+T` | 프로젝트 폴더마다 탭 하나 |
+| 새 탭 `필수` | `Ctrl+Shift+T` | 프로젝트 폴더마다 탭 하나 |
 | 탭 전환 | `Ctrl+Tab` |  |
 | 탭 닫기 | `Ctrl+Shift+W` | 나눈 창에서는 포커스된 창만 닫힘 |
-| 화면 나누기 | `Alt+Shift+D` | 지금 창을 복제해 넓은 쪽으로 나눔 |
+| 화면 나누기 `필수` | `Alt+Shift+D` | 지금 창을 복제해 넓은 쪽으로 나눔 |
 | 나눈 창 이동 | `Alt+←→↑↓` |  |
 | 나눈 창 크기 조절 | `Alt+Shift+←→↑↓` |  |
 | 검색 | `Ctrl+Shift+F` |  |
@@ -163,8 +163,8 @@ npx skills add vercel-labs/skills --skill find-skills
 | 한 화면 아래로 | `Ctrl+Shift+PgDn` |  |
 | 글자 키우기 | `Ctrl+=` |  |
 | 글자 줄이기 | `Ctrl+-` |  |
-| 복사 | 드래그 후 `Ctrl+C` |  |
-| 붙여넣기 | `Ctrl+V` |  |
+| 복사 `필수` | 드래그 후 `Ctrl+C` |  |
+| 붙여넣기 `필수` | `Ctrl+V` |  |
 | 명령 팔레트 | `Ctrl+Shift+P` | 모든 동작 검색 |
 | 퀵 창 | `Win+`` | 화면 위에서 내려오는 터미널 |
 | 키 바꾸기 | `Ctrl+,` | 설정 → 동작에서 변경 |
@@ -206,7 +206,7 @@ PS C:\work\design-system> claude
 | 단어 하나 지우기 | `Ctrl+Backspace` |  |
 | 화면 지우기 | `Ctrl+L` | `cls`와 같음 |
 | 되돌리기 | `Ctrl+Z` | 입력 편집 취소 |
-| 여러 줄 명령 | `Shift+Enter` | PowerShell 창에서는 됨 (Claude 안에서는 Ctrl+J) |
+| 여러 줄 명령 | `Shift+Enter` | PowerShell 창에서 줄바꿈. Claude 안에서는 Ctrl+J가 어느 터미널에서나 됨 |
 | 경로 넣기 | 탐색기에서 폴더를 창으로 드래그 | 경로가 그대로 붙음 |
 | 이 폴더에서 터미널 열기 | 탐색기 주소창에 `powershell` 입력 후 Enter | `cd` 없이 그 폴더에서 바로 열림. `wt`를 치면 Windows Terminal. 빈 곳 `Shift+우클릭` → "터미널에서 열기"도 같음 |
 
@@ -279,7 +279,7 @@ PS C:\work\design-system> claude
 | 하는 일 | 키 | 메모 |
 |---|---|---|
 | iTerm2 화면 나누기 | `Cmd+D` | 가로는 `Cmd+Shift+D`. 새 탭은 `Cmd+T` |
-| Alt 단축키 쓰기 | 터미널 설정에서 Option → Meta | `Alt+P` 같은 키를 쓰려면 필요 |
+| Alt 단축키 쓰기 | Option → Meta | 터미널 설정에서 변경. `Alt+P` 같은 키를 쓰려면 필요 |
 | 이미지 붙이기 | `Ctrl+V` | iTerm2는 `Cmd+V` |
 
 </details>
@@ -288,16 +288,16 @@ PS C:\work\design-system> claude
 
 ## 3. 권한 모드와 습관
 
-Claude가 어디까지 스스로 하게 둘지 정하는 권한 모드와, 대화 공간(컨텍스트)을 아끼는 습관. 처음엔 기본 Manual로 쓰고, 계획만 받고 싶을 때 Plan.
+Claude가 어디까지 스스로 하게 둘지 정하는 권한 모드와, 대화 공간(컨텍스트)을 아끼는 습관. Pro·Max·Team은 auto로 시작합니다. 하나씩 확인받고 싶으면 `Shift`+`Tab`으로 Manual, 계획만 받고 싶으면 Plan.
 
 ### 권한 모드 6가지 (주로 `Shift+Tab`으로 전환)
 
 | 모드 | 동작 | 언제 |
 |---|---|---|
-| **Manual** (default) | 도구별 첫 사용 시 확인 창(↑↓로 고르고 Enter 허용 · Esc 거부) | 하나씩 확인받고 싶을 때 |
+| **Manual** (default) | 도구별 첫 사용 시 확인 창(↑↓로 고르고 Enter 허용 · Esc 거부) | 하나씩 확인받고 싶을 때. Enterprise와 설치 후 첫 세션은 이 모드로 시작 |
 | **acceptEdits** | 파일 편집 자동 승인 | 평소 작업. 확인 창 줄이기 |
 | **Plan** | 파일 수정 없이 읽기·계획 | 시작 전 계획 세울 때 |
-| **auto** | 안전 검사 후 자동 승인 | Pro·Max·Team에서 사용 가능. 긴 작업 맡길 때 |
+| **auto** | 안전 검사 후 자동 승인 | Pro·Max·Team의 시작 모드. 긴 작업 맡길 때 |
 | **dontAsk** | 허용 목록 외 자동 거부 | 고급. 명령줄 옵션으로만 켬(Shift+Tab엔 없음) |
 | **bypassPermissions** (`claude --dangerously-skip-permissions`) | 확인 없이 전부 실행 | 고급. 내 PC와 분리된 가상 환경(컨테이너·VM)에서만. 먼저 hookify(4장)로 위험 명령 차단 |
 
@@ -317,7 +317,7 @@ Claude가 어디까지 스스로 하게 둘지 정하는 권한 모드와, 대�
 누구나 먼저 설치할 6개. 요구사항 검증·스킬 찾기·안전장치·CLAUDE.md 관리. 업무별 도구는 5장.
 
 `필수` = 누구나 · `핵심` = 업무별 기본 · `/이름` = 직접 호출 · 자동 = 설치만 하면 말로 시킬 때 알아서 쓰임.  
-설치 명령이 `/`로 시작하면 Claude 대화창(`>`)에, 그 외(`npx`·`npm`·`pip` 등)는 PowerShell 창(`PS>`)에 입력.
+설치: `/`로 시작하면 Claude 대화창, 그 외는 PowerShell.
 
 | 항목 | 용도 | 호출 · 사용법 | 설치 |
 |---|---|---|---|
@@ -329,6 +329,8 @@ Claude가 어디까지 스스로 하게 둘지 정하는 권한 모드와, 대�
 | **[claude-md-management](https://claude.com/plugins/claude-md-management)** `필수` (공식) · 플러그인 | 세션 학습을 CLAUDE.md에 반영 | **`/revise-claude-md`** 세션 끝에 실행. 점검은 "CLAUDE.md 감사해줘" | `/plugin install claude-md-management@claude-plugins-official` |
 
 > 원칙: 적게 설치(MCP 3~6, 스킬 8~12). 명령으로 되면 MCP 대신 스킬·CLI(터미널 명령 도구).
+
+> 더 찾아보기: 먼저 find-skills에게 말로 물어보고, 목록을 직접 보고 싶으면 [Awesome Claude Skills](https://github.com/ComposioHQ/awesome-claude-skills). 누구나 올린 목록이라 품질이 제각각입니다. 설치 전에 SKILL.md를 읽어 보고, 별이 적거나 오래 방치된 것은 피하세요.
 
 ---
 
@@ -466,11 +468,11 @@ PDF·엑셀·PPT는 파일 이름과 원하는 결과만 말하면 됩니다(플
 | **[superpowers](https://github.com/obra/superpowers)** · 플러그인 | 브레인스토밍 → 계획 → TDD(테스트 먼저 쓰기) → 검증 절차 강제 | **자동** 설치하면 작업마다 절차를 밟음. 토큰·시간을 더 씀 | `/plugin install superpowers@claude-plugins-official` |
 | **[systematic-debugging](https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md)** · 스킬 | 원인부터 찾는 디버깅 | **자동** 버그 보고 시 자동 | `npx skills add obra/superpowers --skill systematic-debugging` (전체는 위 superpowers) |
 | **[code-review](https://claude.com/plugins/code-review)** (공식) · 플러그인 | PR(코드 변경 검토 요청)을 에이전트 4개가 병렬로 심층 리뷰 | **`/code-review`** PR 올린 뒤 실행. 내장 명령보다 깊게 봄 | `/plugin install code-review@claude-plugins-official` |
-| **[gstack](https://github.com/garrytan/gstack)** · 스킬 묶음 | 리뷰·QA·배포까지 40개+ 스킬 | **`/review` `/qa` `/ship` 등** 설치 후 `/`로 목록 확인 | Git Bash(Git 설치 시 딸려오는 터미널) 창에서 `git clone --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup` (PowerShell에선 안 됨 · Git·Bun(JS 실행기) 필요) |
+| **[gstack](https://github.com/garrytan/gstack)** · 스킬 묶음 · 고급 | 리뷰·QA·배포까지 40개+ 스킬 | **`/review` `/qa` `/ship` 등** 설치 후 `/`로 목록 확인 | Git Bash(Git 설치 시 딸려오는 터미널) 창에서 `git clone --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup` (PowerShell에선 안 됨 · Git·Bun(JS 실행기) 필요) |
 | **[open-gsd](https://github.com/open-gsd/gsd-core)** · 도구 | 며칠 걸리는 프로젝트를 계획 → 실행 → 검증으로 | **`/gsd-new-project` · `/gsd-onboard`** 새 프로젝트·기존 코드 | `npx @opengsd/gsd-core@latest` |
 | **loop · schedule** (내장) · 스킬 | 반복 실행·예약 실행 | **`/loop` · `/schedule`** `/loop 5m /명령`은 5분마다 반복, `/schedule`은 크론(시각·주기) 예약 | 내장. 설치 불필요 |
 | **[context-mode](https://github.com/mksglu/context-mode)** · 플러그인 | 도구 실행 결과를 따로 보관해 토큰 절약 | **자동** 설치하면 자동 | `/plugin marketplace add mksglu/context-mode` 후 `/plugin install context-mode@context-mode` |
-| **[RTK](https://github.com/rtk-ai/rtk)** · 도구 | 터미널 출력 압축으로 토큰 절약 | **자동** `rtk init -g` 한 번 실행 | Releases의 Windows zip을 풀어 `C:\Users\<이름>\.local\bin`(claude.exe와 같은 폴더)에 넣기 |
+| **[RTK](https://github.com/rtk-ai/rtk)** · 도구 · 고급 | 터미널 출력 압축으로 토큰 절약 | **자동** `rtk init -g` 한 번 실행 | [Releases](https://github.com/rtk-ai/rtk/releases)의 Windows zip을 풀어 `C:\Users\<이름>\.local\bin`(claude.exe와 같은 폴더)에 넣기 |
 | **[Ponytail](https://github.com/DietrichGebert/ponytail)** · 스킬 | 코드를 짧게 유지 | **자동** 코드 작성 시 자동. `/ponytail off`로 해제 | `/plugin marketplace add DietrichGebert/ponytail` 후 `/plugin install ponytail@ponytail` |
 | **[graphify](https://github.com/Graphify-Labs/graphify)** · 스킬 | 코드·문서를 지식 그래프로 파악 | **`/graphify .`** 프로젝트나 문서 폴더에서 실행 | `pip install graphifyy` 후 `graphify install` (Python 3.10+) |
 
