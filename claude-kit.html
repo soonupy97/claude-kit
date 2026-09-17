@@ -477,11 +477,11 @@
   <div class="note lead rv"><b>터미널이 낯설다면</b> <a href="https://claude.com/download" target="_blank" rel="noopener">데스크톱 앱</a> 설치 → 로그인 → '폴더 열기'로 바로 시작. A–E는 익숙해진 뒤에.</div>
 
   <div class="step rv"><div class="step-h"><span class="step-n">A</span><h3>PowerShell 열기</h3></div>
-    <p><kbd>Win</kbd> 키 → <code>powershell</code> 입력 → <b>Windows PowerShell</b>. 창 맨 앞이 <code>PS</code>로 시작하면 맞습니다. <b>(x86)</b> 항목은 고르지 마세요.</p>
+    <p><kbd>Win</kbd> 키 → <code>powershell</code> 입력(한글로 쳐지면 <kbd>한/영</kbd> 키) → <b>Windows PowerShell</b>. 창 맨 앞이 <code>PS</code>로 시작하면 맞습니다. <b>(x86)</b> 항목은 고르지 마세요.</p>
   </div>
 
   <div class="step rv"><div class="step-h"><span class="step-n">B</span><h3>설치 · 확인</h3></div>
-    <p>① 설치 명령을 붙여넣고(<kbd>Ctrl</kbd>+<kbd>V</kbd>) Enter. <code>PS</code> 줄이 다시 보이면 끝.</p>
+    <p>① 설치 명령을 붙여넣고(<kbd>Ctrl</kbd>+<kbd>V</kbd>, 안 되면 마우스 오른쪽 클릭) Enter. <code>PS</code> 줄이 다시 보이면 끝.</p>
     <div class="cmd" data-sh="PowerShell"><code>irm https://claude.ai/install.ps1 | iex</code></div>
     <p>② <b>창을 닫고 새로 열어</b> 확인. <code>2.1.263 (Claude Code)</code>처럼 버전이 나오면 성공.</p>
     <div class="cmd" data-sh="PowerShell"><code>claude --version</code></div>
@@ -499,6 +499,10 @@
 [Environment]::SetEnvironmentVariable('HTTPS_PROXY', $p, 'User')
 $env:HTTP_PROXY = $p; $env:HTTPS_PROXY = $p
 irm https://claude.ai/install.ps1 | iex</code></div></td></tr>
+        <tr><td class="name">버전은 나오는데 예전 번호 그대로</td><td data-label="해결">예전에 npm으로 설치한 claude가 먼저 실행되는 중. 목록에 둘 이상 보이면 npm 설치를 지우고 새 창에서 다시.
+          <div class="cmd" data-sh="PowerShell"><code>where.exe claude
+npm uninstall -g @anthropic-ai/claude-code</code></div></td></tr>
+        <tr><td class="name">그룹 정책에 의해 차단되었습니다 · 백신이 claude.exe 격리<br>(blocked by group policy)</td><td data-label="해결">회사 보안 정책이 새 프로그램을 막는 중. IT 담당자에게 <code>claude.exe</code> 실행 허용 요청.</td></tr>
         <tr><td class="name">&lt;html 같은 글자가 섞인 오류 · 403</td><td data-label="해결">잠시 뒤 다시. 계속되면 winget으로 설치(자동 업데이트 없음).
           <div class="cmd" data-sh="PowerShell"><code>winget install Anthropic.ClaudeCode</code></div></td></tr>
       </tbody></table></div>
@@ -507,7 +511,7 @@ irm https://claude.ai/install.ps1 | iex</code></div></td></tr>
   </div>
 
   <div class="step rv"><div class="step-h"><span class="step-n">C</span><h3>첫 실행 · 로그인</h3></div>
-    <p>① Claude에게 맡길 파일이 있는 폴더(없으면 새 폴더)를 탐색기로 열고, 주소창에 <code>powershell</code> → Enter. 열린 창에서 실행.</p>
+    <p>① Claude에게 맡길 파일이 있는 폴더(없으면 새 폴더)를 탐색기로 열고, 주소창에 <code>powershell</code>(영문으로) → Enter. 열린 창에서 실행.</p>
     <div class="cmd" data-sh="PowerShell"><code>claude</code></div>
     <details class="acc pic"><summary><span class="acc-t">그림으로 보기</span><span class="acc-n">15초</span></summary>
     <figure class="shot"><img src="assets/explorer-powershell.svg" alt="탐색기 주소창에 powershell 입력 → 그 폴더에서 PowerShell 열림 → claude 실행" width="760" height="500" loading="lazy"><figcaption>탐색기 주소창에 <code>powershell</code> → Enter → 그 폴더에서 열린 창에 <code>claude</code> → Enter.</figcaption></figure>
@@ -528,7 +532,7 @@ irm https://claude.ai/install.ps1 | iex</code></div></td></tr>
       <tbody>
         <tr><td class="name">브라우저가 안 열림</td><td data-label="해결">창에서 <kbd>c</kbd>를 눌러 주소를 복사해 브라우저에 붙여넣기.</td></tr>
         <tr><td class="name">브라우저에 코드가 보임 · Paste code here</td><td data-label="해결">코드를 복사해 창에 붙여넣고 Enter. <kbd>Ctrl</kbd>+<kbd>V</kbd>가 안 되면 마우스 오른쪽 클릭.</td></tr>
-        <tr><td class="name">403 Forbidden · 사용 권한 없음</td><td data-label="해결">무료 플랜이거나 구독이 끝났습니다. <a href="https://claude.ai/settings" target="_blank" rel="noopener">claude.ai/settings</a>에서 확인.</td></tr>
+        <tr><td class="name">403 Forbidden · 사용 권한 없음</td><td data-label="해결">무료 플랜이거나 구독이 끝났습니다. <a href="https://claude.ai/settings" target="_blank" rel="noopener">claude.ai/settings</a>에서 확인. Team · Enterprise면 관리자에게 Claude Code 사용 권한 요청.</td></tr>
         <tr><td class="name">This organization has been disabled</td><td data-label="해결">예전에 넣은 API 키가 구독 대신 쓰이는 중. 아래로 지우고 새 창에서 다시.
           <div class="cmd" data-sh="PowerShell"><code>[Environment]::SetEnvironmentVariable('ANTHROPIC_API_KEY', $null, 'User')</code></div></td></tr>
       </tbody></table></div>
@@ -552,10 +556,10 @@ winget install Python.Python.3.12 --accept-source-agreements --accept-package-ag
   </div>
 
   <div class="step rv"><div class="step-h"><span class="step-n">E</span><h3>플러그인 · MCP · 스킬 붙이기</h3></div>
-    <p>① 플러그인은 Claude 대화창에서. 설치 후 다시 시작하라고 하면 <code>/exit</code> → <code>claude</code>.</p>
+    <p>① 플러그인은 Claude 대화창에서. 설치 범위를 물으면 그대로 Enter, 다시 시작하라고 하면 <code>/exit</code> → <code>claude</code>.</p>
     <div class="cmd" data-sh="Claude"><code>/plugin install skill-creator@claude-plugins-official</code></div>
     <div class="cmd" data-sh="Claude"><code>/plugin install mattpocock-skills@claude-plugins-official</code></div>
-    <p>② 스킬 · MCP는 PowerShell에서. <code>Ok to proceed?</code>에는 <code>y</code>, 설치 위치 등을 물으면 그대로 Enter. 아래는 필요한 스킬을 말로 찾아 주는 find-skills이고, 다른 도구는 4–5장 표의 '설치' 칸에 있습니다.</p>
+    <p>② 스킬 · MCP는 PowerShell에서. <code>Ok to proceed?</code>에는 <code>y</code>, 설치 위치 등을 물으면 그대로 Enter. 아래는 필요한 스킬을 말로 찾아 주는 find-skills이고, 다른 도구는 4–5장 표의 '설치' 칸에 있습니다. <code>npx</code> 오류는 <a class="ref" href="#fix-policy">D의 안 될 때</a>.</p>
     <div class="cmd" data-sh="PowerShell"><code>npx skills add vercel-labs/skills --skill find-skills</code></div>
   </div>
   <div class="note rv"><b>세팅 추천.</b> <code>/plugin install claude-code-setup@claude-plugins-official</code> 후 "이 프로젝트에 맞는 자동화 추천해줘". 프로젝트에 맞는 훅 · 스킬 · MCP를 골라 줍니다.</div>
